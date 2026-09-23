@@ -26,3 +26,6 @@ jobs:
 
       - name: Run shared:utils JVM tests
         run: ./gradlew :shared:utils:desktopTest --no-daemon
+
+      - name: Compile Android app
+        run: ./gradlew :android:app:compileDebugKotlin --no-daemon

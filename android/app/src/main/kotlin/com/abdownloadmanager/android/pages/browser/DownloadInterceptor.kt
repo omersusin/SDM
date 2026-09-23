@@ -5,6 +5,8 @@ import com.abdownloadmanager.android.ui.widget.WebViewState
 import com.abdownloadmanager.shared.pages.adddownload.AddDownloadCredentialsInUiProps
 import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
 import ir.amirab.util.HttpUrlUtils
+import ir.amirab.util.MediaCandidate
+import ir.amirab.util.PageMediaCollector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -29,6 +31,11 @@ class DownloadInterceptor(
     private val onNewDownload: (newDownloads: List<AddDownloadCredentialsInUiProps>) -> Unit,
 ) : RequestInterceptor {
     private val requests = mutableMapOf<String, ABDMWebRequest>()
+    private val mediaByPage = mutableMapOf<String, PageMediaCollector>()
+
+    fun mediaForPage(page: String): List<MediaCandidate> {
+        return mediaByPage[page]?.snapshot().orEmpty()
+    }
 
     fun onDownloadStart(
         url: String?,
@@ -66,6 +73,10 @@ class DownloadInterceptor(
         request: ABDMWebRequest,
     ) {
         addToHeaders(request)
+        request.page?.let { page ->
+            mediaByPage.getOrPut(page) { PageMediaCollector() }
+                .observe(request.url)
+        }
     }
 
     private fun addToHeaders(request: ABDMWebRequest) {
