@@ -113,6 +113,11 @@ Swiss-army-knife, but nothing illogical.
   Upstream README kept in README.UPSTREAM.md. AGENTS.md + docs/ untouched.
 - 2026-09-23 license: user confirmed GPLv3 stays (LICENSE). Apache-2.0 text
   preserved in LICENSE.UPSTREAM-Apache-2.0 for the forked files.
+- 2026-09-23 grabber-1: MediaSniffer (ext+mime heuristic, stdlib-only) +
+  9 tests in shared:utils commonTest + test.yml CI (:shared:utils:desktopTest).
+  Repo had zero tests; kotlin("test") added via commonTest deps. CI green
+  3m32s. Phone can't compile (JDK17 vs toolchain 25, no Android SDK) → branch
+  + CI-gate + merge is the loop until a PC/CI with SDK exists.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
