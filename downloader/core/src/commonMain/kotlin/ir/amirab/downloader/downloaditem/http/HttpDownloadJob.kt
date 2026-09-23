@@ -394,7 +394,7 @@ class HttpDownloadJob(
                                 }
                                 if (target != null) {
                                     val newPart = target.splitPart()
-                                    if (newPart != null {
+                                    if (newPart != null) {
 //                                        println("a part split")
                                         parts.add(newPart)
                                         parts.sortBy { it.from }
