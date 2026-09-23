@@ -21,6 +21,7 @@ import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
+import kotlinx.datetime.Clock
 import okio.Buffer
 import okio.Source
 import okio.use
@@ -51,6 +52,12 @@ abstract class PartDownloader<
     @Volatile
     internal var tries = 0
 
+    val speedSampler = PartSpeedSampler()
+
+    fun currentSpeedBytesPerSec(): Double {
+        return speedSampler.bytesPerSec()
+    }
+
     // make sure to not lake resource in this exception
     @Volatile
     private var lastCriticalException: Throwable? = null
@@ -73,6 +80,7 @@ abstract class PartDownloader<
         }
         scope.launch {
             tries = 0
+            speedSampler.reset()
             lastCriticalException = null
             lastException = null
             val result = runCatching {
@@ -293,6 +301,7 @@ abstract class PartDownloader<
             destWriter.write(buffer, readCount)
             totalReadCount += readCount
             part.current += readCount
+            speedSampler.add(readCount, Clock.System.now())
 //                require (part.current-part.from == totalReadCount)
             if (firstLoop) {
                 tries = 0

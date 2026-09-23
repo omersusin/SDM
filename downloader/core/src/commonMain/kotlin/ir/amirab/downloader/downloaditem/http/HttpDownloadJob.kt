@@ -376,15 +376,25 @@ class HttpDownloadJob(
                         if (inactivePart != null) return inactivePart
                         if (supportsConcurrent == true && downloadManager.settings.dynamicPartCreationMode) {
                             synchronized(partSplitLock) {
-                                val candidates = getPartDownloaderList()
-                                    .toList()
+                                val splittable = getPartDownloaderList().toList()
                                     .filter { it.canBeSplit() }
-                                    .sortedByDescending {
-                                        it.part.remainingLength
+                                val pick = StragglerPicker.pick(
+                                    splittable.mapNotNull { downloader ->
+                                        val remaining = downloader.part.remainingLength
+                                            ?: return@mapNotNull null
+                                        StragglerPicker.Candidate(
+                                            id = downloader.part.getID(),
+                                            remaining = remaining,
+                                            bytesPerSec = downloader.currentSpeedBytesPerSec(),
+                                        )
                                     }
-                                for (i in candidates) {
-                                    val newPart = i.splitPart()
-                                    if (newPart != null) {
+                                )
+                                val target = pick?.let { id ->
+                                    splittable.find { it.part.getID() == id.id }
+                                }
+                                if (target != null) {
+                                    val newPart = target.splitPart()
+                                    if (newPart != null {
 //                                        println("a part split")
                                         parts.add(newPart)
                                         parts.sortBy { it.from }
