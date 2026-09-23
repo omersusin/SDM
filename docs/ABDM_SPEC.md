@@ -106,7 +106,11 @@ Swiss-army-knife, but nothing illogical.
   faster loops. The user should say "it feels like magic".
 
 ## Learnings (the agent writes here every phase)
-- (empty — filled in the first phase)
+- 2026-09-23 fork-base: ABDM (shallow clone, 1 commit) could not be fetched
+  via git (shallow roots rejected) → imported via worktree copy excl. .git,
+  upstream added as remote for future pulls. Apache-2.0 kept in
+  LICENSE.UPSTREAM-Apache-2.0, repo LICENSE stays GPL pending user call.
+  Upstream README kept in README.UPSTREAM.md. AGENTS.md + docs/ untouched.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
