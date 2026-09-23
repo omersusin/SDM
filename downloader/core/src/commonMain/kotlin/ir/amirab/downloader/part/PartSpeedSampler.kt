@@ -1,7 +1,7 @@
 package ir.amirab.downloader.part
 
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 // Coarse per-part speed signal for straggler splitting. Overall average is
 // deliberate: stable, cheap (no hot-loop bookkeeping), and a stalled part's

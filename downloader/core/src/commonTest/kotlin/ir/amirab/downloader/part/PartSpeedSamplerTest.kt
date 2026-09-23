@@ -1,6 +1,6 @@
 package ir.amirab.downloader.part
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
