@@ -9,6 +9,10 @@ import ir.amirab.util.MediaCandidate
 import ir.amirab.util.PageMediaCollector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -32,6 +36,8 @@ class DownloadInterceptor(
 ) : RequestInterceptor {
     private val requests = mutableMapOf<String, ABDMWebRequest>()
     private val mediaByPage = mutableMapOf<String, PageMediaCollector>()
+    private val _mediaCounts = MutableStateFlow(emptyMap<String, Int>())
+    val mediaCounts: StateFlow<Map<String, Int>> = _mediaCounts.asStateFlow()
 
     fun mediaForPage(page: String): List<MediaCandidate> {
         return mediaByPage[page]?.snapshot().orEmpty()
@@ -74,8 +80,9 @@ class DownloadInterceptor(
     ) {
         addToHeaders(request)
         request.page?.let { page ->
-            mediaByPage.getOrPut(page) { PageMediaCollector() }
-                .observe(request.url)
+            val collector = mediaByPage.getOrPut(page) { PageMediaCollector() }
+            collector.observe(request.url)
+            _mediaCounts.update { it + (page to collector.count) }
         }
     }
 
