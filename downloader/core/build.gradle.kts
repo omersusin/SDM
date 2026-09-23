@@ -25,6 +25,16 @@ kotlin {
                 api("io.lindstrom:m3u8-parser:0.29")
             }
         }
+        androidMain.dependencies {
+            implementation(libs.libtorrent4j)
+            implementation(libs.libtorrent4j.android.arm)
+            implementation(libs.libtorrent4j.android.arm64)
+            implementation(libs.libtorrent4j.android.x86)
+            implementation(libs.libtorrent4j.android.x86_64)
+        }
+        desktopMain.dependencies {
+            implementation(libs.libtorrent4j)
+        }
         commonTest.dependencies {
             implementation(kotlin("test"))
         }

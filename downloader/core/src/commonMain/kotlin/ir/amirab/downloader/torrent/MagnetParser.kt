@@ -4,7 +4,22 @@ data class MagnetLink(
     val infoHash: String,
     val name: String?,
     val trackers: List<String>,
-)
+) {
+    fun toUri(): String {
+        return buildString {
+            append("magnet:?xt=urn:btih:")
+            append(infoHash)
+            if (!name.isNullOrBlank()) {
+                append("&dn=")
+                append(name.replace(" ", "+"))
+            }
+            trackers.forEach {
+                append("&tr=")
+                append(it)
+            }
+        }
+    }
+}
 
 // Minimal magnet: URI parser (entry point for torrent/magnet downloads).
 // Pure Kotlin, no native code — the libtorrent4j session comes later.
