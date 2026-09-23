@@ -115,6 +115,13 @@ fun BrowserPage(
     LaunchedEffect(tabs) {
         viewRegistry.onTabsUpdated(tabs)
     }
+    val grabberMode by browserComponent.grabberUiMode.collectAsState()
+    val activeMediaCount by browserComponent.activeMediaCount.collectAsState()
+    LaunchedEffect(grabberMode, activeMediaCount, tab?.tabState?.lastLoadedUrl) {
+        if (grabberMode == GrabberUiMode.AUTO_POPUP && activeMediaCount > 0) {
+            browserComponent.autoPopupIfNeeded()
+        }
+    }
     PageUi(
         header = {
             PageHeader(
