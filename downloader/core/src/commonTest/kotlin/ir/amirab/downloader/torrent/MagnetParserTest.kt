@@ -43,4 +43,12 @@ class MagnetParserTest {
         assertNull(MagnetParser.parse("magnet:?xt=urn:btih=notahash"))
         assertNull(MagnetParser.parse("magnet:?xt=urn:btih:xyz"))
     }
+
+    @Test
+    fun toUriRoundTrips() {
+        val uri = "magnet:?xt=urn:btih:$hex&dn=Big+Buck+Bunny&tr=udp%3A%2F%2Ftracker.example%2Fannounce"
+        val link = MagnetParser.parse(uri)!!
+        val reparsed = MagnetParser.parse(link.toUri())
+        assertEquals(link, reparsed)
+    }
 }
