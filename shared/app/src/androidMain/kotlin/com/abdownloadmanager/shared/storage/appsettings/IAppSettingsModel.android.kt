@@ -9,7 +9,6 @@ import io.github.amir1376.schemakt.schema.composite.typeSafeObject
 import io.github.amir1376.schemakt.schema.modifier.catch
 import io.github.amir1376.schemakt.schema.primitive.boolean
 import ir.amirab.util.GrabberUiMode
-import ir.amirab.util.GrabberUiModes
 import ir.amirab.util.config.datastore.asSettingsSchema
 import kotlinx.serialization.Serializable
 
@@ -67,7 +66,7 @@ private val AndroidSettingsSchema = S.typeSafeObject(
         prop(AppSettingsModel::browserIconInLauncher) bind S.boolean()
             .catch(PlatformDefaultSettings::browserIconInLauncher)
         prop(AppSettingsModel::grabberUiMode) bind S.enum<GrabberUiMode>()
-            .catch { GrabberUiModes.default }
+            .catch(PlatformDefaultSettings::grabberUiMode)
     },
     factory = {
         PlatformAppSettingsModel(
