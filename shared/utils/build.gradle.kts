@@ -30,5 +30,8 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.androidx.core.ktx)
         }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
     }
 }
