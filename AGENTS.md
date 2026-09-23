@@ -1,11 +1,12 @@
-# SDM — ajan talimatı (önce bunu oku)
+# SDM — agent instructions (read this first)
 
-Bu repoda çalışmadan ÖNCE `docs/ABDM_SPEC.md` dosyasını baştan sona oku ve
-aynen uygula. Misyon, süreç, onaylı özellikler, tasarım kuralları orada.
-Referans kazı bulguları: `docs/ABDM_RAPOR.md`.
+Before working in this repo, read `docs/ABDM_SPEC.md` end-to-end and follow
+it exactly. Mission, process, approved features, design rules are there.
+Reference excavation findings: `docs/ABDM_RAPOR.md`.
 
-Kısa kurallar:
-- Tek tek sor, çoktan seçmeli yok. Cevap bekle, kaydet, devam et.
-- Küçük adım + test. Derleyici temiz + test yeşil olmadan commit yok.
-- Kararsızsan sor, belliyse yap. Dosya bırakıp gitme.
-- Her fazda öğrendiklerini `docs/ABDM_SPEC.md` > Öğrenilenler bölümüne yaz.
+Short rules:
+- Ask one question at a time, never multiple-choice. Wait for the answer,
+  record it, move on. (User speaks Turkish — ask in Turkish.)
+- Small steps + tests. No commit unless the compiler is clean and tests green.
+- If unsure, ask; if obvious, do it. Never drop files and leave.
+- After each phase, append learnings to `docs/ABDM_SPEC.md` > Öğrenilenler.
