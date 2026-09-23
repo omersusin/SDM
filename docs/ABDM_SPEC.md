@@ -130,6 +130,8 @@ Swiss-army-knife, but nothing illogical.
 - 2026-09-23 grabber-4: MENU_BADGE mode live — reactive mediaCounts flow in
   interceptor, activeMediaCount in BrowserComponent, badge+download button in
   address bar, MediaListDialog with per-item download. AUTO_POPUP still open.
+- 2026-09-23 grabber-5: AUTO_POPUP mode — dialog opens itself once per page
+  when media appears (per-page guard, no re-popup). Both UI modes done.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
