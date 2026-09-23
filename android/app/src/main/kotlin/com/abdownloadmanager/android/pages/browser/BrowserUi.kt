@@ -80,6 +80,8 @@ import com.abdownloadmanager.shared.util.ui.theme.mySpacings
 import com.abdownloadmanager.shared.util.ui.widget.MyIcon
 import ir.amirab.util.compose.asStringSource
 import ir.amirab.util.compose.resources.myStringResource
+import ir.amirab.util.GrabberUiMode
+import ir.amirab.util.MediaCandidate
 import ir.amirab.util.ifThen
 
 @Composable
@@ -251,6 +253,88 @@ fun BrowserPage(
         browserComponent.mainMenu.collectAsState().value,
         browserComponent::closeMainMenu,
     )
+    MediaListDialog(browserComponent)
+}
+
+@Composable
+fun MediaListDialog(
+    browserComponent: BrowserComponent,
+) {
+    val visible by browserComponent.showMediaList.collectAsState()
+    val responsiveState = rememberResponsiveDialogState(visible)
+    LaunchedEffect(visible) {
+        if (visible) {
+            responsiveState.show()
+        } else {
+            responsiveState.hide()
+        }
+    }
+    ResponsiveDialog(
+        state = responsiveState,
+        onDismiss = { browserComponent.setShowMediaList(false) }
+    ) {
+        val items = if (visible) browserComponent.mediaForActivePage() else emptyList()
+        SheetUI(
+            header = {
+                SheetHeader(
+                    headerTitle = {
+                        SheetTitle(
+                            myStringResource(Res.string.browser_media_list),
+                        )
+                    },
+                    headerActions = {
+                        TransparentIconActionButton(
+                            MyIcons.close,
+                            Res.string.close.asStringSource(),
+                        ) {
+                            browserComponent.setShowMediaList(false)
+                        }
+                    }
+                )
+            }
+        ) {
+            if (items.isEmpty()) {
+                Text(
+                    text = myStringResource(Res.string.browser_media_list_empty),
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                )
+            } else {
+                LazyColumn {
+                    items(items) { item ->
+                        val url = when (item) {
+                            is MediaCandidate.Direct -> item.url
+                            is MediaCandidate.Stream -> item.url
+                            MediaCandidate.NotMedia -> return@items
+                        }
+                        val label = when (item) {
+                            is MediaCandidate.Direct -> item.fileName ?: item.url
+                            is MediaCandidate.Stream -> "${item.kind}: ${item.url}"
+                            MediaCandidate.NotMedia -> return@items
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp, horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = label,
+                                modifier = Modifier.weight(1f),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                            TransparentIconActionButton(
+                                MyIcons.download,
+                                Res.string.download.asStringSource(),
+                            ) {
+                                browserComponent.downloadMedia(url)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -395,6 +479,22 @@ fun AddressBar(
                 contentDescription = Res.string.menu.asStringSource()
             ) {
                 browserComponent.openMainMenu()
+            }
+            val grabberMode by browserComponent.grabberUiMode.collectAsState()
+            val mediaCount by browserComponent.activeMediaCount.collectAsState()
+            if (grabberMode == GrabberUiMode.MENU_BADGE && mediaCount > 0) {
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    text = "$mediaCount",
+                    maxLines = 1,
+                    fontWeight = FontWeight.Bold,
+                )
+                TransparentIconActionButton(
+                    MyIcons.download,
+                    contentDescription = Res.string.browser_media_list.asStringSource()
+                ) {
+                    browserComponent.setShowMediaList(true)
+                }
             }
         }
     }

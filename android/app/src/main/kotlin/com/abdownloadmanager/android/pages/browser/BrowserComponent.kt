@@ -8,6 +8,7 @@ import com.abdownloadmanager.android.pages.add.single.AddSingleDownloadActivity
 import com.abdownloadmanager.android.pages.browser.bookmark.EditBookmarkState
 import com.abdownloadmanager.android.storage.BrowserBookmark
 import com.abdownloadmanager.android.storage.BrowserBookmarksStorage
+import com.abdownloadmanager.android.storage.AppSettingsStorage
 import com.abdownloadmanager.android.ui.widget.WebContent
 import com.abdownloadmanager.android.ui.widget.WebViewState
 import com.abdownloadmanager.resources.Res
@@ -19,6 +20,8 @@ import com.abdownloadmanager.shared.util.mvi.supportEffects
 import com.abdownloadmanager.shared.util.ui.icon.MyIcons
 import com.arkivanov.decompose.ComponentContext
 import ir.amirab.util.HttpUrlUtils
+import ir.amirab.util.GrabberUiMode
+import ir.amirab.util.MediaCandidate
 import ir.amirab.util.compose.action.AnAction
 import ir.amirab.util.compose.action.MenuItem
 import ir.amirab.util.compose.action.buildMenu
@@ -26,11 +29,18 @@ import ir.amirab.util.compose.action.simpleAction
 import ir.amirab.util.compose.asStringSource
 import ir.amirab.util.ifThen
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.serialization.json.Json
 import java.util.UUID
 import kotlin.text.orEmpty
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import kotlin.getValue
 
 class BrowserComponent(
     componentContext: ComponentContext,
@@ -39,7 +49,8 @@ class BrowserComponent(
     private val browserBookmarksStorage: BrowserBookmarksStorage,
 ) : BaseComponent(
     componentContext,
-), ContainsEffects<BrowserComponent.Effects> by supportEffects() {
+), ContainsEffects<BrowserComponent.Effects> by supportEffects(), KoinComponent {
+    private val appSettings by inject<AppSettingsStorage>()
     val downloadInterceptor = DownloadInterceptor(
         scope, {
             val intent = when (it.size) {
@@ -70,6 +81,34 @@ class BrowserComponent(
         ABDMTabs.createDefault()
     )
     val bookmarks = browserBookmarksStorage.bookmarksFlow
+    val grabberUiMode: StateFlow<GrabberUiMode> = appSettings.grabberUiMode
+    val activeMediaCount: StateFlow<Int> = combine(
+        tabs, downloadInterceptor.mediaCounts
+    ) { tabsState, counts ->
+        val page = tabsState.activeTab?.tabState?.lastLoadedUrl
+        if (page != null) counts[page] ?: 0 else 0
+    }.stateIn(scope, SharingStarted.Eagerly, 0)
+
+    fun mediaForActivePage(): List<MediaCandidate> {
+        val page = tabs.value.activeTab?.tabState?.lastLoadedUrl ?: return emptyList()
+        return downloadInterceptor.mediaForPage(page)
+    }
+
+    fun downloadMedia(url: String) {
+        val tab = tabs.value.activeTab ?: return
+        downloadInterceptor.onDownloadStart(
+            url = url,
+            userAgent = null,
+            page = tab.tabState.lastLoadedUrl,
+            tab = tab,
+        )
+    }
+
+    private val _showMediaList: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val showMediaList = _showMediaList.asStateFlow()
+    fun setShowMediaList(show: Boolean) {
+        _showMediaList.value = show
+    }
     private val _mainMenu: MutableStateFlow<MenuItem.SubMenu?> = MutableStateFlow(null)
     val mainMenu = _mainMenu.asStateFlow()
     fun openMainMenu() {
