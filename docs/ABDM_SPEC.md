@@ -26,6 +26,7 @@ Swiss-army-knife, but nothing illogical.
 
 ## Approved features (asked, answered yes)
 1. Media grabber (in-app browser + page media list)
+   - UI (2026-09-23): settings toggle — menu+badge vs auto-popup, user picks.
 2. Torrent + magnet (same list, pause/resume)
 3. Video downloading (yt-dlp, format picker, playlist, subtitles)
 4. Adblock (in-app browser)
