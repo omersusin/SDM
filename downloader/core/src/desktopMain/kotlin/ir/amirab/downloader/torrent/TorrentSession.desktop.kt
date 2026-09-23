@@ -1,6 +1,6 @@
 package ir.amirab.downloader.torrent
 
-import com.frostwire.jlibtorrent.SessionManager
+import org.libtorrent4j.SessionManager
 
 actual fun createTorrentSession(): TorrentSession = LibtorrentSession()
 
