@@ -107,3 +107,12 @@ Swiss-army-knife, but nothing illogical.
 
 ## Learnings (the agent writes here every phase)
 - (empty — filled in the first phase)
+
+## Build, signing, CI (mandatory)
+- App MUST be signed (release keystore). Maintainer provides signing secrets
+  via GitHub Actions secrets; agent wires the signing config, never the keys.
+- CI must be FAST: Gradle caching, parallel jobs, per-ABI splits built in
+  parallel, no redundant rebuilds. Measure and cut minutes.
+- R8 / ProGuard (minify + shrink + obfuscate) enabled for release builds.
+  Keep rules minimal but working (no crashing release builds); verify the
+  signed release APK installs and runs.
