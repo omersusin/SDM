@@ -132,6 +132,9 @@ Swiss-army-knife, but nothing illogical.
   address bar, MediaListDialog with per-item download. AUTO_POPUP still open.
 - 2026-09-23 grabber-5: AUTO_POPUP mode — dialog opens itself once per page
   when media appears (per-page guard, no re-popup). Both UI modes done.
+- 2026-09-23 engine-1: splitToRange locked with 5 tests (256-part, min-split
+  guard, edge cases) in downloader/core commonTest. Finding: 256 cap already
+  in UI (ThreadCountLimitation); dynamic split exists. Next: straggler split.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
