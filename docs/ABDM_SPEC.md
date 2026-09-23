@@ -111,6 +111,8 @@ Swiss-army-knife, but nothing illogical.
   upstream added as remote for future pulls. Apache-2.0 kept in
   LICENSE.UPSTREAM-Apache-2.0, repo LICENSE stays GPL pending user call.
   Upstream README kept in README.UPSTREAM.md. AGENTS.md + docs/ untouched.
+- 2026-09-23 license: user confirmed GPLv3 stays (LICENSE). Apache-2.0 text
+  preserved in LICENSE.UPSTREAM-Apache-2.0 for the forked files.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
