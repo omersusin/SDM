@@ -137,6 +137,10 @@ Swiss-army-knife, but nothing illogical.
   in UI (ThreadCountLimitation); dynamic split exists. Next: straggler split.
 - 2026-09-23 engine-2: StragglerPicker (pure slowest-ETA selection + 4 tests).
   Speed feed wiring still open.
+- 2026-09-23 engine-3: PartSpeedSampler (overall-average, kotlin.time) sampled
+  in copyDataSync + job splits slowest-ETA part via StragglerPicker. Two CI
+  reds: kotlinx.datetime Clock gone → kotlin.time; dropped paren. Live speed
+  behavior still needs device verification.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
