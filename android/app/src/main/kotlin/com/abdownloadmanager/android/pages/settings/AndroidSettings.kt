@@ -6,7 +6,9 @@ import com.abdownloadmanager.android.ui.configurable.android.item.PermissionConf
 import com.abdownloadmanager.android.util.pagemanager.PermissionsPageManager
 import com.abdownloadmanager.resources.Res
 import com.abdownloadmanager.shared.ui.configurable.item.BooleanConfigurable
+import com.abdownloadmanager.shared.ui.configurable.item.EnumConfigurable
 import com.abdownloadmanager.shared.ui.configurable.item.NavigatableConfigurable
+import ir.amirab.util.GrabberUiMode
 import ir.amirab.util.compose.asStringSource
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -45,6 +47,23 @@ object AndroidSettings {
                     Res.string.enabled
                 } else {
                     Res.string.disabled
+                }.asStringSource()
+            }
+        )
+    }
+
+    fun grabberUiMode(
+        appSettingsStorage: AppSettingsStorage
+    ): EnumConfigurable<GrabberUiMode> {
+        return EnumConfigurable(
+            title = Res.string.settings_grabber_ui_mode.asStringSource(),
+            description = Res.string.settings_grabber_ui_mode_description.asStringSource(),
+            backedBy = appSettingsStorage.grabberUiMode,
+            possibleValues = GrabberUiMode.entries.toList(),
+            describe = {
+                when (it) {
+                    GrabberUiMode.MENU_BADGE -> Res.string.settings_grabber_ui_mode_menu_badge
+                    GrabberUiMode.AUTO_POPUP -> Res.string.settings_grabber_ui_mode_auto_popup
                 }.asStringSource()
             }
         )

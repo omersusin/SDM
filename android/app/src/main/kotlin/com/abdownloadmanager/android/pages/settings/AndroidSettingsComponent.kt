@@ -130,6 +130,7 @@ class AndroidSettingsComponent(
             ConfigurableGroup(
                 nestedConfigurable = listOf(
                     AndroidSettings.browserIconInLauncher(appSettings),
+                    AndroidSettings.grabberUiMode(appSettings),
                 )
             ),
             ConfigurableGroup(
