@@ -1,6 +1,7 @@
 package ir.amirab.downloader.torrent
 
 import org.libtorrent4j.SessionManager
+import org.libtorrent4j.swig.torrent_flags_t
 
 actual fun createTorrentSession(): TorrentSession = LibtorrentSession()
 
@@ -19,7 +20,7 @@ class LibtorrentSession : TorrentSession {
 
     override fun addMagnet(magnet: MagnetLink): Boolean {
         return runCatching {
-            manager.download(magnet.toUri())
+            manager.download(magnet.toUri(), null, torrent_flags_t())
             true
         }.getOrDefault(false)
     }
