@@ -127,6 +127,9 @@ Swiss-army-knife, but nothing illogical.
   stored via S.enum in android model + AppSettingsStorage flow + settings UI
   entry. en_US-only locales kept (27 files dropped per user). First CI red:
   catch{} lambda ambiguous → fixed with PlatformDefaultSettings::ref pattern.
+- 2026-09-23 grabber-4: MENU_BADGE mode live — reactive mediaCounts flow in
+  interceptor, activeMediaCount in BrowserComponent, badge+download button in
+  address bar, MediaListDialog with per-item download. AUTO_POPUP still open.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
