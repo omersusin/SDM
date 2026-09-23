@@ -118,6 +118,10 @@ Swiss-army-knife, but nothing illogical.
   Repo had zero tests; kotlin("test") added via commonTest deps. CI green
   3m32s. Phone can't compile (JDK17 vs toolchain 25, no Android SDK) → branch
   + CI-gate + merge is the loop until a PC/CI with SDK exists.
+- 2026-09-23 grabber-2: PageMediaCollector (dedup per-page list, commonMain)
+  + 4 tests; DownloadInterceptor.interceptRequest feeds it keyed by page,
+  mediaForPage() exposes the list (no UI yet — UI needs user shaping).
+  CI extended with :android:app:compileDebugKotlin; both jobs green 3m54s.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
