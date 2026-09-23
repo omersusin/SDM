@@ -135,6 +135,8 @@ Swiss-army-knife, but nothing illogical.
 - 2026-09-23 engine-1: splitToRange locked with 5 tests (256-part, min-split
   guard, edge cases) in downloader/core commonTest. Finding: 256 cap already
   in UI (ThreadCountLimitation); dynamic split exists. Next: straggler split.
+- 2026-09-23 engine-2: StragglerPicker (pure slowest-ETA selection + 4 tests).
+  Speed feed wiring still open.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
