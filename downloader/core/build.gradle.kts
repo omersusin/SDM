@@ -30,8 +30,9 @@ kotlin {
             implementation(libs.libtorrent4j.android.arm)
             implementation(libs.libtorrent4j.android.arm64)
             implementation(libs.libtorrent4j.android.x86)
-            implementation(libs.libtorrent4j.android.x86_64)
+            implementation(libs.libtorrent4j.android.x86.x4)
         }
+        val desktopMain = getByName("desktopMain")
         desktopMain.dependencies {
             implementation(libs.libtorrent4j)
         }
