@@ -2,11 +2,13 @@ package com.abdownloadmanager.shared.storage.appsettings
 
 import arrow.optics.optics
 import com.abdownloadmanager.shared.storage.SupportedSizeUnits
+import com.abdownloadmanager.shared.util.schemakt.enum
 import io.github.amir1376.schemakt.S
 import io.github.amir1376.schemakt.schema.composite.TypeSafeObjectSchema
 import io.github.amir1376.schemakt.schema.composite.typeSafeObject
 import io.github.amir1376.schemakt.schema.modifier.catch
 import io.github.amir1376.schemakt.schema.primitive.boolean
+import ir.amirab.util.GrabberUiMode
 import ir.amirab.util.config.datastore.asSettingsSchema
 import kotlinx.serialization.Serializable
 
@@ -51,6 +53,7 @@ data class AppSettingsModel(
     override val useCategoryByDefault: Boolean,
     override val userAgent: String,
     val browserIconInLauncher: Boolean,
+    val grabberUiMode: GrabberUiMode,
 ) : IAppSettingsModel {
     companion object {
     }
@@ -62,6 +65,8 @@ private val AndroidSettingsSchema = S.typeSafeObject(
 
         prop(AppSettingsModel::browserIconInLauncher) bind S.boolean()
             .catch(PlatformDefaultSettings::browserIconInLauncher)
+        prop(AppSettingsModel::grabberUiMode) bind S.enum<GrabberUiMode>()
+            .catch(PlatformDefaultSettings::grabberUiMode)
     },
     factory = {
         PlatformAppSettingsModel(
@@ -103,6 +108,7 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             userAgent = it[AppSettingsModel::userAgent],
 
             browserIconInLauncher = it[AppSettingsModel::browserIconInLauncher],
+            grabberUiMode = it[AppSettingsModel::grabberUiMode],
         )
     }
 ).asSettingsSchema()
