@@ -146,6 +146,8 @@ Swiss-army-knife, but nothing illogical.
 - 2026-09-23 torrent-2: libtorrent4j dep (android ABIs + desktop) + TorrentSession
   expect/actual seam. Two CI reds: catalog accessor naming, frostwire→
   org.libtorrent4j package, download() 3-arg signature (source-verified).
+- 2026-09-23 video-1: VideoFormatPicker (codec split, +-join, best-height +
+  5 tests). youtubedl-android runtime mapped from Seal scratch clone.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
