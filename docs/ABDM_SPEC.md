@@ -143,6 +143,9 @@ Swiss-army-knife, but nothing illogical.
   behavior still needs device verification.
 - 2026-09-23 torrent-1: MagnetParser (hex/base32, dn/tr decode + 5 tests).
   libtorrent4j 2.1.0-38 mapped from LibreTorrent scratch clone; session next.
+- 2026-09-23 torrent-2: libtorrent4j dep (android ABIs + desktop) + TorrentSession
+  expect/actual seam. Two CI reds: catalog accessor naming, frostwire→
+  org.libtorrent4j package, download() 3-arg signature (source-verified).
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
