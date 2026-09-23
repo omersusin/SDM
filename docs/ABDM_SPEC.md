@@ -123,6 +123,10 @@ Swiss-army-knife, but nothing illogical.
   + 4 tests; DownloadInterceptor.interceptRequest feeds it keyed by page,
   mediaForPage() exposes the list (no UI yet — UI needs user shaping).
   CI extended with :android:app:compileDebugKotlin; both jobs green 3m54s.
+- 2026-09-23 grabber-3: GrabberUiMode setting (MENU_BADGE default/AUTO_POPUP)
+  stored via S.enum in android model + AppSettingsStorage flow + settings UI
+  entry. en_US-only locales kept (27 files dropped per user). First CI red:
+  catch{} lambda ambiguous → fixed with PlatformDefaultSettings::ref pattern.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
