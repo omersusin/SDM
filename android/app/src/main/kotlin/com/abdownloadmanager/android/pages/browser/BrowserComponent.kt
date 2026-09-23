@@ -109,6 +109,14 @@ class BrowserComponent(
     fun setShowMediaList(show: Boolean) {
         _showMediaList.value = show
     }
+
+    private val _autoPopupShownFor: MutableStateFlow<String?> = MutableStateFlow(null)
+    fun autoPopupIfNeeded() {
+        val page = tabs.value.activeTab?.tabState?.lastLoadedUrl ?: return
+        if (_autoPopupShownFor.value == page) return
+        _autoPopupShownFor.value = page
+        setShowMediaList(true)
+    }
     private val _mainMenu: MutableStateFlow<MenuItem.SubMenu?> = MutableStateFlow(null)
     val mainMenu = _mainMenu.asStateFlow()
     fun openMainMenu() {
