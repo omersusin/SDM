@@ -1,105 +1,109 @@
-# İNDİRME YÖNETİCİSİ — Ajan Görev Dokümanı
+# DOWNLOAD MANAGER — Agent Task Document
 
-## Proje
-AB Download Manager (https://github.com/amir1376/ab-download-manager) çatalı.
-Kotlin Multiplatform. Öncelik Android. Tek kod disiplini.
+## Project
+Fork of AB Download Manager (https://github.com/amir1376/ab-download-manager).
+Kotlin Multiplatform. Android first. Single-codebase discipline.
 
-## Misyon
-IDM / ADM / 1DM / NDM / FDM seviyesini geçen, açık kaynak, ücretsiz
-indirme yöneticisi. Swiss-army-knife ama mantık dışı hiçbir şey yok.
+## Mission
+A free, open-source download manager surpassing IDM / ADM / 1DM / NDM / FDM.
+Swiss-army-knife, but nothing illogical.
 
-## Süreç (aynen uygula)
-1. ARAŞTIR: İnternetteki BÜTÜN indirme yöneticilerini ve indirme-ile-alakalı
-   her şeyi bul (açık kaynak + kapalı kaynak, app + TUI + CLI + eklenti).
-   Kapalı olanları web'den (özellik listesi, inceleme, video) araştır.
-2. KAZ: Açık kaynak olanları klonla (scratch klasörüne), derinlemesine incele.
-   Her repodan taşınabilir fikirleri çıkar: motor teknikleri, kuyruk,
-   grabber, UI kalıpları, zamanlayıcı, torrent, altyazı, metadata.
-3. SOR: Bulduklarını kullanıcıya TEKER TEKER sor. Çoktan seçmeli yok.
-   "Bu olsun mu?" diye tek soru sor, cevabı bekle, kaydet, sonrakine geç.
-   Kullanıcı "hangisi daha iyi?" derse dürüst önerini söyle, kararı o verir.
-4. YAZ: Onaylananları bu dokümana "Olacaklar" listesine işle.
-5. UYGULA: Küçük adımlar, her adımda test, her bug teste dönüşür.
-   tube2note standardı: ruff/derleyici temiz + test yeşil olmadan commit yok.
+## Process (apply exactly)
+1. RESEARCH: Find ALL download managers and everything download-related
+   on the internet (open source + closed source, app + TUI + CLI + plugin).
+   Research closed-source ones via the web (feature lists, reviews, videos).
+2. DIG: Clone the open-source ones (into a scratch folder), study them in depth.
+   Extract portable ideas from each repo: engine techniques, queueing,
+   grabber, UI patterns, scheduler, torrent, subtitles, metadata.
+3. ASK: Ask the user about your findings ONE AT A TIME, IN TURKISH.
+   No multiple-choice. Ask a single "Should this be included?" question,
+   wait for the answer, record it, then move on.
+   If the user asks "which one is better?", give your honest recommendation;
+   the user decides.
+4. WRITE: Add the approved items to the "Planned" list in this document.
+5. IMPLEMENT: Small steps, test at every step, every bug becomes a test.
+   tube2note standard: no commit without clean ruff/compiler + green tests.
 
-## Onaylı özellikler (soruldu, evet dendi)
-1. Media grabber (uygulama içi tarayıcı + sayfa medya listesi)
-2. Torrent + magnet (aynı liste, duraklat/devam)
-3. Video indirme (yt-dlp, format seçici, playlist, altyazı)
-4. Adblock (uygulama içi tarayıcı)
-5. Toplu medya çekme (site çıkarıcı + ad şablonu + tekrar koruması)
-6. Hibrit dinamik motor (yavaş parçayı böl, 256 parçaya kadar)
-7. Gelişmiş zamanlayıcı (saat+gün, WiFi-only, hız profilleri)
-8. Obtainium tarzı ana sayfa (aktif üstte + yoğun kuyruk)
-9. İki aşamalı kuyruk (yakala havuzu → seç → indir)
-10. Link tazeleme (403'te kaynaktan yenile, devam et)
-11. Site Yöneticisi (site başına auth/UA/bağlantı)
-12. Toplu kalıp (dosya[001-100].zip)
-13. Trafik modları (Yüksek/Düşük/Salyangoz)
+## Approved features (asked, answered yes)
+1. Media grabber (in-app browser + page media list)
+2. Torrent + magnet (same list, pause/resume)
+3. Video downloading (yt-dlp, format picker, playlist, subtitles)
+4. Adblock (in-app browser)
+5. Bulk media extraction (site extractor + naming template + duplicate protection)
+6. Hybrid dynamic engine (split slow parts, up to 256 parts)
+7. Advanced scheduler (time+day, WiFi-only, speed profiles)
+8. Obtainium-style home page (active on top + dense queue)
+9. Two-stage queue (capture pool → select → download)
+10. Link refresh (refresh from source on 403, then resume)
+11. Site Manager (per-site auth/UA/connections)
+12. Bulk pattern (file[001-100].zip)
+13. Traffic modes (High/Low/Snail)
 
-## Elenenler
-- PC tarayıcı eklentisi (istenirse sonra)
+## Rejected
+- PC browser extension (later if requested)
 
-## Tasarım (zorunlu)
-- TAM Material 3 Expressive. Yarım değil, tam.
-- Ama yapay zekâ elinden çıkmış gibi GÖRÜNMEYECEK.
-- Tasarım skill'lerini kullan (taste/estetik skill'leri). Şık olacak ama
-  M3 Expressive dışına taşmayacak. Şıklık = tipografi, boşluk, ritim,
-  renk disiplini. Şablon hissi veren hiçbir şey yok.
-- Düzen ve nizam zorunlu: modül yapısı, isimlendirme, dosya düzeni
-  baştan temiz kurulacak, uygulama büyürken bozulmayacak.
+## Design (mandatory)
+- FULL Material 3 Expressive. Full, not half.
+- But it must NOT look AI-generated.
+- Use design skills (taste/aesthetic skills). It will be stylish but
+  never leave M3 Expressive. Style = typography, spacing, rhythm,
+  color discipline. Nothing that feels like a template.
+- Layout and order are mandatory: module structure, naming, file layout
+  are set up cleanly from the start and must not degrade as the app grows.
 
-## Kazı raporları
-- ABDM_RAPOR.md (16 repo: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
+## Dig reports
+- ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
   aria2, LibreTorrent, FrostWire, 1DM/IDM, JDownloader, Gopeed, pyLoad,
   gallery-dl, lux/you-get, axel/uGet/KGet, lftp/wget2, NDM/FDM)
-- Yeni bulunan her repo buraya eklenecek.
-- Klonlar iş bitince silinir.
+- Every newly found repo will be added here.
+- Clones are deleted when the work is done.
 
-## Çıktı
-- Çalışan kod (çatalda) + testler + bu dokümanın güncel hali.
-- Kullanıcıya her fazda rapor + sorular.
+## Output
+- Working code (in the fork) + tests + current version of this document.
+- Report + questions to the user at every phase.
 
-## Arayüz araştırması (zorunlu, tasarım öncesi)
-- Mevcut skill'ler yetersizse YENİ skill bul (registry/katalog tara).
-- Arayüz şablonları bul: M3 Expressive örnekleri, indirme yöneticisi
-  ekranları, Obtainium/Seal/ADM ekran görüntüleri ve düzenleri.
-- Diğer uygulamaların arayüzlerine bak: ekran akışı, kart yapısı,
-  bilgi hiyerarşisi, boş durumlar, hata durumları.
-- Kararsız kaldığın her noktada kullanıcıya SOR, birlikte şekillendirin.
-  Tek soru, cevap bekle, devam et. Tahminle arayüz kilitleme.
+## UI research (mandatory, before design)
+- If existing skills are insufficient, find NEW skills (scan registries/catalogs).
+- Find UI templates: M3 Expressive examples, download manager
+  screens, Obtainium/Seal/ADM screenshots and layouts.
+- Study other apps' UIs: screen flow, card structure,
+  information hierarchy, empty states, error states.
+- Wherever undecided, ASK the user and shape it together.
+  One question at a time, IN TURKISH, wait for the answer, continue.
+  Never lock the UI by guessing.
 
-## GitHub sürüm indirme (hızlı yol)
-- Uygulama GitHub Releases'ten doğrudan indirebilmeli:
-  `GET repos/{owner}/{repo}/releases/latest` → assets listesinden
-  mimariye uygun dosyayı seç (örn. *-arm64-v8a.apk) → `browser_download_url`.
-- Girişsiz de çalışır (saatte 60 istek). Token varsa (kullanıcı eklerse)
-  limit 5000'e çıkar, özel repolar da açılır.
-- Seçilen asset normal motorla iner (çok parça + resume), yani ışık hızında.
-- Kullanım: "GitHub linki yapıştır → sürüm/asset seç → indir".
-  Örn. tube2note v0.18.0 APK testi bununla yapıldı.
+## GitHub release download (fast path)
+- The app must download directly from GitHub Releases:
+  `GET repos/{owner}/{repo}/releases/latest` → pick the
+  architecture-matching file from the assets list (e.g. *-arm64-v8a.apk)
+  → `browser_download_url`.
+- Works without login (60 requests/hour). With a token (if the user adds one)
+  the limit rises to 5000, and private repos open up.
+- The selected asset downloads with the normal engine (multi-part + resume), i.e. at full speed.
+- Usage: "paste GitHub link → select release/asset → download".
+  E.g. the tube2note v0.18.0 APK test was done this way.
 
-## Market yorumu madenciliği (zorunlu araştırma kolu)
-- İndirme yöneticilerinin yayınlandığı marketlerdeki (Play Store vb.)
-  kullanıcı yorumlarını oku ve analiz et.
-- Aranan: "şu özellik yok" şikayetleri, "var ama yetersiz" şikayetleri,
-  tekrar eden hata bildirimleri, övülen özellikler.
-- Her bulguyu kullanıcıya TEKER TEKER sor: "X uygulamasında kullanıcılar
-  Y'den şikayetçi, bizde olsun mu?" Onaylanmadan ekleme.
-- Amaç: gerçek kullanıcı acılarına duyarlı, yorumlarla şekillenen uygulama.
+## Store review mining (mandatory research branch)
+- Read and analyze user reviews of download managers in the stores
+  where they are published (Play Store, etc.).
+- Look for: "this feature is missing" complaints, "exists but insufficient"
+  complaints, recurring bug reports, praised features.
+- Ask the user about each finding ONE AT A TIME, IN TURKISH:
+  "Users of app X complain about Y, should we include it?" Never add without approval.
+- Goal: an app sensitive to real user pain, shaped by reviews.
 
-## Ajan karakteri (dinamik, proaktif)
-- Ajan dosya oluşturup bırakmaz. Her çıktının peşinden gider: test eder,
-  doğrular, kullanıcıya gösterir, geri bildirimi alır, düzeltir.
-- Söylemeden düşünür ve yapar: kullanıcı X deyince X'in gerektirdiği
-  sonraki 3 adımı da yapar (test, doküman, paket). Sormak yerine yapar;
-  gerçekten karar gereken yerde TEK soru sorar.
-- Sorular + kendi inisiyatifi birlikte: kararsızsa sorar, belliyse yapar.
-  Asla sessizce beklemez, asla izinsiz büyük karar vermez.
-- Kendi zekâsını geliştirir: her fazda neyi iyi/kötü yaptığını bu dokümana
-  "Öğrenilenler" bölümü olarak yazar, sonraki fazda uygular.
-- tube2note standardının üstü hedeflenir: daha az soru, daha çok isabet,
-  daha hızlı döngü. Kullanıcı "sihir gibi" demeli.
+## Agent character (dynamic, proactive)
+- The agent does not create files and abandon them. It follows through on
+  every output: tests it, verifies it, shows it to the user, gets feedback, fixes it.
+- It thinks ahead and acts without being told: when the user says X, it also does
+  the next 3 steps X requires (test, docs, package). It does instead of asking;
+  it asks ONE question, IN TURKISH, only where a real decision is needed.
+- Questions + own initiative together: asks when undecided, acts when clear.
+  Never waits silently, never makes big decisions without permission.
+- It improves its own intelligence: each phase, it writes what it did well/badly
+  into this document as a "Learnings" section and applies it in the next phase.
+- Target above the tube2note standard: fewer questions, more hits,
+  faster loops. The user should say "it feels like magic".
 
-## Öğrenilenler (ajan her fazda buraya yazar)
-- (boş — ilk fazda dolar)
+## Learnings (the agent writes here every phase)
+- (empty — filled in the first phase)

@@ -1,33 +1,33 @@
-# ABDM Fork — Kazı Raporu (8 repo)
+# ABDM Fork — Dig Report (8 repos)
 
-Taban: AB Download Manager (Kotlin, Android+Desktop, çok parçalı motor hazır)
+Base: AB Download Manager (Kotlin, Android+Desktop, multi-part engine ready)
 
-## Grup listesinden gelenler → nereden alınır
-1. Media grabber (1DM) → XDM'in sniff mantığı (m3u8/mpd parse, fragment filtresi) + 1DM WebView intercept tarifi
-2. 256 parça → aria2 tekniği (min-split-size, piece selector) + XDM dinamik bölme (1 parçayla başla, büyüğü yarıya böl)
-3. Torrent → libretorrent4j (LibreTorrent yolu, FrostWire değil)
-4. Adblock tarayıcı → 1DM tarifi (EasyList intercept, popup engelle)
-5. Obtainium ana sayfa → Seal'in M3 UI kalıpları
-6. Video/ses → YTDLnis + Seal (format picker, playlist, altyazı, metadata gömme)
+## From the group list → where to take it from
+1. Media grabber (1DM) → XDM's sniffing logic (m3u8/mpd parsing, fragment filtering) + 1DM WebView intercept recipe
+2. 256 parts → aria2 technique (min-split-size, piece selector) + XDM dynamic splitting (start with 1 part, split large ones in half)
+3. Torrent → libretorrent4j (LibreTorrent path, not FrostWire)
+4. Adblock browser → 1DM recipe (EasyList intercept, popup blocking)
+5. Obtainium home page → Seal's M3 UI patterns
+6. Video/audio → YTDLnis + Seal (format picker, playlist, subtitles, metadata embedding)
 
-## Motor iyileştirmeleri (ABDM'ye eklenecek)
-- Dinamik fan-out (sabit 8 değil, büyüğü böl)
-- Crash-safe resume (chunks.db + ETag kontrolü)
-- Refresh expired link (403'te tarayıcıdan tazele)
-- Mirror/adaptive sıralama, disk cache, preallocate
+## Engine improvements (to be added to ABDM)
+- Dynamic fan-out (not fixed 8, split large ones)
+- Crash-safe resume (chunks.db + ETag check)
+- Refresh expired link (refresh from browser on 403)
+- Mirror/adaptive ordering, disk cache, preallocation
 
-## Kuyruk/zamanlayıcı
-- XDM scheduler (HH:MM + gün maskesi), Motrix hız profilleri (normal/turtle), Persepolis retry pass
+## Queue/scheduler
+- XDM scheduler (HH:MM + day mask), Motrix speed profiles (normal/turtle), Persepolis retry pass
 
-## Öncelik sırası önerisi
-1. Grabber 2. Parça motoru 3. Torrent 4. UI 5. Adblock 6. Scheduler+
+## Suggested priority order
+1. Grabber 2. Part engine 3. Torrent 4. UI 5. Adblock 6. Scheduler+
 
-## 2. dalga (8 repo daha)
-- JDownloader: LinkGrabber iki aşama (önce topla/doğrula, sonra indir), eklenti sistemi, Packagizer kuralları
-- Gopeed: Fetcher arayüzü (http/bt/hls), work-stealing, JS eklentiler, REST+MCP
-- pyLoad: hoster/crypter/account eklenti hiyerarşisi, captcha kuyruğu
-- gallery-dl: 257 site extractor, dosya adı şablonu, SQLite arşiv (tekrar indirme)
-- lux/you-get: video extractor kayıt defteri, altyazı, playlist seçimi
-- axel/uGet/KGet: axel_divide dengeleme, .st resume, kategori ağacı, pano izleme, metalink
-- lftp/wget2: pget paralel, mirror modu, üstel yeniden bağlanma, HSTS
-- NDM/FDM (kapalı, web'den): canlı hız/bağlantı ayarı, trafik modları, Site Manager, HLS birleştirme
+## 2nd wave (8 more repos)
+- JDownloader: LinkGrabber two stages (collect/verify first, then download), plugin system, Packagizer rules
+- Gopeed: Fetcher interface (http/bt/hls), work-stealing, JS plugins, REST+MCP
+- pyLoad: hoster/crypter/account plugin hierarchy, captcha queue
+- gallery-dl: 257 site extractors, filename template, SQLite archive (no re-download)
+- lux/you-get: video extractor registry, subtitles, playlist selection
+- axel/uGet/KGet: axel_divide balancing, .st resume, category tree, clipboard monitoring, metalink
+- lftp/wget2: pget parallel, mirror mode, exponential reconnect, HSTS
+- NDM/FDM (closed, from web): live speed/connection tuning, traffic modes, Site Manager, HLS merging
