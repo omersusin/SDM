@@ -220,6 +220,19 @@ object CommonSettings {
             title = Res.string.settings_default_user_agent.asStringSource(),
             description = Res.string.settings_default_user_agent_description.asStringSource(),
             backedBy = appSettingsStorage.userAgent,
+            presets = listOf(
+                "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0",
+                "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Mobile/15E148 Safari/604.1",
+            ),
+            presetLabels = listOf(
+                Res.string.settings_user_agent_chrome_android.asStringSource(),
+                Res.string.settings_user_agent_chrome_windows.asStringSource(),
+                Res.string.settings_user_agent_firefox.asStringSource(),
+                Res.string.settings_user_agent_safari_iphone.asStringSource(),
+            ),
+            defaultValue = "",
             describe = {
                 if (it.isBlank()) {
                     Res.string.disabled.asStringSource()

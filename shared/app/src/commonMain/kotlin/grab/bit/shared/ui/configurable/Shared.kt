@@ -7,6 +7,7 @@ import grab.bit.shared.util.ui.icon.MyIcons
 import grab.bit.shared.util.ui.myColors
 import grab.bit.shared.util.ui.theme.myTextSizes
 import grab.bit.util.ifThen
+import grab.bit.util.compose.StringSource
 import grab.bit.shared.ui.widget.Text
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -312,4 +313,47 @@ fun Help(
     cfg: Configurable<*>,
 ) {
     Help(cfg.description.rememberString(), modifier)
+}
+
+@Composable
+fun PresetChipRow(
+    presets: List<String>,
+    selected: String,
+    onPick: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    labels: List<StringSource>? = null,
+) {
+    FlowRow(modifier.fillMaxWidth()) {
+        presets.forEachIndexed { index, preset ->
+            val isSelected = preset == selected
+            val label: String = labels?.getOrNull(index)?.rememberString() ?: preset
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .heightIn(mySpacings.thumbSize)
+                    .padding(2.dp)
+                    .clip(myShapes.defaultRounded)
+                    .ifThen(isSelected) {
+                        background(myColors.onBackground / 10)
+                    }
+                    .clickable { onPick(preset) }
+                    .padding(vertical = 4.dp)
+                    .padding(horizontal = 8.dp)
+            ) {
+                if (isSelected) {
+                    MyIcon(
+                        MyIcons.check,
+                        null,
+                        Modifier.size(16.dp),
+                    )
+                    Spacer(Modifier.width(4.dp))
+                }
+                Text(
+                    text = label,
+                    softWrap = false,
+                    fontSize = myTextSizes.base,
+                )
+            }
+        }
+    }
 }

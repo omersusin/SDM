@@ -2,10 +2,7 @@ package grab.bit.android.ui.configurable.comon.renderer
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,10 +16,15 @@ import grab.bit.android.ui.configurable.ConfigTemplate
 import grab.bit.android.ui.configurable.NextIcon
 import grab.bit.android.ui.configurable.TitleAndDescription
 import grab.bit.android.ui.configurable.SheetInput
+import grab.bit.resources.Res
 import grab.bit.shared.ui.configurable.ConfigurableRenderer
 import grab.bit.shared.ui.configurable.ConfigurableUiProps
+import grab.bit.shared.ui.configurable.PresetChipRow
 import grab.bit.shared.ui.configurable.item.StringConfigurable
+import grab.bit.shared.ui.widget.ActionButton
 import grab.bit.shared.ui.widget.MyTextField
+import grab.bit.util.compose.asStringSource
+import grab.bit.util.compose.resources.myStringResource
 import grab.bit.shared.util.ui.icon.MyIcons
 import grab.bit.shared.util.ui.theme.myShapes
 import grab.bit.shared.util.ui.widget.MyIcon
@@ -58,18 +60,44 @@ object StringConfigurableRenderer : ConfigurableRenderer<StringConfigurable> {
             isOpened = isOpened,
             onDismiss = onDismiss,
             inputContent = { params ->
-                MyTextField(
-                    modifier = params.modifier.fillMaxWidth(),
-                    text = params.editingValue,
-                    onTextChange = {
-                        params.setEditingValue(it)
-                    },
-                    shape = myShapes.defaultRounded,
-                    textPadding = PaddingValues(8.dp),
-                    placeholder = "",
-                    interactionSource = interactionSource,
-                    keyboardActions = params.keyboardActions,
-                )
+                Column {
+                    MyTextField(
+                        modifier = params.modifier.fillMaxWidth(),
+                        text = params.editingValue,
+                        onTextChange = {
+                            params.setEditingValue(it)
+                        },
+                        shape = myShapes.defaultRounded,
+                        textPadding = PaddingValues(8.dp),
+                        placeholder = "",
+                        interactionSource = interactionSource,
+                        keyboardActions = params.keyboardActions,
+                    )
+                    if (cfg.presets.isNotEmpty()) {
+                        Spacer(Modifier.height(8.dp))
+                        PresetChipRow(
+                            presets = cfg.presets,
+                            selected = params.editingValue,
+                            onPick = { params.setEditingValue(it) },
+                            labels = cfg.presetLabels,
+                        )
+                    }
+                    val resetToDefault = cfg.defaultValue
+                    if (resetToDefault != null && params.editingValue != resetToDefault) {
+                        Spacer(Modifier.height(8.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End,
+                        ) {
+                            ActionButton(
+                                text = myStringResource(Res.string.settings_reset_to_default),
+                                onClick = {
+                                    params.setEditingValue(resetToDefault)
+                                },
+                            )
+                        }
+                    }
+                }
             },
             onConfirm = {
                 cfg.set(it)
