@@ -65,6 +65,8 @@ Swiss-army-knife, but nothing illogical.
   on). Auto-resume on return still open (no resume-all API).
 - 2026-09-24 torrent-3: browser menu adds magnet from clipboard (session
   starts lazily, process lifetime). Progress UI still open.
+- 2026-09-24 settings-video: max height pref + best-first dialog. CI lesson:
+  check-latest causes JBR ECONNRESET flakes → removed from test.yml.
 
 ## Dig reports
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
