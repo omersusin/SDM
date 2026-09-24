@@ -3,7 +3,6 @@ package grab.bit.android.ui.configurable.comon.renderer
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -86,8 +85,10 @@ object StringConfigurableRenderer : ConfigurableRenderer<StringConfigurable> {
                     val resetToDefault = cfg.defaultValue
                     if (resetToDefault != null && params.editingValue != resetToDefault) {
                         Spacer(Modifier.height(8.dp))
-                        Row {
-                            Spacer(Modifier.weight(1f))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End,
+                        ) {
                             ActionButton(
                                 text = myStringResource(Res.string.settings_reset_to_default),
                                 onClick = {
