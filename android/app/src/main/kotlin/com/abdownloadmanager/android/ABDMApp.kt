@@ -11,8 +11,11 @@ import com.abdownloadmanager.shared.repository.BaseAppRepository
 import com.abdownloadmanager.shared.util.appinfo.PreviousVersion
 import com.abdownloadmanager.shared.util.schemakt.initializeForABDM
 import io.github.amir1376.schemakt.Schema
+import ir.amirab.downloader.video.YtDlpRunner
 import ir.amirab.util.logger.AppLogger
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -41,5 +44,10 @@ class ABDMApp : Application(), KoinComponent {
             )
         )
         appManager.boot()
+        scope.launch(Dispatchers.IO) {
+            runCatching {
+                YtDlpRunner.init(this@ABDMApp)
+            }
+        }
     }
 }
