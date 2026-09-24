@@ -148,6 +148,9 @@ Swiss-army-knife, but nothing illogical.
   org.libtorrent4j package, download() 3-arg signature (source-verified).
 - 2026-09-23 video-1: VideoFormatPicker (codec split, +-join, best-height +
   5 tests). youtubedl-android runtime mapped from Seal scratch clone.
+- 2026-09-23 video-2: youtubedl-android 0.17.3 dep + YtDlpInfoParser (JSON→
+  VideoFormat, tested) + YtDlpRunner seam. One infra red (JBR ECONNRESET,
+  rerun green).
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
