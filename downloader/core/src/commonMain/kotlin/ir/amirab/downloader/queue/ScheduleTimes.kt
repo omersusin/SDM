@@ -70,6 +70,21 @@ data class ScheduleTimes(
 
     }
 
+    // Pure schedule check (testable): is downloading allowed at day/time?
+    fun isActiveAt(day: DayOfWeek, time: LocalTime): Boolean {
+        if (!enabledStartTime && !enabledEndTime) {
+            return true
+        }
+        val overnight = enabledStartTime && enabledEndTime && endTime <= startTime
+        if (overnight && time < endTime) {
+            return day.minus(1) in daysOfWeek
+        }
+        if (day !in daysOfWeek) return false
+        if (enabledStartTime && time < startTime) return false
+        if (enabledEndTime && time >= endTime) return false
+        return true
+    }
+
     fun getNearestTimeToStart(): Long {
         val now = Clock.System.now()
 
@@ -106,5 +121,11 @@ data class ScheduleTimes(
 private fun DayOfWeek.plus(days: Int): DayOfWeek {
     val entries = DayOfWeek.entries
     val index = (entries.indexOf(this) + days) % entries.size
+    return entries[index]
+}
+
+private fun DayOfWeek.minus(days: Int): DayOfWeek {
+    val entries = DayOfWeek.entries
+    val index = (entries.indexOf(this) - days).mod(entries.size)
     return entries[index]
 }
