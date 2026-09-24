@@ -63,8 +63,30 @@ jobs:
           done
           rm -f android/app/build/outputs/apk/release/*-unsigned.apk
 
-      - name: Upload APK
+      - name: Upload debug APK
+        if: inputs.build == 'debug'
         uses: actions/upload-artifact@v4
         with:
-          name: grabbit-${{ inputs.build }}-apk
-          path: ${{ inputs.build == 'release' && 'android/app/build/outputs/apk/release/*-signed.apk' || 'android/app/build/outputs/apk/debug/*.apk' }}
+          name: grabbit-debug-apk
+          path: android/app/build/outputs/apk/debug/*.apk
+
+      - name: Upload signed arm64 APK
+        if: inputs.build == 'release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: grabbit-release-arm64
+          path: android/app/build/outputs/apk/release/*-arm64-*-signed.apk
+
+      - name: Upload signed v7a APK
+        if: inputs.build == 'release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: grabbit-release-v7a
+          path: android/app/build/outputs/apk/release/*-armeabi-*-signed.apk
+
+      - name: Upload signed x86_64 APK
+        if: inputs.build == 'release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: grabbit-release-x86_64
+          path: android/app/build/outputs/apk/release/*-x86_64-*-signed.apk
