@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope.weight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -90,14 +91,15 @@ object StringConfigurableRenderer : ConfigurableRenderer<StringConfigurable> {
                             labels = cfg.presetLabels,
                         )
                     }
-                    if (cfg.defaultValue != null && params.editingValue != cfg.defaultValue) {
+                    val resetToDefault = cfg.defaultValue
+                    if (resetToDefault != null && params.editingValue != resetToDefault) {
                         Spacer(Modifier.height(8.dp))
                         Row {
                             Spacer(Modifier.weight(1f))
                             ActionButton(
                                 text = myStringResource(Res.string.settings_reset_to_default),
                                 onClick = {
-                                    params.setEditingValue(cfg.defaultValue)
+                                    params.setEditingValue(resetToDefault)
                                 },
                             )
                         }
