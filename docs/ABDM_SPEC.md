@@ -71,6 +71,8 @@ Swiss-army-knife, but nothing illogical.
   sheet (batch now List-based).
 - 2026-09-24 queue-3: pool dialog (checkbox select + multi-download, pool
   drains on send). Two-stage queue complete.
+- 2026-09-24 site-1: per-host UA/auth applied to browser-started downloads.
+- 2026-09-24 apk-2: fresh debug APK in Downloads (all features to date).
 
 ## Dig reports
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
