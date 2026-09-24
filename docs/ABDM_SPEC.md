@@ -61,6 +61,8 @@ Swiss-army-knife, but nothing illogical.
   - 2026-09-24 settings-adblock + settings-profile DONE (both merged).
 - 2026-09-24 settings-wifi: toggle merged (one hung runner, retry green).
   Enforcement via ABDMAppManager network monitor still open.
+- 2026-09-24 wifi-gate: NetworkCallback stops all on WiFi loss (WiFi-only
+  on). Auto-resume on return still open (no resume-all API).
 
 ## Dig reports
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
