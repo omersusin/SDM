@@ -189,6 +189,23 @@ Swiss-army-knife, but nothing illogical.
 - Target above the tube2note standard: fewer questions, more hits,
   faster loops. The user should say "it feels like magic".
 
+## Standing agent rules (user-ordered, permanent)
+- Settings-UX: 2-5 fixed options = dropdown; on/off = switch; known-format
+  text = field + example placeholder; unknown-format text (User-Agent) =
+  preset chips + edit + reset; wide-range numbers = field with range shown.
+  No material3/segmented/slider deps (reuse Multiselect/PresetChipRow).
+- Zero/blank meanings visible in describe: speed 0=unlimited, thread
+  0=global, port 0=automatic, blank UA/sound/checksum=default/skip.
+  PerHost speed 0 shows "inherit", never "Unlimited".
+- VideoQuality enum (AUTO/HIGHEST/P1080/P720/P480/P360, string-stored,
+  AUTO default); old Int field stays ONLY for one-time migration.
+- UA presets (Sep 2026 real strings) + Default reset; both renderers.
+- Strings: en_US.properties ONLY; delete dead keys (check kt refs first).
+- Settings slice checklist: model+schema+factory+storage+UI+strings per
+  platform, migration for type changes, CI green, SPEC learning line.
+- Git: one branch per slice, merge --no-ff, delete after merge; SPEC
+  one-liners may go straight to main; verify status/branch before push.
+
 ## Learnings (the agent writes here every phase)
 - 2026-09-23 fork-base: ABDM (shallow clone, 1 commit) could not be fetched
   via git (shallow roots rejected) → imported via worktree copy excl. .git,
