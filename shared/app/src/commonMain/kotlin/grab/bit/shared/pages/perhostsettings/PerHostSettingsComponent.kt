@@ -168,7 +168,7 @@ abstract class BasePerHostSettingsComponent(
                             }
                         ),
                         describe = {
-                            if (it == 0L) Res.string.unlimited.asStringSource()
+                            if (it == 0L) Res.string.use_global_settings.asStringSource()
                             else convertPositiveSpeedToHumanReadable(it, appRepository.speedUnit.value).asStringSource()
                         }
                     ),
