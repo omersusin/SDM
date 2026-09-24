@@ -100,6 +100,7 @@ class AndroidSettingsComponent(
                 nestedConfigurable = listOf(
                     CommonSettings.speedLimitConfig(appRepository),
                     CommonSettings.speedProfileConfig(appRepository, scope),
+                    AndroidSettings.wifiOnlyDownloads(appSettings),
                     CommonSettings.threadCountConfig(appRepository),
                     CommonSettings.maxConcurrentDownloads(appRepository),
                     CommonSettings.maxDownloadRetryCount(appRepository),

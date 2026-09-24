@@ -57,6 +57,7 @@ data class AppSettingsModel(
     val browserIconInLauncher: Boolean,
     val grabberUiMode: GrabberUiMode,
     val adBlockEnabled: Boolean,
+    val wifiOnlyDownloads: Boolean,
 ) : IAppSettingsModel {
     companion object {
     }
@@ -72,6 +73,8 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             .catch(PlatformDefaultSettings::grabberUiMode)
         prop(AppSettingsModel::adBlockEnabled) bind S.boolean()
             .catch(PlatformDefaultSettings::adBlockEnabled)
+        prop(AppSettingsModel::wifiOnlyDownloads) bind S.boolean()
+            .catch(PlatformDefaultSettings::wifiOnlyDownloads)
     },
     factory = {
         PlatformAppSettingsModel(
@@ -116,6 +119,7 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             browserIconInLauncher = it[AppSettingsModel::browserIconInLauncher],
             grabberUiMode = it[AppSettingsModel::grabberUiMode],
             adBlockEnabled = it[AppSettingsModel::adBlockEnabled],
+            wifiOnlyDownloads = it[AppSettingsModel::wifiOnlyDownloads],
         )
     }
 ).asSettingsSchema()
