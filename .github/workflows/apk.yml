@@ -1,0 +1,31 @@
+name: apk
+
+on: workflow_dispatch
+
+jobs:
+  debug-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JBR
+        uses: actions/setup-java@v4
+        with:
+          distribution: "jetbrains"
+          java-package: "jdk"
+          java-version: "25"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Assemble debug APK
+        run: ./gradlew :android:app:assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdm-debug-apk
+          path: android/app/build/outputs/apk/debug/*.apk
