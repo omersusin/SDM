@@ -261,6 +261,7 @@ fun BrowserPage(
         browserComponent::closeMainMenu,
     )
     MediaListDialog(browserComponent)
+    VideoFormatsDialog(browserComponent)
 }
 
 @Composable
@@ -335,6 +336,94 @@ fun MediaListDialog(
                                 Res.string.download.asStringSource(),
                             ) {
                                 browserComponent.downloadMedia(url)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun VideoFormatsDialog(
+    browserComponent: BrowserComponent,
+) {
+    val state by browserComponent.videoFormats.collectAsState()
+    val visible = state !is BrowserComponent.VideoFormatsState.Closed
+    val responsiveState = rememberResponsiveDialogState(visible)
+    LaunchedEffect(visible) {
+        if (visible) {
+            responsiveState.show()
+        } else {
+            responsiveState.hide()
+        }
+    }
+    ResponsiveDialog(
+        state = responsiveState,
+        onDismiss = { browserComponent.closeVideoFormats() }
+    ) {
+        SheetUI(
+            header = {
+                SheetHeader(
+                    headerTitle = {
+                        SheetTitle(
+                            myStringResource(Res.string.browser_video_formats),
+                        )
+                    },
+                    headerActions = {
+                        TransparentIconActionButton(
+                            MyIcons.close,
+                            Res.string.close.asStringSource(),
+                        ) {
+                            browserComponent.closeVideoFormats()
+                        }
+                    }
+                )
+            }
+        ) {
+            when (val s = state) {
+                is BrowserComponent.VideoFormatsState.Closed -> Unit
+                is BrowserComponent.VideoFormatsState.Loading -> {
+                    Text(
+                        text = myStringResource(Res.string.browser_video_formats_loading),
+                        modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                    )
+                }
+
+                is BrowserComponent.VideoFormatsState.Ready -> {
+                    if (s.formats.isEmpty()) {
+                        Text(
+                            text = myStringResource(Res.string.browser_media_list_empty),
+                            modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                        )
+                    } else {
+                        LazyColumn {
+                            items(s.formats) { format ->
+                                val label = listOfNotNull(
+                                    format.height?.let { "${it}p" },
+                                    ".${format.ext}",
+                                    format.filesize?.let { "${it / 1024 / 1024}MB" },
+                                ).joinToString(" ")
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp, horizontal = 16.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    Text(
+                                        text = label,
+                                        modifier = Modifier.weight(1f),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                    )
+                                    TransparentIconActionButton(
+                                        MyIcons.download,
+                                        Res.string.download.asStringSource(),
+                                    ) {
+                                        browserComponent.downloadMedia(format.url)
+                                    }
+                                }
                             }
                         }
                     }
