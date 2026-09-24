@@ -247,6 +247,18 @@ class BrowserComponent(
         }
     }
 
+    fun pauseTorrent(infoHash: String) {
+        scope.launch(Dispatchers.IO) {
+            runCatching { torrentSession?.pause(infoHash) }
+        }
+    }
+
+    fun resumeTorrent(infoHash: String) {
+        scope.launch(Dispatchers.IO) {
+            runCatching { torrentSession?.resume(infoHash) }
+        }
+    }
+
     fun capturePageMedia() {
         val page = tabs.value.activeTab?.tabState?.lastLoadedUrl
         linkPool.addAll(
