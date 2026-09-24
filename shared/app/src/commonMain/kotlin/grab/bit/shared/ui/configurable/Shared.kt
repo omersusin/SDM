@@ -326,6 +326,7 @@ fun PresetChipRow(
     FlowRow(modifier.fillMaxWidth()) {
         presets.forEachIndexed { index, preset ->
             val isSelected = preset == selected
+            val label: String = labels?.getOrNull(index)?.rememberString() ?: preset
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -348,7 +349,7 @@ fun PresetChipRow(
                     Spacer(Modifier.width(4.dp))
                 }
                 Text(
-                    text = labels?.getOrNull(index) ?: preset,
+                    text = label,
                     softWrap = false,
                     fontSize = myTextSizes.base,
                 )
