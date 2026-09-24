@@ -1,9 +1,16 @@
 name: apk
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      build:
+        description: "Which APK to build"
+        type: choice
+        default: debug
+        options: [debug, release]
 
 jobs:
-  debug-apk:
+  apk:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,11 +28,16 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Assemble debug APK
-        run: ./gradlew :android:app:assembleDebug --no-daemon
+      - name: Assemble APK
+        run: |
+          if [ "${{ inputs.build }}" = "release" ]; then
+            ./gradlew :android:app:assembleRelease --no-daemon
+          else
+            ./gradlew :android:app:assembleDebug --no-daemon
+          fi
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: sdm-debug-apk
-          path: android/app/build/outputs/apk/debug/*.apk
+          name: grabbit-${{ inputs.build }}-apk
+          path: android/app/build/outputs/apk/${{ inputs.build }}/*.apk
