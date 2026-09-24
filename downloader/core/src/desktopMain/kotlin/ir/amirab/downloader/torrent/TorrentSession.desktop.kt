@@ -1,6 +1,7 @@
 package ir.amirab.downloader.torrent
 
 import org.libtorrent4j.SessionManager
+import org.libtorrent4j.Sha1Hash
 import org.libtorrent4j.swig.torrent_flags_t
 
 actual fun createTorrentSession(): TorrentSession = LibtorrentSession()
@@ -23,5 +24,11 @@ class LibtorrentSession : TorrentSession {
             manager.download(magnet.toUri(), null, torrent_flags_t())
             true
         }.getOrDefault(false)
+    }
+
+    override fun progress(infoHashHex: String): TorrentProgress? {
+        return runCatching {
+            manager.find(Sha1Hash.parseHex(infoHashHex))?.status()?.progress()?.let(::TorrentProgress)
+        }.getOrNull()
     }
 }
