@@ -91,6 +91,11 @@ Swiss-army-knife, but nothing illogical.
   when enabled; default off).
 - 2026-09-24 video-8: format dialog downloads via yt-dlp engine path.
 - 2026-09-24 video-9: subtitle language checkboxes feed download flags.
+- 2026-09-24 release: R8 on (dontobfuscate, lib rules), ABI splits
+  (arm64/v7a/x86_64), apksigner signing in CI (single-password keystore;
+  two-password variant failed mysteriously — don't). First signed
+  artifacts on run 36015418112. Keystore+passwords backed up to Downloads
+  + 4 GitHub secrets set.
 - 2026-09-24 dig: N_m3u8DL-RE + streamlink + yt-dlp cloned and mined.
 - 2026-09-24 video-7: yt-dlp-style best-first sort + tbr/fps passthrough.
 - 2026-09-24 bulk-5: ExtractorRegistry (first-match-wins + tests).
