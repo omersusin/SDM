@@ -77,6 +77,10 @@ Swiss-army-knife, but nothing illogical.
   download flags still open.
 - 2026-09-24 twin: TorrentSession.progress seam (find+status, source-verified
   parseHex) + flat-playlist parse/urls + test.
+- 2026-09-24 video-6: YtDlpRequestBuilder (format+subs flags, tested) +
+  YtDlpRunner.download seam.
+- 2026-09-24 bulk-3: PageMediaHarvester (tag scrape + resolve + dedupe,
+  gallery-dl generic recipe, tested).
 
 ## Dig reports
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
