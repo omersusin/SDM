@@ -35,6 +35,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import java.util.UUID
 import kotlin.text.orEmpty
@@ -81,6 +83,11 @@ class BrowserComponent(
         ABDMTabs.createDefault()
     )
     val bookmarks = browserBookmarksStorage.bookmarksFlow
+    init {
+        scope.launch(Dispatchers.IO) {
+            AdBlockLists.ensureLoaded(context, downloadInterceptor)
+        }
+    }
     val grabberUiMode: StateFlow<GrabberUiMode> = appSettings.grabberUiMode
     val activeMediaCount: StateFlow<Int> = combine(
         tabs, downloadInterceptor.mediaCounts
