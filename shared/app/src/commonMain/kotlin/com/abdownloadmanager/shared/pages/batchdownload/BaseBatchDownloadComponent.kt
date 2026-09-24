@@ -5,6 +5,7 @@ import com.abdownloadmanager.shared.util.BaseComponent
 import com.abdownloadmanager.shared.util.mvi.ContainsEffects
 import com.abdownloadmanager.shared.util.mvi.supportEffects
 import com.arkivanov.decompose.ComponentContext
+import ir.amirab.util.BulkPattern
 import ir.amirab.util.HttpUrlUtils
 import ir.amirab.util.flow.combineStateFlows
 import ir.amirab.util.flow.mapStateFlow
@@ -71,6 +72,7 @@ open class BaseBatchDownloadComponent(
         end,
         wildcardLength,
     ) { link, start, end, wildcardLength ->
+        BulkPattern.expand(link.trim())?.let { return@combineStateFlows it }
         val minimumSize = max(start.length, end.length)
         val start = start.toIntOrNull() ?: return@combineStateFlows null
         val end = end.toIntOrNull() ?: return@combineStateFlows null
@@ -81,7 +83,7 @@ open class BaseBatchDownloadComponent(
             range = start..end,
             wildcardLength = wildcardLength,
             minimumAllowed = minimumSize,
-        )
+        ).toList()
     }
 
 
@@ -95,7 +97,7 @@ open class BaseBatchDownloadComponent(
         when (it) {
             null -> BatchDownloadValidationResult.Others
             else -> {
-                val listSize = it.size()
+                val listSize = it.size
                 when {
                     listSize < 1 -> BatchDownloadValidationResult.Others
                     listSize > MAX_ALLOWED_RANGE -> BatchDownloadValidationResult.MaxRangeExceed(MAX_ALLOWED_RANGE)
