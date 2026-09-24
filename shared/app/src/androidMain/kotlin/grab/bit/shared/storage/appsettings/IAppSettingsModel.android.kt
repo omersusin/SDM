@@ -12,6 +12,7 @@ import io.github.amir1376.schemakt.schema.primitive.boolean
 import io.github.amir1376.schemakt.schema.primitive.int
 import grab.bit.downloader.SpeedProfile
 import grab.bit.util.GrabberUiMode
+import grab.bit.util.VideoQuality
 import grab.bit.util.config.datastore.asSettingsSchema
 import kotlinx.serialization.Serializable
 
@@ -61,6 +62,8 @@ data class AppSettingsModel(
     val adBlockEnabled: Boolean,
     val wifiOnlyDownloads: Boolean,
     val videoMaxHeight: Int,
+    val videoQuality: VideoQuality,
+    val videoQualityMigrated: Boolean,
 ) : IAppSettingsModel {
     companion object {
     }
@@ -80,6 +83,10 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             .catch(PlatformDefaultSettings::wifiOnlyDownloads)
         prop(AppSettingsModel::videoMaxHeight) bind S.int()
             .range(144, 4320).catch(PlatformDefaultSettings::videoMaxHeight)
+        prop(AppSettingsModel::videoQuality) bind S.enum<VideoQuality>()
+            .catch(PlatformDefaultSettings::videoQuality)
+        prop(AppSettingsModel::videoQualityMigrated) bind S.boolean()
+            .catch(PlatformDefaultSettings::videoQualityMigrated)
     },
     factory = {
         PlatformAppSettingsModel(
@@ -126,6 +133,8 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             adBlockEnabled = it[AppSettingsModel::adBlockEnabled],
             wifiOnlyDownloads = it[AppSettingsModel::wifiOnlyDownloads],
             videoMaxHeight = it[AppSettingsModel::videoMaxHeight],
+            videoQuality = it[AppSettingsModel::videoQuality],
+            videoQualityMigrated = it[AppSettingsModel::videoQualityMigrated],
         )
     }
 ).asSettingsSchema()

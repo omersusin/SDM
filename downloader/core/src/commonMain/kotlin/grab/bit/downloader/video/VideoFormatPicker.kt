@@ -1,5 +1,8 @@
 package grab.bit.downloader.video
 
+import grab.bit.util.VideoQuality
+import grab.bit.util.VideoQualities
+
 data class VideoFormat(
     val id: String,
     val ext: String,
@@ -51,5 +54,15 @@ object VideoFormatPicker {
             ?: formats
                 .filter { it.hasAudioAndVideo }
                 .minByOrNull { it.height ?: Int.MAX_VALUE }
+    }
+
+    fun pickForQuality(formats: List<VideoFormat>, quality: VideoQuality): VideoFormat? {
+        val videos = videoFormats(formats)
+        return when (quality) {
+            VideoQuality.AUTO -> sortBestFirst(videos).firstOrNull()
+            VideoQuality.HIGHEST -> sortBestFirst(videos).firstOrNull { it.hasAudioAndVideo }
+                ?: sortBestFirst(videos).firstOrNull()
+            else -> VideoQualities.maxHeightOf(quality)?.let { bestForHeight(videos, it) }
+        }
     }
 }

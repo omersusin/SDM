@@ -1,5 +1,6 @@
 package grab.bit.downloader.video
 
+import grab.bit.util.VideoQuality
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -68,5 +69,19 @@ class VideoFormatPickerTest {
         val a = format("a", height = 720).copy(tbr = 1000.0)
         val b = format("b", height = 720).copy(tbr = 2000.0)
         assertEquals(listOf("b", "a"), VideoFormatPicker.sortBestFirst(listOf(a, b)).map { it.id })
+    }
+
+    @Test
+    fun pickForQuality() {
+        val formats = listOf(
+            format("360", height = 360),
+            format("720", height = 720),
+            format("1080", height = 1080),
+        )
+        assertEquals("1080", VideoFormatPicker.pickForQuality(formats, VideoQuality.AUTO)?.id)
+        assertEquals("1080", VideoFormatPicker.pickForQuality(formats, VideoQuality.HIGHEST)?.id)
+        assertEquals("720", VideoFormatPicker.pickForQuality(formats, VideoQuality.P720)?.id)
+        assertEquals("360", VideoFormatPicker.pickForQuality(formats, VideoQuality.P360)?.id)
+        assertNull(VideoFormatPicker.pickForQuality(emptyList(), VideoQuality.AUTO))
     }
 }

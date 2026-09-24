@@ -6,6 +6,8 @@ import grab.bit.shared.util.downloadlocation.PlatformDownloadLocationProvider
 import grab.bit.downloader.SpeedProfile
 import grab.bit.util.GrabberUiMode
 import grab.bit.util.GrabberUiModes
+import grab.bit.util.VideoQuality
+import grab.bit.util.VideoQualities
 
 expect object PlatformDefaultSettings : DefaultAppSettings
 
@@ -53,4 +55,6 @@ abstract class DefaultAppSettings {
     open val adBlockEnabled: Boolean get() = true
     open val wifiOnlyDownloads: Boolean get() = false
     open val videoMaxHeight: Int get() = 720
+    open val videoQuality: VideoQuality get() = VideoQualities.default
+    open val videoQualityMigrated: Boolean get() = false
 }
