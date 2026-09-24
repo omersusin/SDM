@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="#0D3B2E"/>
+  <!-- body -->
+  <rect x="55" y="52" width="90" height="100" rx="40" fill="#FFFFFF"/>
+  <!-- eyes -->
+  <circle cx="82" cy="96" r="10" fill="#0D3B2E"/>
+  <circle cx="118" cy="96" r="10" fill="#0D3B2E"/>
+  <circle cx="85" cy="93" r="3.2" fill="#FFFFFF"/>
+  <circle cx="121" cy="93" r="3.2" fill="#FFFFFF"/>
+  <!-- belly arrow -->
+  <rect x="93" y="110" width="14" height="24" rx="7" fill="#C6F135"/>
+  <path d="M83 130 H117 L100 148 Z" fill="#C6F135"/>
+</svg>
