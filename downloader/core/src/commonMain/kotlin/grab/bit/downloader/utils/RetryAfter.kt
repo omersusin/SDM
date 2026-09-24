@@ -33,7 +33,8 @@ object RetryAfter {
         return listOf(
             "Jan", "Feb", "Mar", "Apr", "May", "Jun",
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-        ).indexOf(m).takeIf { it >= 0 } ?: throw IllegalArgumentException("bad month")
+        ).indexOf(m).takeIf { it >= 0 }?.plus(1)
+            ?: throw IllegalArgumentException("bad month")
     }
 
     private fun daysSinceEpoch(year: Int, month: Int, day: Int): Long {
