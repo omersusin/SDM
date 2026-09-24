@@ -1,5 +1,10 @@
 # DOWNLOAD MANAGER — Agent Task Document
 
+> 2026-09-24 REBRAND (user decision): app = Grabbit, packages =
+> grab.bit (was com.abdownloadmanager / ir.amirab). applicationId grab.bit
+> (fresh install identity; old installs don't migrate). Maven artifact
+> ir.amirab.util:platform kept (external identity + composite substitution).
+
 ## Project
 Fork of AB Download Manager (https://github.com/amir1376/ab-download-manager).
 Kotlin Multiplatform. Android first. Single-codebase discipline.
