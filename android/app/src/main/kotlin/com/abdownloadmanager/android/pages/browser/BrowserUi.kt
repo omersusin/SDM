@@ -65,6 +65,7 @@ import com.abdownloadmanager.android.ui.page.PageUi
 import com.abdownloadmanager.android.ui.widget.LoadingState
 import com.abdownloadmanager.resources.Res
 import com.abdownloadmanager.shared.ui.widget.ActionButton
+import com.abdownloadmanager.shared.ui.widget.LabeledCheckbox
 import com.abdownloadmanager.shared.ui.widget.MyTextField
 import com.abdownloadmanager.shared.ui.widget.Text
 import com.abdownloadmanager.shared.ui.widget.TransparentIconActionButton
@@ -263,6 +264,7 @@ fun BrowserPage(
     )
     MediaListDialog(browserComponent)
     VideoFormatsDialog(browserComponent)
+    PoolDialog(browserComponent)
 }
 
 @Composable
@@ -439,6 +441,81 @@ fun VideoFormatsDialog(
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun PoolDialog(
+    browserComponent: BrowserComponent,
+) {
+    val visible by browserComponent.showPool.collectAsState()
+    val responsiveState = rememberResponsiveDialogState(visible)
+    LaunchedEffect(visible) {
+        if (visible) {
+            responsiveState.show()
+        } else {
+            responsiveState.hide()
+        }
+    }
+    ResponsiveDialog(
+        state = responsiveState,
+        onDismiss = { browserComponent.setShowPool(false) }
+    ) {
+        val items = if (visible) browserComponent.poolLinks() else emptyList()
+        var checked by remember(visible) {
+            mutableStateOf(items.map { it.url }.toSet())
+        }
+        SheetUI(
+            header = {
+                SheetHeader(
+                    headerTitle = {
+                        SheetTitle(
+                            myStringResource(Res.string.browser_pool),
+                        )
+                    },
+                    headerActions = {
+                        TransparentIconActionButton(
+                            MyIcons.close,
+                            Res.string.close.asStringSource(),
+                        ) {
+                            browserComponent.setShowPool(false)
+                        }
+                    }
+                )
+            }
+        ) {
+            if (items.isEmpty()) {
+                Text(
+                    text = myStringResource(Res.string.browser_media_list_empty),
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                )
+            } else {
+                LazyColumn {
+                    items(items) { item ->
+                        LabeledCheckbox(
+                            value = item.url in checked,
+                            onValueChange = {
+                                checked = if (item.url in checked) {
+                                    checked - item.url
+                                } else {
+                                    checked + item.url
+                                }
+                            },
+                            description = item.fileName ?: item.url,
+                        )
+                    }
+                }
+                Spacer(Modifier.height(8.dp))
+                ActionButton(
+                    text = myStringResource(Res.string.download),
+                    onClick = {
+                        browserComponent.downloadPoolUrls(checked)
+                        browserComponent.setShowPool(false)
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
         }
     }

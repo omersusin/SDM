@@ -42,6 +42,13 @@ class LinkPool {
         return removed
     }
 
+    fun removeUrls(urls: Collection<String>) {
+        urls.forEach {
+            links.remove(it)
+            selected.remove(it)
+        }
+    }
+
     fun clear() {
         links.clear()
         selected.clear()

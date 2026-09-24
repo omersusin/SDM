@@ -44,4 +44,13 @@ class LinkPoolTest {
         assertEquals(0, pool.size)
         assertEquals(0, pool.selectedCount)
     }
+
+    @Test
+    fun removeUrlsDropsSubset() {
+        val pool = LinkPool()
+        pool.addAll(listOf(link("https://cdn.example/a.mp4"), link("https://cdn.example/b.mp4")))
+        pool.removeUrls(listOf("https://cdn.example/a.mp4"))
+        assertEquals(1, pool.size)
+        assertEquals(1, pool.selectedCount)
+    }
 }
