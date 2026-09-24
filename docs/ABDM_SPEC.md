@@ -91,6 +91,12 @@ Swiss-army-knife, but nothing illogical.
   when enabled; default off).
 - 2026-09-24 video-8: format dialog downloads via yt-dlp engine path.
 - 2026-09-24 video-9: subtitle language checkboxes feed download flags.
+- 2026-09-24 settings-UX (user-ordered, 6 agents + plan mode): inventory
+  (~60 rows), M3/web research, per-setting controls. Shipped: VideoQuality
+  enum+dropdown+migration (AUTO default), UA presets+reset (both platforms),
+  0-meaning describes, batch [N-M] hint, dead-string cleanup. Skipped
+  deliberately: switches/dialogs already correct, scheduler UI, desktop
+  video (no browser), material3 dep (off design language).
 - 2026-09-24 release: R8 on (dontobfuscate, lib rules), ABI splits
   (arm64/v7a/x86_64), apksigner signing in CI (single-password keystore;
   two-password variant failed mysteriously — don't). First signed
