@@ -125,6 +125,14 @@ Swiss-army-knife, but nothing illogical.
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
   aria2, LibreTorrent, FrostWire, 1DM/IDM, JDownloader, Gopeed, pyLoad,
   gallery-dl, lux/you-get, axel/uGet/KGet, lftp/wget2, NDM/FDM)
+- 2026-09-24 wave-2 (8 parallel digs): transmission (wishlist/choke/DHT/
+  resume/bandwidth tree), curl (parallel engine, retry+Retry-After, resume,
+  token-bucket), gopeed (fetcher iface, slowStart steal, REST, JS plugins),
+  JDownloader (LinkGrabber/crawler plugins, Packagizer, dupe maps, link
+  checker), pyLoad (hoster/crypter/account/captcha/API), uGet (categories,
+  batch, metalink, clipboard, scheduler grid), FrostWire (mesh search,
+  VPN-guard, preview player), persepolis (no aria2-RPC; requests engine,
+  spider pre-flight, video finder).
 - Every newly found repo will be added here.
 - Clones are deleted when the work is done.
 
