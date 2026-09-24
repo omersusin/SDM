@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -328,6 +329,8 @@ fun MediaListDialog(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .clip(myShapes.defaultRounded)
+                                .background(myColors.onSurface / 0.05f)
                                 .padding(vertical = 8.dp, horizontal = 16.dp),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
@@ -414,6 +417,8 @@ fun VideoFormatsDialog(
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
+                                        .clip(myShapes.defaultRounded)
+                                        .background(myColors.onSurface / 0.05f)
                                         .padding(vertical = 8.dp, horizontal = 16.dp),
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
@@ -429,6 +434,7 @@ fun VideoFormatsDialog(
                                     ) {
                                         browserComponent.downloadMedia(format.url)
                                     }
+                                }
                                 }
                             }
                         }
@@ -590,6 +596,11 @@ fun AddressBar(
                     text = "$mediaCount",
                     maxLines = 1,
                     fontWeight = FontWeight.Bold,
+                    color = myColors.onPrimary,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(myColors.primary)
+                        .padding(horizontal = 8.dp, vertical = 2.dp),
                 )
                 TransparentIconActionButton(
                     MyIcons.download,
