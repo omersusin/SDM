@@ -407,6 +407,24 @@ fun VideoFormatsDialog(
                             modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
                         )
                     } else {
+                        val langs = s.subtitles.keys.sorted()
+                        if (langs.isNotEmpty()) {
+                            val checked = browserComponent.selectedSubs.collectAsState().value
+                            Text(
+                                text = myStringResource(Res.string.browser_subtitles),
+                                modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                            )
+                            LazyColumn {
+                                items(langs) { lang ->
+                                    LabeledCheckbox(
+                                        value = lang in checked,
+                                        onValueChange = { browserComponent.toggleSubtitle(lang) },
+                                        description = lang,
+                                    )
+                                }
+                            }
+                            Spacer(Modifier.height(8.dp))
+                        }
                         LazyColumn {
                             items(s.formats) { format ->
                                 val label = listOfNotNull(

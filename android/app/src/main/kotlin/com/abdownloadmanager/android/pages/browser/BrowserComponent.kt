@@ -32,6 +32,7 @@ import ir.amirab.downloader.video.VideoFormatPicker
 import ir.amirab.downloader.video.YtDlpDownloadRequest
 import ir.amirab.downloader.video.YtDlpInfoParser
 import ir.amirab.downloader.video.YtDlpRunner
+import ir.amirab.downloader.video.YtDlpSubtitle
 import ir.amirab.util.HttpUrlUtils
 import ir.amirab.util.GrabberUiMode
 import ir.amirab.util.MediaCandidate
@@ -152,7 +153,10 @@ class BrowserComponent(
     sealed interface VideoFormatsState {
         data object Closed : VideoFormatsState
         data object Loading : VideoFormatsState
-        data class Ready(val formats: List<VideoFormat>) : VideoFormatsState
+        data class Ready(
+            val formats: List<VideoFormat>,
+            val subtitles: Map<String, List<YtDlpSubtitle>>,
+        ) : VideoFormatsState
     }
 
     private val _videoFormats: MutableStateFlow<VideoFormatsState> =
@@ -163,14 +167,15 @@ class BrowserComponent(
         val page = tabs.value.activeTab?.tabState?.lastLoadedUrl ?: return
         _videoFormats.value = VideoFormatsState.Loading
         scope.launch(Dispatchers.IO) {
-            val formats = YtDlpRunner.dumpInfo(page)
+            val info = YtDlpRunner.dumpInfo(page)
                 ?.let { runCatching { YtDlpInfoParser.parse(it) }.getOrNull() }
-                ?.let { YtDlpInfoParser.toVideoFormats(it) }
-                .orEmpty()
+            val formats = info?.let { YtDlpInfoParser.toVideoFormats(it) }.orEmpty()
             val videos = VideoFormatPicker.videoFormats(formats)
             val best = VideoFormatPicker.bestForHeight(videos, appSettings.videoMaxHeight.value)
+            _selectedSubs.value = emptySet()
             _videoFormats.value = VideoFormatsState.Ready(
-                listOfNotNull(best) + videos.filter { it != best }
+                listOfNotNull(best) + videos.filter { it != best },
+                info?.subtitles.orEmpty(),
             )
         }
     }
@@ -179,16 +184,26 @@ class BrowserComponent(
         _videoFormats.value = VideoFormatsState.Closed
     }
 
+    private val _selectedSubs: MutableStateFlow<Set<String>> = MutableStateFlow(emptySet())
+    val selectedSubs = _selectedSubs.asStateFlow()
+
+    fun toggleSubtitle(lang: String) {
+        _selectedSubs.update {
+            if (lang in it) it - lang else it + lang
+        }
+    }
+
     fun downloadVideoFormat(format: VideoFormat) {
         val page = tabs.value.activeTab?.tabState?.lastLoadedUrl ?: return
         val saveDir = appSettings.defaultDownloadFolder.value
+        val langs = _selectedSubs.value.toList()
         scope.launch(Dispatchers.IO) {
             runCatching {
                 YtDlpRunner.download(
                     YtDlpDownloadRequest(
                         url = page,
                         formatId = format.id,
-                        subtitleLangs = emptyList(),
+                        subtitleLangs = langs,
                         outputTemplate = "%(title)s.%(ext)s",
                     ),
                     saveDir,
