@@ -68,7 +68,7 @@
                 android:name="grab.bit.browser.BrowserIconInLauncher"
                 android:enabled="false"
                 android:exported="true"
-                android:targetActivity=".pages.browser.BrowserActivity">
+                android:targetActivity=".android.pages.browser.BrowserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
