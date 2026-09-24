@@ -67,6 +67,8 @@ Swiss-army-knife, but nothing illogical.
   starts lazily, process lifetime). Progress UI still open.
 - 2026-09-24 settings-video: max height pref + best-first dialog. CI lesson:
   check-latest causes JBR ECONNRESET flakes → removed from test.yml.
+- 2026-09-24 bulk-1: BulkPattern ([N-M] expand + 3 tests) wired into batch
+  sheet (batch now List-based).
 
 ## Dig reports
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
