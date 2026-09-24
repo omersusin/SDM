@@ -7,6 +7,7 @@ import grab.bit.shared.storage.appsettings.AppSettingsModel
 import grab.bit.shared.storage.appsettings.*
 import grab.bit.shared.util.ConfigBaseSettingsByJson
 import grab.bit.shared.util.ui.theme.DEFAULT_UI_SCALE
+import grab.bit.util.VideoQualities
 
 
 private val fontLens: Lens<AppSettingsModel, String?>
@@ -88,4 +89,12 @@ class AppSettingsStorage(
     val adBlockEnabled = from(AppSettingsModel.adBlockEnabled)
     val wifiOnlyDownloads = from(AppSettingsModel.wifiOnlyDownloads)
     val videoMaxHeight = from(AppSettingsModel.videoMaxHeight)
+    val videoQuality = from(AppSettingsModel.videoQuality)
+    private val videoQualityMigrated = from(AppSettingsModel.videoQualityMigrated)
+
+    fun ensureVideoQualityMigrated() {
+        if (videoQualityMigrated.value) return
+        videoQuality.value = VideoQualities.migrateStoredHeight(videoMaxHeight.value)
+        videoQualityMigrated.value = true
+    }
 }

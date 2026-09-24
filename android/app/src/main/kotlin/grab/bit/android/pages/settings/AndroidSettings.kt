@@ -7,9 +7,9 @@ import grab.bit.android.util.pagemanager.PermissionsPageManager
 import grab.bit.resources.Res
 import grab.bit.shared.ui.configurable.item.BooleanConfigurable
 import grab.bit.shared.ui.configurable.item.EnumConfigurable
-import grab.bit.shared.ui.configurable.item.IntConfigurable
 import grab.bit.shared.ui.configurable.item.NavigatableConfigurable
 import grab.bit.util.GrabberUiMode
+import grab.bit.util.VideoQuality
 import grab.bit.util.compose.asStringSource
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -104,18 +104,24 @@ object AndroidSettings {
         )
     }
 
-    fun videoMaxHeight(
+    fun videoQuality(
         appSettingsStorage: AppSettingsStorage
-    ): IntConfigurable {
-        return IntConfigurable(
-            title = Res.string.settings_video_max_height.asStringSource(),
-            description = Res.string.settings_video_max_height_description.asStringSource(),
-            backedBy = appSettingsStorage.videoMaxHeight,
-            range = 144..4320,
-            renderMode = IntConfigurable.RenderMode.TextField,
+    ): EnumConfigurable<VideoQuality> {
+        return EnumConfigurable(
+            title = Res.string.settings_video_quality.asStringSource(),
+            description = Res.string.settings_video_quality_description.asStringSource(),
+            backedBy = appSettingsStorage.videoQuality,
+            possibleValues = VideoQuality.entries.toList(),
             describe = {
-                "${it}p".asStringSource()
-            },
+                when (it) {
+                    VideoQuality.AUTO -> Res.string.settings_video_quality_auto
+                    VideoQuality.HIGHEST -> Res.string.settings_video_quality_highest
+                    VideoQuality.P1080 -> Res.string.settings_video_quality_1080
+                    VideoQuality.P720 -> Res.string.settings_video_quality_720
+                    VideoQuality.P480 -> Res.string.settings_video_quality_480
+                    VideoQuality.P360 -> Res.string.settings_video_quality_360
+                }.asStringSource()
+            }
         )
     }
 }

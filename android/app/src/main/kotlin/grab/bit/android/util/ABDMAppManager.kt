@@ -83,6 +83,7 @@ class ABDMAppManager(
 
     suspend fun startDownloadSystem() {
         downloadSystemBooted.action {
+            appSettingsStorage.ensureVideoQualityMigrated()
             downloadSystem.boot()
             keepAwakeManager.boot()
             registerReceivers()
