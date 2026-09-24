@@ -587,6 +587,18 @@ fun TorrentDialog(
                                 maxLines = 1,
                                 fontWeight = FontWeight.Bold,
                             )
+                            TransparentIconActionButton(
+                                MyIcons.pause,
+                                Res.string.pause.asStringSource(),
+                            ) {
+                                browserComponent.pauseTorrent(item.infoHash)
+                            }
+                            TransparentIconActionButton(
+                                MyIcons.resume,
+                                Res.string.resume.asStringSource(),
+                            ) {
+                                browserComponent.resumeTorrent(item.infoHash)
+                            }
                         }
                     }
                 }
