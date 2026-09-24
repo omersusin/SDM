@@ -165,6 +165,8 @@ Swiss-army-knife, but nothing illogical.
   copied to phone Downloads. Release signing needs user secrets.
 - 2026-09-24 queue-1: LinkPool capture pool (dedupe/select/remove + 4 tests).
 - 2026-09-24 queue-2: media dialog captures page to pool. Pool UI still open.
+- 2026-09-24 refresh-1: LinkRefreshPolicy (403/410 → refresh, else retry +
+  2 tests). Re-resolution from downloadPage still open.
 - 2026-09-24 video-4: browser menu → VideoFormatsDialog (loading/ready/empty,
   per-format download via engine). Subtitles/playlist still open.
 
