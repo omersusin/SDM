@@ -21,6 +21,9 @@ import com.abdownloadmanager.shared.util.ui.icon.MyIcons
 import com.arkivanov.decompose.ComponentContext
 import ir.amirab.downloader.queue.CapturedLink
 import ir.amirab.downloader.queue.LinkPool
+import ir.amirab.downloader.torrent.MagnetParser
+import ir.amirab.downloader.torrent.TorrentSession
+import ir.amirab.downloader.torrent.createTorrentSession
 import ir.amirab.downloader.video.VideoFormat
 import ir.amirab.downloader.video.VideoFormatPicker
 import ir.amirab.downloader.video.YtDlpInfoParser
@@ -170,6 +173,26 @@ class BrowserComponent(
 
     val linkPool = LinkPool()
 
+    private var torrentSession: TorrentSession? = null
+
+    fun clipboardHasMagnet(): Boolean {
+        return ClipboardUtil.read()?.startsWith("magnet:?", ignoreCase = true) == true
+    }
+
+    fun addTorrentFromClipboard(): Boolean {
+        val magnet = ClipboardUtil.read()?.let { MagnetParser.parse(it) } ?: return false
+        scope.launch(Dispatchers.IO) {
+            runCatching {
+                val session = torrentSession ?: createTorrentSession().also {
+                    it.start()
+                    torrentSession = it
+                }
+                session.addMagnet(magnet)
+            }
+        }
+        return true
+    }
+
     fun capturePageMedia() {
         val page = tabs.value.activeTab?.tabState?.lastLoadedUrl
         linkPool.addAll(
@@ -212,6 +235,15 @@ class BrowserComponent(
                         MyIcons.videoFile,
                     ) {
                         openVideoFormats()
+                    }
+                }
+                if (clipboardHasMagnet()) {
+                    separator()
+                    +simpleAction(
+                        Res.string.browser_add_torrent.asStringSource(),
+                        MyIcons.download,
+                    ) {
+                        addTorrentFromClipboard()
                     }
                 }
             }
