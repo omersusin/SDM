@@ -7,6 +7,7 @@ import com.abdownloadmanager.android.util.pagemanager.PermissionsPageManager
 import com.abdownloadmanager.resources.Res
 import com.abdownloadmanager.shared.ui.configurable.item.BooleanConfigurable
 import com.abdownloadmanager.shared.ui.configurable.item.EnumConfigurable
+import com.abdownloadmanager.shared.ui.configurable.item.IntConfigurable
 import com.abdownloadmanager.shared.ui.configurable.item.NavigatableConfigurable
 import ir.amirab.util.GrabberUiMode
 import ir.amirab.util.compose.asStringSource
@@ -100,6 +101,21 @@ object AndroidSettings {
                     Res.string.disabled
                 }.asStringSource()
             }
+        )
+    }
+
+    fun videoMaxHeight(
+        appSettingsStorage: AppSettingsStorage
+    ): IntConfigurable {
+        return IntConfigurable(
+            title = Res.string.settings_video_max_height.asStringSource(),
+            description = Res.string.settings_video_max_height_description.asStringSource(),
+            backedBy = appSettingsStorage.videoMaxHeight,
+            range = 144..4320,
+            renderMode = IntConfigurable.RenderMode.TextField,
+            describe = {
+                "${it}p".asStringSource()
+            },
         )
     }
 }

@@ -161,8 +161,10 @@ class BrowserComponent(
                 ?.let { runCatching { YtDlpInfoParser.parse(it) }.getOrNull() }
                 ?.let { YtDlpInfoParser.toVideoFormats(it) }
                 .orEmpty()
+            val videos = VideoFormatPicker.videoFormats(formats)
+            val best = VideoFormatPicker.bestForHeight(videos, appSettings.videoMaxHeight.value)
             _videoFormats.value = VideoFormatsState.Ready(
-                VideoFormatPicker.videoFormats(formats)
+                listOfNotNull(best) + videos.filter { it != best }
             )
         }
     }

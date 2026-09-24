@@ -134,6 +134,7 @@ class AndroidSettingsComponent(
                     AndroidSettings.browserIconInLauncher(appSettings),
                     AndroidSettings.grabberUiMode(appSettings),
                     AndroidSettings.adBlockEnabled(appSettings),
+                    AndroidSettings.videoMaxHeight(appSettings),
                 )
             ),
             ConfigurableGroup(

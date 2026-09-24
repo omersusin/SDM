@@ -87,4 +87,5 @@ class AppSettingsStorage(
     val grabberUiMode = from(AppSettingsModel.grabberUiMode)
     val adBlockEnabled = from(AppSettingsModel.adBlockEnabled)
     val wifiOnlyDownloads = from(AppSettingsModel.wifiOnlyDownloads)
+    val videoMaxHeight = from(AppSettingsModel.videoMaxHeight)
 }

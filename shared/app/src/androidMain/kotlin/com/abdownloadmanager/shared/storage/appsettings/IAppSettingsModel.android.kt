@@ -7,7 +7,9 @@ import io.github.amir1376.schemakt.S
 import io.github.amir1376.schemakt.schema.composite.TypeSafeObjectSchema
 import io.github.amir1376.schemakt.schema.composite.typeSafeObject
 import io.github.amir1376.schemakt.schema.modifier.catch
+import io.github.amir1376.schemakt.schema.modifier.range
 import io.github.amir1376.schemakt.schema.primitive.boolean
+import io.github.amir1376.schemakt.schema.primitive.int
 import ir.amirab.downloader.SpeedProfile
 import ir.amirab.util.GrabberUiMode
 import ir.amirab.util.config.datastore.asSettingsSchema
@@ -58,6 +60,7 @@ data class AppSettingsModel(
     val grabberUiMode: GrabberUiMode,
     val adBlockEnabled: Boolean,
     val wifiOnlyDownloads: Boolean,
+    val videoMaxHeight: Int,
 ) : IAppSettingsModel {
     companion object {
     }
@@ -75,6 +78,8 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             .catch(PlatformDefaultSettings::adBlockEnabled)
         prop(AppSettingsModel::wifiOnlyDownloads) bind S.boolean()
             .catch(PlatformDefaultSettings::wifiOnlyDownloads)
+        prop(AppSettingsModel::videoMaxHeight) bind S.int()
+            .range(144, 4320).catch(PlatformDefaultSettings::videoMaxHeight)
     },
     factory = {
         PlatformAppSettingsModel(
@@ -120,6 +125,7 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             grabberUiMode = it[AppSettingsModel::grabberUiMode],
             adBlockEnabled = it[AppSettingsModel::adBlockEnabled],
             wifiOnlyDownloads = it[AppSettingsModel::wifiOnlyDownloads],
+            videoMaxHeight = it[AppSettingsModel::videoMaxHeight],
         )
     }
 ).asSettingsSchema()
