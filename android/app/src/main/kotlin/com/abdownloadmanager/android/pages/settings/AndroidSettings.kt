@@ -68,4 +68,21 @@ object AndroidSettings {
             }
         )
     }
+
+    fun adBlockEnabled(
+        appSettingsStorage: AppSettingsStorage
+    ): BooleanConfigurable {
+        return BooleanConfigurable(
+            title = Res.string.settings_adblock.asStringSource(),
+            description = Res.string.settings_adblock_description.asStringSource(),
+            backedBy = appSettingsStorage.adBlockEnabled,
+            describe = {
+                if (it) {
+                    Res.string.enabled
+                } else {
+                    Res.string.disabled
+                }.asStringSource()
+            }
+        )
+    }
 }

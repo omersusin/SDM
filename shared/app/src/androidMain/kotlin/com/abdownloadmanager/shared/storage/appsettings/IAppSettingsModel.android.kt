@@ -54,6 +54,7 @@ data class AppSettingsModel(
     override val userAgent: String,
     val browserIconInLauncher: Boolean,
     val grabberUiMode: GrabberUiMode,
+    val adBlockEnabled: Boolean,
 ) : IAppSettingsModel {
     companion object {
     }
@@ -67,6 +68,8 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             .catch(PlatformDefaultSettings::browserIconInLauncher)
         prop(AppSettingsModel::grabberUiMode) bind S.enum<GrabberUiMode>()
             .catch(PlatformDefaultSettings::grabberUiMode)
+        prop(AppSettingsModel::adBlockEnabled) bind S.boolean()
+            .catch(PlatformDefaultSettings::adBlockEnabled)
     },
     factory = {
         PlatformAppSettingsModel(
@@ -109,6 +112,7 @@ private val AndroidSettingsSchema = S.typeSafeObject(
 
             browserIconInLauncher = it[AppSettingsModel::browserIconInLauncher],
             grabberUiMode = it[AppSettingsModel::grabberUiMode],
+            adBlockEnabled = it[AppSettingsModel::adBlockEnabled],
         )
     }
 ).asSettingsSchema()

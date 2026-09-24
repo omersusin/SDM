@@ -48,4 +48,5 @@ abstract class DefaultAppSettings {
     open val useCategoryByDefault: Boolean get() = true
     open val userAgent: String get() = ""
     open val grabberUiMode: GrabberUiMode get() = GrabberUiModes.default
+    open val adBlockEnabled: Boolean get() = true
 }

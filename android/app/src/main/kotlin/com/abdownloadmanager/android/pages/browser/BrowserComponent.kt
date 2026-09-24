@@ -38,6 +38,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -92,6 +93,14 @@ class BrowserComponent(
     init {
         scope.launch(Dispatchers.IO) {
             AdBlockLists.ensureLoaded(context, downloadInterceptor)
+        }
+        scope.launch {
+            appSettings.adBlockEnabled.collect {
+                downloadInterceptor.adBlockEnabled = it
+                if (it) {
+                    AdBlockLists.ensureLoaded(context, downloadInterceptor)
+                }
+            }
         }
     }
     val grabberUiMode: StateFlow<GrabberUiMode> = appSettings.grabberUiMode
