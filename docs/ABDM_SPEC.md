@@ -85,6 +85,7 @@ Swiss-army-knife, but nothing illogical.
 - 2026-09-24 trackDeletedFilesOnDisk verified wired (review pain #8 covered
   when enabled; default off).
 - 2026-09-24 video-8: format dialog downloads via yt-dlp engine path.
+- 2026-09-24 video-9: subtitle language checkboxes feed download flags.
 - 2026-09-24 dig: N_m3u8DL-RE + streamlink + yt-dlp cloned and mined.
 - 2026-09-24 video-7: yt-dlp-style best-first sort + tbr/fps passthrough.
 - 2026-09-24 bulk-5: ExtractorRegistry (first-match-wins + tests).
