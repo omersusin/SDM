@@ -5,6 +5,7 @@ import com.abdownloadmanager.android.ui.widget.WebViewState
 import com.abdownloadmanager.shared.pages.adddownload.AddDownloadCredentialsInUiProps
 import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
 import ir.amirab.util.HttpUrlUtils
+import ir.amirab.util.AdBlockMatcher
 import ir.amirab.util.MediaCandidate
 import ir.amirab.util.PageMediaCollector
 import kotlinx.coroutines.CoroutineScope
@@ -38,6 +39,14 @@ class DownloadInterceptor(
     private val mediaByPage = mutableMapOf<String, PageMediaCollector>()
     private val _mediaCounts = MutableStateFlow(emptyMap<String, Int>())
     val mediaCounts: StateFlow<Map<String, Int>> = _mediaCounts.asStateFlow()
+
+    // Set once the filter list is loaded (bundled asset / update in later step).
+    @Volatile
+    var adBlock: AdBlockMatcher? = null
+
+    fun isAdBlocked(url: String): Boolean {
+        return adBlock?.isBlocked(url) ?: false
+    }
 
     fun mediaForPage(page: String): List<MediaCandidate> {
         return mediaByPage[page]?.snapshot().orEmpty()
