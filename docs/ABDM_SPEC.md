@@ -81,6 +81,7 @@ Swiss-army-knife, but nothing illogical.
   YtDlpRunner.download seam.
 - 2026-09-24 bulk-3: PageMediaHarvester (tag scrape + resolve + dedupe,
   gallery-dl generic recipe, tested).
+- 2026-09-24 torrent-4: progress dialog (2s poll) + pause/resume all.
 
 ## Dig reports
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
