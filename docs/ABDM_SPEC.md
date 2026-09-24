@@ -163,6 +163,8 @@ Swiss-army-knife, but nothing illogical.
   gate still open (needs ConnectivityManager).
 - 2026-09-24 apk-1: debug APK via apk.yml workflow_dispatch, 130MB,
   copied to phone Downloads. Release signing needs user secrets.
+- 2026-09-24 queue-1: LinkPool capture pool (dedupe/select/remove + 4 tests).
+- 2026-09-24 queue-2: media dialog captures page to pool. Pool UI still open.
 - 2026-09-24 video-4: browser menu → VideoFormatsDialog (loading/ready/empty,
   per-format download via engine). Subtitles/playlist still open.
 
