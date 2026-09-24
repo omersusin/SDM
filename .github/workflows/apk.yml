@@ -36,6 +36,24 @@ jobs:
             ./gradlew :android:app:assembleDebug --no-daemon
           fi
 
+      - name: Sign release APKs
+        if: inputs.build == 'release'
+        env:
+          KEYSTORE_B64: ${{ secrets.ABDM_KEYSTORE_FILE }}
+          KEYSTORE_PASS: ${{ secrets.ABDM_KEYSTORE_FILE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ABDM_KEYSTORE_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.ABDM_KEYSTORE_KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_B64" | base64 -d > /tmp/grabbit.jks
+          APKSIGNER=$(echo $ANDROID_HOME/build-tools/*/apksigner | tr ' ' '\n' | sort -V | tail -1)
+          for apk in android/app/build/outputs/apk/release/*.apk; do
+            case "$apk" in *-signed.apk) continue;; esac
+            "$APKSIGNER" sign --ks /tmp/grabbit.jks \
+              --ks-pass:env KEYSTORE_PASS --ks-key-alias "$KEY_ALIAS" --key-pass:env KEY_PASS \
+              --out "${apk%.apk}-signed.apk" "$apk"
+          done
+          rm -f /tmp/grabbit.jks
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
