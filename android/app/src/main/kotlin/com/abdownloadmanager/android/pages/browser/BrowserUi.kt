@@ -435,7 +435,6 @@ fun VideoFormatsDialog(
                                         browserComponent.downloadMedia(format.url)
                                     }
                                 }
-                                }
                             }
                         }
                     }
