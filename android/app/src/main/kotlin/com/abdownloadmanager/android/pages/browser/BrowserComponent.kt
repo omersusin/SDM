@@ -19,6 +19,10 @@ import com.abdownloadmanager.shared.util.mvi.ContainsEffects
 import com.abdownloadmanager.shared.util.mvi.supportEffects
 import com.abdownloadmanager.shared.util.ui.icon.MyIcons
 import com.arkivanov.decompose.ComponentContext
+import ir.amirab.downloader.video.VideoFormat
+import ir.amirab.downloader.video.VideoFormatPicker
+import ir.amirab.downloader.video.YtDlpInfoParser
+import ir.amirab.downloader.video.YtDlpRunner
 import ir.amirab.util.HttpUrlUtils
 import ir.amirab.util.GrabberUiMode
 import ir.amirab.util.MediaCandidate
@@ -124,6 +128,34 @@ class BrowserComponent(
         _autoPopupShownFor.value = page
         setShowMediaList(true)
     }
+
+    sealed interface VideoFormatsState {
+        data object Closed : VideoFormatsState
+        data object Loading : VideoFormatsState
+        data class Ready(val formats: List<VideoFormat>) : VideoFormatsState
+    }
+
+    private val _videoFormats: MutableStateFlow<VideoFormatsState> =
+        MutableStateFlow(VideoFormatsState.Closed)
+    val videoFormats = _videoFormats.asStateFlow()
+
+    fun openVideoFormats() {
+        val page = tabs.value.activeTab?.tabState?.lastLoadedUrl ?: return
+        _videoFormats.value = VideoFormatsState.Loading
+        scope.launch(Dispatchers.IO) {
+            val formats = YtDlpRunner.dumpInfo(page)
+                ?.let { runCatching { YtDlpInfoParser.parse(it) }.getOrNull() }
+                ?.let { YtDlpInfoParser.toVideoFormats(it) }
+                .orEmpty()
+            _videoFormats.value = VideoFormatsState.Ready(
+                VideoFormatPicker.videoFormats(formats)
+            )
+        }
+    }
+
+    fun closeVideoFormats() {
+        _videoFormats.value = VideoFormatsState.Closed
+    }
     private val _mainMenu: MutableStateFlow<MenuItem.SubMenu?> = MutableStateFlow(null)
     val mainMenu = _mainMenu.asStateFlow()
     fun openMainMenu() {
@@ -146,6 +178,15 @@ class BrowserComponent(
                 tab?.let {
                     separator()
                     +createCloseTabAction(it)
+                }
+                if (url != null) {
+                    separator()
+                    +simpleAction(
+                        Res.string.browser_video_formats.asStringSource(),
+                        MyIcons.videoFile,
+                    ) {
+                        openVideoFormats()
+                    }
                 }
             }
         )
