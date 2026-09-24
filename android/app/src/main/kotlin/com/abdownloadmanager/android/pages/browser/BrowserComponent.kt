@@ -18,6 +18,7 @@ import com.abdownloadmanager.shared.util.BaseComponent
 import com.abdownloadmanager.shared.util.ClipboardUtil
 import com.abdownloadmanager.shared.util.mvi.ContainsEffects
 import com.abdownloadmanager.shared.util.mvi.supportEffects
+import com.abdownloadmanager.shared.util.perhostsettings.PerHostSettingsManager
 import com.abdownloadmanager.shared.util.ui.icon.MyIcons
 import com.arkivanov.decompose.ComponentContext
 import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
@@ -65,8 +66,9 @@ class BrowserComponent(
     componentContext,
 ), ContainsEffects<BrowserComponent.Effects> by supportEffects(), KoinComponent {
     private val appSettings by inject<AppSettingsStorage>()
+    private val perHostSettings by inject<PerHostSettingsManager>()
     val downloadInterceptor = DownloadInterceptor(
-        scope, {
+        scope, perHostSettings, {
             val intent = when (it.size) {
                 0 -> null
                 1 -> AddSingleDownloadActivity.createIntent(

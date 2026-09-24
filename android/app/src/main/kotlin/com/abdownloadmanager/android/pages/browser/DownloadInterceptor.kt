@@ -2,7 +2,10 @@ package com.abdownloadmanager.android.pages.browser
 
 import android.webkit.CookieManager
 import com.abdownloadmanager.android.ui.widget.WebViewState
+import com.abdownloadmanager.shared.downloaderinui.http.applyToHttpDownload
 import com.abdownloadmanager.shared.pages.adddownload.AddDownloadCredentialsInUiProps
+import com.abdownloadmanager.shared.util.perhostsettings.PerHostSettingsManager
+import com.abdownloadmanager.shared.util.perhostsettings.getSettingsForURL
 import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
 import ir.amirab.util.HttpUrlUtils
 import ir.amirab.util.AdBlockMatcher
@@ -33,6 +36,7 @@ interface RequestInterceptor {
 
 class DownloadInterceptor(
     private val scope: CoroutineScope,
+    private val perHostSettingsManager: PerHostSettingsManager?,
     private val onNewDownload: (newDownloads: List<AddDownloadCredentialsInUiProps>) -> Unit,
 ) : RequestInterceptor {
     private val requests = mutableMapOf<String, ABDMWebRequest>()
@@ -77,7 +81,13 @@ class DownloadInterceptor(
         onNewDownload(
             listOf(
                 AddDownloadCredentialsInUiProps(
-                    HttpDownloadCredentials(
+                    perHostSettingsManager?.getSettingsForURL(url)?.applyToHttpDownload(
+                        HttpDownloadCredentials(
+                            link = webRequest.url,
+                            headers = webRequest.headers,
+                            downloadPage = webRequest.page,
+                        )
+                    ) ?: HttpDownloadCredentials(
                         link = webRequest.url,
                         headers = webRequest.headers,
                         downloadPage = webRequest.page,
