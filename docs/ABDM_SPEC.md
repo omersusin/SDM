@@ -155,6 +155,8 @@ Swiss-army-knife, but nothing illogical.
   failure contained). Runtime behavior needs device.
 - 2026-09-24 adblock-1: AdBlockMatcher (EasyList ||domain^ subset + 4 tests).
   WebView intercept wiring + popup blocking next.
+- 2026-09-24 adblock-2: intercept returns empty response for blocked URLs;
+  non-gesture windows refused (popup block). Filter list loading still open.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
