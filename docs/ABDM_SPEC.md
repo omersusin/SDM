@@ -63,6 +63,8 @@ Swiss-army-knife, but nothing illogical.
   Enforcement via ABDMAppManager network monitor still open.
 - 2026-09-24 wifi-gate: NetworkCallback stops all on WiFi loss (WiFi-only
   on). Auto-resume on return still open (no resume-all API).
+- 2026-09-24 torrent-3: browser menu adds magnet from clipboard (session
+  starts lazily, process lifetime). Progress UI still open.
 
 ## Dig reports
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
