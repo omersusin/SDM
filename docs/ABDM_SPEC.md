@@ -157,6 +157,12 @@ Swiss-army-knife, but nothing illogical.
   WebView intercept wiring + popup blocking next.
 - 2026-09-24 adblock-2: intercept returns empty response for blocked URLs;
   non-gesture windows refused (popup block). Filter list loading still open.
+- 2026-09-24 scheduler-1: ScheduleTimes.isActiveAt (pure, incl. overnight) +
+  3 tests. Scheduler core already existed (delay-based auto start/stop).
+- 2026-09-24 scheduler-2: SpeedProfile (HIGH/LOW/SNAIL + 3 tests). WiFi-only
+  gate still open (needs ConnectivityManager).
+- 2026-09-24 apk-1: debug APK via apk.yml workflow_dispatch, 130MB,
+  copied to phone Downloads. Release signing needs user secrets.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
