@@ -4,3 +4,5 @@
 -keep class org.libtorrent4j.swig.libtorrent_jni {*;}
 -keep class com.yausername.** { *; }
 -keep class org.apache.commons.compress.archivers.zip.** { *; }
+# compile-time-only annotation processors, absent at runtime
+-dontwarn org.immutables.**
