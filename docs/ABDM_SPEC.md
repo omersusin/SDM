@@ -69,6 +69,8 @@ Swiss-army-knife, but nothing illogical.
   check-latest causes JBR ECONNRESET flakes → removed from test.yml.
 - 2026-09-24 bulk-1: BulkPattern ([N-M] expand + 3 tests) wired into batch
   sheet (batch now List-based).
+- 2026-09-24 queue-3: pool dialog (checkbox select + multi-download, pool
+  drains on send). Two-stage queue complete.
 
 ## Dig reports
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
