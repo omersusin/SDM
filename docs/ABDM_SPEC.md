@@ -58,6 +58,7 @@ Swiss-army-knife, but nothing illogical.
   adblock on/off, speed profile selector (High/Low/Snail), scheduler
   time+day+WiFi editing, torrent add screen entry, video quality default.
   Only GrabberUiMode is in settings today.
+  - 2026-09-24 settings-adblock + settings-profile DONE (both merged).
 
 ## Dig reports
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
