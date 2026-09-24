@@ -44,7 +44,11 @@ class DownloadInterceptor(
     @Volatile
     var adBlock: AdBlockMatcher? = null
 
+    @Volatile
+    var adBlockEnabled: Boolean = true
+
     fun isAdBlocked(url: String): Boolean {
+        if (!adBlockEnabled) return false
         return adBlock?.isBlocked(url) ?: false
     }
 

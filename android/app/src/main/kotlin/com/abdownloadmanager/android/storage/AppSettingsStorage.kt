@@ -84,4 +84,5 @@ class AppSettingsStorage(
 
     val browserIconInLauncher = from(AppSettingsModel.browserIconInLauncher)
     val grabberUiMode = from(AppSettingsModel.grabberUiMode)
+    val adBlockEnabled = from(AppSettingsModel.adBlockEnabled)
 }

@@ -131,6 +131,7 @@ class AndroidSettingsComponent(
                 nestedConfigurable = listOf(
                     AndroidSettings.browserIconInLauncher(appSettings),
                     AndroidSettings.grabberUiMode(appSettings),
+                    AndroidSettings.adBlockEnabled(appSettings),
                 )
             ),
             ConfigurableGroup(
