@@ -25,6 +25,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -525,11 +527,17 @@ class HttpDownloadJob(
     }
 
     private fun tryRefreshExpiredLink(e: Throwable, isInFirstResume: Boolean): Boolean {
-        val provider = linkRefreshProvider ?: return false
         val rootCause = (e as? TooManyErrorException)?.findActualDownloadErrorCause() ?: e
         if (!LinkRefreshPolicy.needsRefresh(rootCause)) return false
+        val provider = linkRefreshProvider
         scope.launch {
-            val fresh = runCatching { provider() }.getOrNull()
+            val fresh = runCatching {
+                provider?.invoke()
+                    ?: PageRefresher.refresh(
+                        RefreshRequest(downloadItem.link, downloadItem.downloadPage),
+                        ::fetchPageHtml,
+                    )
+            }.getOrNull()
             if (!fresh.isNullOrBlank() && fresh != downloadItem.link) {
                 downloadItem.link = fresh
                 failedDownloadTries = 0
@@ -539,6 +547,20 @@ class HttpDownloadJob(
             }
         }
         return true
+    }
+
+    private val refreshHttp by lazy { OkHttpClient() }
+
+    private suspend fun fetchPageHtml(page: String): String? {
+        return withContext(Dispatchers.IO) {
+            runCatching {
+                refreshHttp.newCall(Request.Builder().url(page).get().build())
+                    .execute().use { response ->
+                        if (!response.isSuccessful) return@use null
+                        response.body?.string()
+                    }
+            }.getOrNull()
+        }
     }
 
     fun retry(isInFirstResume: Boolean) {

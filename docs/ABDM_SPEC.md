@@ -87,6 +87,11 @@ Swiss-army-knife, but nothing illogical.
 - 2026-09-24 refresh-2: linkRefreshProvider wired into exhausted-retry path
   (fresh link → resume, else pause). Provider source still open.
 - 2026-09-24 apk-3: fresh debug APK in Downloads.
+- 2026-09-24 reviews: mined 1DM/ADM/IDM/Loader/Aria2App/Motrix (agent+web).
+  Top pains: SD-card writes, background kills, weak video intercept, nag
+  popups/ads, stale queue, dead apps, no YouTube. Praised: multipart+resume,
+  in-place link refresh, browser detect+m3u8, SD+scheduler+WiFi+limit,
+  open-source+torrent. Refresh provider now top priority.
 
 ## Dig reports
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
