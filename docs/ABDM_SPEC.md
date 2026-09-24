@@ -84,6 +84,9 @@ Swiss-army-knife, but nothing illogical.
 - 2026-09-24 torrent-4: progress dialog (2s poll) + pause/resume all.
 - 2026-09-24 home-1: ActiveFirst sort (tested pair logic) + new default.
   Dense rows skipped (UI freeze).
+- 2026-09-24 refresh-2: linkRefreshProvider wired into exhausted-retry path
+  (fresh link → resume, else pause). Provider source still open.
+- 2026-09-24 apk-3: fresh debug APK in Downloads.
 
 ## Dig reports
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
