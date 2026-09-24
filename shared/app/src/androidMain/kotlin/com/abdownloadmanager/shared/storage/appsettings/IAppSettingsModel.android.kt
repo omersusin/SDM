@@ -58,6 +58,7 @@ data class AppSettingsModel(
     val grabberUiMode: GrabberUiMode,
     val adBlockEnabled: Boolean,
     val wifiOnlyDownloads: Boolean,
+    val videoMaxHeight: Int,
 ) : IAppSettingsModel {
     companion object {
     }
@@ -75,6 +76,8 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             .catch(PlatformDefaultSettings::adBlockEnabled)
         prop(AppSettingsModel::wifiOnlyDownloads) bind S.boolean()
             .catch(PlatformDefaultSettings::wifiOnlyDownloads)
+        prop(AppSettingsModel::videoMaxHeight) bind S.int()
+            .range(144, 4320).catch(PlatformDefaultSettings::videoMaxHeight)
     },
     factory = {
         PlatformAppSettingsModel(
@@ -120,6 +123,7 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             grabberUiMode = it[AppSettingsModel::grabberUiMode],
             adBlockEnabled = it[AppSettingsModel::adBlockEnabled],
             wifiOnlyDownloads = it[AppSettingsModel::wifiOnlyDownloads],
+            videoMaxHeight = it[AppSettingsModel::videoMaxHeight],
         )
     }
 ).asSettingsSchema()
