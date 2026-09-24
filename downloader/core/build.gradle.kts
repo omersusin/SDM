@@ -31,6 +31,7 @@ kotlin {
             implementation(libs.libtorrent4j.android.arm64)
             implementation(libs.libtorrent4j.android.x86)
             implementation(libs.libtorrent4j.android.x86.x4)
+            implementation(libs.youtubedl.android.library)
         }
         val desktopMain = getByName("desktopMain")
         desktopMain.dependencies {
