@@ -151,6 +151,8 @@ Swiss-army-knife, but nothing illogical.
 - 2026-09-23 video-2: youtubedl-android 0.17.3 dep + YtDlpInfoParser (JSON→
   VideoFormat, tested) + YtDlpRunner seam. One infra red (JBR ECONNRESET,
   rerun green).
+- 2026-09-24 video-3: YtDlpRunner.init wired into ABDMApp.onCreate (IO thread,
+  failure contained). Runtime behavior needs device.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
