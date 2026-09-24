@@ -9,6 +9,8 @@ data class VideoFormat(
     val height: Int?,
     val filesize: Long?,
     val url: String,
+    val tbr: Double? = null,
+    val fps: Double? = null,
 ) {
     val isAudioOnly: Boolean get() = vcodec == "none" && acodec != null && acodec != "none"
     val isVideoOnly: Boolean get() = acodec == "none" && vcodec != null && vcodec != "none"
@@ -28,6 +30,18 @@ object VideoFormatPicker {
 
     fun formatIdString(ids: List<String>): String {
         return ids.joinToString("+")
+    }
+
+    // yt-dlp FormatSorter recipe (worst→best tuple, trimmed): AV-complete
+    // first, then resolution, bitrate, size. Nulls sink to the bottom.
+    fun sortBestFirst(formats: List<VideoFormat>): List<VideoFormat> {
+        return formats.sortedWith(
+            compareByDescending<VideoFormat> { it.hasAudioAndVideo }
+                .thenByDescending { it.height ?: -1 }
+                .thenByDescending { it.tbr ?: -1.0 }
+                .thenByDescending { it.filesize ?: -1L }
+                .thenBy { it.id }
+        )
     }
 
     fun bestForHeight(formats: List<VideoFormat>, maxHeight: Int): VideoFormat? {

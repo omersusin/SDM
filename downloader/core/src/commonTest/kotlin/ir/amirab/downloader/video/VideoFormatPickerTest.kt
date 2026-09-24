@@ -48,4 +48,25 @@ class VideoFormatPickerTest {
     fun emptyGivesNull() {
         assertNull(VideoFormatPicker.bestForHeight(emptyList(), 720))
     }
+
+    @Test
+    fun sortsBestFirst() {
+        val formats = listOf(
+            format("audio", vcodec = "none", acodec = "mp4a", height = null),
+            format("low", height = 360),
+            format("high", height = 1080),
+            format("mid", height = 720),
+        )
+        assertEquals(
+            listOf("high", "mid", "low", "audio"),
+            VideoFormatPicker.sortBestFirst(formats).map { it.id },
+        )
+    }
+
+    @Test
+    fun bitrateBreaksTies() {
+        val a = format("a", height = 720).copy(tbr = 1000.0)
+        val b = format("b", height = 720).copy(tbr = 2000.0)
+        assertEquals(listOf("b", "a"), VideoFormatPicker.sortBestFirst(listOf(a, b)).map { it.id })
+    }
 }

@@ -15,6 +15,8 @@ data class YtDlpFormat(
     val filesize: Long? = null,
     @SerialName("filesize_approx")
     val filesizeApprox: Long? = null,
+    val tbr: Double? = null,
+    val fps: Double? = null,
     val url: String = "",
 )
 
@@ -87,6 +89,8 @@ object YtDlpInfoParser {
                     height = it.height,
                     filesize = it.filesize ?: it.filesizeApprox,
                     url = it.url,
+                    tbr = it.tbr,
+                    fps = it.fps,
                 )
             }
     }
