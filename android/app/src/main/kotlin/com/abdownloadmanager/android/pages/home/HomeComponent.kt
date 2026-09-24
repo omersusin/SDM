@@ -387,6 +387,7 @@ class HomeComponent(
     }
 
     val possibleSorts = listOf(
+        DownloadSortBy.ActiveFirst,
         DownloadSortBy.DataAdded,
         DownloadSortBy.Name,
         DownloadSortBy.Size,

@@ -4,6 +4,7 @@ import com.abdownloadmanager.resources.Res
 import com.abdownloadmanager.shared.ui.widget.sort.ComparatorProvider
 import com.abdownloadmanager.shared.util.ui.icon.MyIcons
 import ir.amirab.downloader.monitor.IDownloadItemState
+import ir.amirab.downloader.monitor.ActiveFirstSort
 import ir.amirab.downloader.monitor.statusOrFinished
 import ir.amirab.util.compose.IconSource
 import ir.amirab.util.compose.StringSource
@@ -52,4 +53,22 @@ sealed class DownloadSortBy(
         icon = MyIcons.data,
         name = Res.string.size.asStringSource(),
     )
+
+    @Serializable
+    @SerialName("activeFirst")
+    data object ActiveFirst : DownloadSortBy(
+        selector = { it.statusOrFinished().order },
+        icon = MyIcons.download,
+        name = Res.string.sort_active_first.asStringSource(),
+    ) {
+        override fun comparator(): Comparator<IDownloadItemState> {
+            val order = ActiveFirstSort.comparator()
+            return Comparator { a, b ->
+                order.compare(
+                    a.statusOrFinished().order to a.dateAdded,
+                    b.statusOrFinished().order to b.dateAdded,
+                )
+            }
+        }
+    }
 }
