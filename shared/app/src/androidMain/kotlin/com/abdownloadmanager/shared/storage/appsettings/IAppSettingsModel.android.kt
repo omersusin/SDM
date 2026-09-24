@@ -8,6 +8,7 @@ import io.github.amir1376.schemakt.schema.composite.TypeSafeObjectSchema
 import io.github.amir1376.schemakt.schema.composite.typeSafeObject
 import io.github.amir1376.schemakt.schema.modifier.catch
 import io.github.amir1376.schemakt.schema.primitive.boolean
+import ir.amirab.downloader.SpeedProfile
 import ir.amirab.util.GrabberUiMode
 import ir.amirab.util.config.datastore.asSettingsSchema
 import kotlinx.serialization.Serializable
@@ -52,6 +53,7 @@ data class AppSettingsModel(
     override val ignoreSSLCertificates: Boolean,
     override val useCategoryByDefault: Boolean,
     override val userAgent: String,
+    override val speedProfile: SpeedProfile,
     val browserIconInLauncher: Boolean,
     val grabberUiMode: GrabberUiMode,
     val adBlockEnabled: Boolean,
@@ -109,6 +111,7 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             ignoreSSLCertificates = it[AppSettingsModel::ignoreSSLCertificates],
             useCategoryByDefault = it[AppSettingsModel::useCategoryByDefault],
             userAgent = it[AppSettingsModel::userAgent],
+            speedProfile = it[AppSettingsModel::speedProfile],
 
             browserIconInLauncher = it[AppSettingsModel::browserIconInLauncher],
             grabberUiMode = it[AppSettingsModel::grabberUiMode],

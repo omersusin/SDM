@@ -26,6 +26,7 @@ import com.abdownloadmanager.shared.util.notification.INotificationSound
 import com.abdownloadmanager.shared.util.proxy.ProxyManager
 import com.abdownloadmanager.shared.util.proxy.ProxyMode
 import com.abdownloadmanager.shared.util.ui.theme.DEFAULT_UI_SCALE
+import ir.amirab.downloader.SpeedProfile
 import ir.amirab.util.compose.StringSource
 import ir.amirab.util.compose.asStringSource
 import ir.amirab.util.compose.asStringSourceWithARgs
@@ -348,6 +349,32 @@ object CommonSettings {
                     ).asStringSource()
                 }
             }
+        )
+    }
+
+    fun speedProfileConfig(
+        appRepository: BaseAppRepository,
+        scope: CoroutineScope
+    ): EnumConfigurable<SpeedProfile> {
+        return EnumConfigurable(
+            title = Res.string.settings_speed_profile.asStringSource(),
+            description = Res.string.settings_speed_profile_description.asStringSource(),
+            backedBy = createMutableStateFlowFromStateFlow(
+                appRepository.speedProfile,
+                updater = { appRepository.setSpeedProfile(it) },
+                scope = scope
+            ),
+            possibleValues = SpeedProfile.entries.toList(),
+            describe = {
+                if (it == SpeedProfile.HIGH) {
+                    Res.string.unlimited.asStringSource()
+                } else {
+                    convertPositiveSpeedToHumanReadable(
+                        it.bytesPerSec,
+                        appRepository.speedUnit.value
+                    ).asStringSource()
+                }
+            },
         )
     }
 

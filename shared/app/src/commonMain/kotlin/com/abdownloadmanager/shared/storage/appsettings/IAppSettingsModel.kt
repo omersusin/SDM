@@ -1,6 +1,7 @@
 package com.abdownloadmanager.shared.storage.appsettings
 
 import com.abdownloadmanager.shared.storage.SupportedSizeUnits
+import ir.amirab.downloader.SpeedProfile
 import ir.amirab.util.config.datastore.SettingsTypeSafeSchema
 
 expect class PlatformAppSettingsModel : IAppSettingsModel
@@ -44,4 +45,5 @@ interface IAppSettingsModel {
     val ignoreSSLCertificates: Boolean
     val useCategoryByDefault: Boolean
     val userAgent: String
+    val speedProfile: SpeedProfile
 }

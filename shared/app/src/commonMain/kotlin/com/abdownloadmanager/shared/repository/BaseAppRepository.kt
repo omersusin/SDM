@@ -10,6 +10,7 @@ import com.abdownloadmanager.shared.util.category.CategoryManager
 import com.abdownloadmanager.shared.util.proxy.ProxyManager
 import ir.amirab.downloader.DownloadManager
 import ir.amirab.downloader.DownloadSettings
+import ir.amirab.downloader.SpeedProfile
 import ir.amirab.downloader.monitor.IDownloadMonitor
 import ir.amirab.util.datasize.ConvertSizeConfig
 import ir.amirab.util.flow.mapStateFlow
@@ -36,6 +37,7 @@ open class BaseAppRepository(
 
     val maxConcurrentDownloads = appSettings.maxConcurrentDownloads
     val speedLimiter = appSettings.speedLimit
+    val speedProfile = appSettings.speedProfile
     val threadCount = appSettings.threadCount
     val dynamicPartCreation = appSettings.dynamicPartCreation
     val useServerLastModifiedTime = appSettings.useServerLastModifiedTime
@@ -70,6 +72,20 @@ open class BaseAppRepository(
         }
     }
 
+    fun setSpeedProfile(speedProfile: SpeedProfile) {
+        appSettings.speedProfile.value = speedProfile
+    }
+
+    private fun applyEffectiveSpeedLimit() {
+        val limit = if (speedProfile.value == SpeedProfile.HIGH) {
+            speedLimiter.value
+        } else {
+            speedProfile.value.bytesPerSec
+        }
+        downloadSettings.globalSpeedLimit = limit
+        downloadManager.limitGlobalSpeed(limit)
+    }
+
     fun boot() {
         updateDownloadSettings()
     }
@@ -81,7 +97,11 @@ open class BaseAppRepository(
         downloadSettings.appendExtensionToIncompleteDownloads = appendExtensionToIncompleteDownloads.value
         downloadSettings.useSparseFileAllocation = useSparseFileAllocation.value
         downloadSettings.maxDownloadRetryCount = maxDownloadRetryCount.value
-        downloadSettings.globalSpeedLimit = speedLimiter.value
+        downloadSettings.globalSpeedLimit = if (speedProfile.value == SpeedProfile.HIGH) {
+            speedLimiter.value
+        } else {
+            speedProfile.value.bytesPerSec
+        }
     }
 
     init {
@@ -106,8 +126,12 @@ open class BaseAppRepository(
         speedLimiter
             .debounce(500.milliseconds)
             .onEach {
-                downloadSettings.globalSpeedLimit = it
-                downloadManager.limitGlobalSpeed(it)
+                applyEffectiveSpeedLimit()
+            }.launchIn(scope)
+        speedProfile
+            .debounce(500.milliseconds)
+            .onEach {
+                applyEffectiveSpeedLimit()
             }.launchIn(scope)
         useAverageSpeed
             .debounce(500.milliseconds)

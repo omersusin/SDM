@@ -3,6 +3,7 @@ package com.abdownloadmanager.shared.storage.appsettings
 import com.abdownloadmanager.shared.storage.SupportedSizeUnits
 import com.abdownloadmanager.shared.util.ApiKeyUtil
 import com.abdownloadmanager.shared.util.downloadlocation.PlatformDownloadLocationProvider
+import ir.amirab.downloader.SpeedProfile
 import ir.amirab.util.GrabberUiMode
 import ir.amirab.util.GrabberUiModes
 
@@ -48,5 +49,6 @@ abstract class DefaultAppSettings {
     open val useCategoryByDefault: Boolean get() = true
     open val userAgent: String get() = ""
     open val grabberUiMode: GrabberUiMode get() = GrabberUiModes.default
+    open val speedProfile: SpeedProfile get() = SpeedProfile.HIGH
     open val adBlockEnabled: Boolean get() = true
 }

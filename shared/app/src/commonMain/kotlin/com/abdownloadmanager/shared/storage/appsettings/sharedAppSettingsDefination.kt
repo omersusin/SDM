@@ -3,6 +3,7 @@ package com.abdownloadmanager.shared.storage.appsettings
 import com.abdownloadmanager.shared.storage.SupportedSizeUnits
 import com.abdownloadmanager.shared.util.MaximumDownloadRetriesLimitation
 import com.abdownloadmanager.shared.util.schemakt.enum
+import ir.amirab.downloader.SpeedProfile
 import io.github.amir1376.schemakt.S
 import io.github.amir1376.schemakt.schema.composite.TypeSafeObjectSchemaBuilder
 import io.github.amir1376.schemakt.schema.modifier.catch
@@ -74,6 +75,7 @@ object BaseAppSettingsDefinition {
         prop(IAppSettingsModel::useCategoryByDefault) bind S.boolean()
             .catch(PlatformDefaultSettings::useCategoryByDefault)
         prop(IAppSettingsModel::userAgent) bind S.string().catch(PlatformDefaultSettings::userAgent)
+        prop(IAppSettingsModel::speedProfile) bind S.enum<SpeedProfile>().catch(PlatformDefaultSettings::speedProfile)
     }
 }
 
