@@ -13,12 +13,14 @@ import com.abdownloadmanager.android.ui.widget.WebContent
 import com.abdownloadmanager.android.ui.widget.WebViewState
 import com.abdownloadmanager.resources.Res
 import com.abdownloadmanager.shared.pages.adddownload.AddDownloadConfig
+import com.abdownloadmanager.shared.pages.adddownload.AddDownloadCredentialsInUiProps
 import com.abdownloadmanager.shared.util.BaseComponent
 import com.abdownloadmanager.shared.util.ClipboardUtil
 import com.abdownloadmanager.shared.util.mvi.ContainsEffects
 import com.abdownloadmanager.shared.util.mvi.supportEffects
 import com.abdownloadmanager.shared.util.ui.icon.MyIcons
 import com.arkivanov.decompose.ComponentContext
+import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
 import ir.amirab.downloader.queue.CapturedLink
 import ir.amirab.downloader.queue.LinkPool
 import ir.amirab.downloader.torrent.MagnetParser
@@ -207,6 +209,40 @@ class BrowserComponent(
             }
         )
     }
+
+    private val _showPool: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val showPool = _showPool.asStateFlow()
+    fun setShowPool(show: Boolean) {
+        _showPool.value = show
+    }
+
+    fun poolLinks(): List<CapturedLink> {
+        return linkPool.selectedLinks()
+    }
+
+    fun downloadPoolUrls(urls: Collection<String>) {
+        val page = tabs.value.activeTab?.tabState?.lastLoadedUrl
+        val props = urls.mapNotNull { url ->
+            linkPool.selectedLinks().find { it.url == url }?.let {
+                AddDownloadCredentialsInUiProps(
+                    HttpDownloadCredentials(
+                        link = it.url,
+                        headers = emptyMap(),
+                        downloadPage = it.page ?: page,
+                    ),
+                    AddDownloadCredentialsInUiProps.Configs()
+                )
+            }
+        }
+        if (props.isEmpty()) return
+        linkPool.removeUrls(urls)
+        val intent = AddMultiDownloadActivity.createIntent(
+            context,
+            AddDownloadConfig.MultipleAddConfig(props),
+            json,
+        )
+        sendEffect(Effects.StartActivity(intent))
+    }
     private val _mainMenu: MutableStateFlow<MenuItem.SubMenu?> = MutableStateFlow(null)
     val mainMenu = _mainMenu.asStateFlow()
     fun openMainMenu() {
@@ -246,6 +282,15 @@ class BrowserComponent(
                         MyIcons.download,
                     ) {
                         addTorrentFromClipboard()
+                    }
+                }
+                if (linkPool.size > 0) {
+                    separator()
+                    +simpleAction(
+                        Res.string.browser_pool.asStringSource(),
+                        MyIcons.download,
+                    ) {
+                        setShowPool(true)
                     }
                 }
             }
