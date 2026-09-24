@@ -469,6 +469,10 @@ class HttpDownloadJob(
 
     // for this download job only, it has higher priority than download manager settings
     var _maxAllowedRetries: Int? = null
+
+    // Provides a fresh URL when the current one expired (403/410). Set by UI
+    // layer (re-resolve from source page). Null = plain pause on expiry.
+    var linkRefreshProvider: (suspend () -> String?)? = null
     fun getMaxAllowedRetries(): Int {
         return _maxAllowedRetries ?: downloadManager.settings.maxDownloadRetryCount
     }
@@ -512,10 +516,29 @@ class HttpDownloadJob(
             val retriedCount = (failedDownloadTries - 1).coerceAtLeast(0)
             if (retriedCount < getMaxAllowedRetries()) {
                 retry(isInFirstResume)
+            } else if (tryRefreshExpiredLink(e, isInFirstResume)) {
+                // refresh path continues via retry inside
             } else {
                 pause(TooManyErrorException(e))
             }
         }
+    }
+
+    private fun tryRefreshExpiredLink(e: Throwable, isInFirstResume: Boolean): Boolean {
+        val provider = linkRefreshProvider ?: return false
+        val rootCause = (e as? TooManyErrorException)?.findActualDownloadErrorCause() ?: e
+        if (!LinkRefreshPolicy.needsRefresh(rootCause)) return false
+        scope.launch {
+            val fresh = runCatching { provider() }.getOrNull()
+            if (!fresh.isNullOrBlank() && fresh != downloadItem.link) {
+                downloadItem.link = fresh
+                failedDownloadTries = 0
+                retry(isInFirstResume)
+            } else {
+                pause(TooManyErrorException(e))
+            }
+        }
+        return true
     }
 
     fun retry(isInFirstResume: Boolean) {
