@@ -7,6 +7,7 @@ import io.github.amir1376.schemakt.S
 import io.github.amir1376.schemakt.schema.composite.TypeSafeObjectSchema
 import io.github.amir1376.schemakt.schema.composite.typeSafeObject
 import io.github.amir1376.schemakt.schema.modifier.catch
+import io.github.amir1376.schemakt.schema.modifier.range
 import io.github.amir1376.schemakt.schema.primitive.boolean
 import io.github.amir1376.schemakt.schema.primitive.int
 import ir.amirab.downloader.SpeedProfile
