@@ -1,0 +1,12 @@
+package grab.bit.desktop.utils.singleInstance.service
+
+import kotlinx.rpc.annotations.Rpc
+
+@Rpc
+interface ISingleInstanceService {
+    suspend fun getIntegrationPort(): Int?
+    suspend fun isReady(): Boolean
+    suspend fun awaitReady()
+    suspend fun showUserThatAppIsRunning()
+    suspend fun exit()
+}

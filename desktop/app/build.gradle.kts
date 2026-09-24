@@ -16,7 +16,7 @@ plugins {
     id(Plugins.ksp)
     id(Plugins.aboutLibraries)
     id(Plugins.kotlinRpc)
-    id("ir.amirab.installer-plugin")
+    id("grab.bit.installer-plugin")
 //    id(MyPlugins.proguardDesktop)
 }
 
@@ -103,7 +103,7 @@ tasks.processResources {
 val cliBinaryName = "${getAppName()}Cli"
 val nativeMessagingHostBinaryName = "${getAppName()}NativeMessagingHost"
 
-val desktopPackageName = "com.abdownloadmanager.desktop"
+val desktopPackageName = "grab.bit.desktop"
 nucleus {
     application {
 //            val getProguardConfigurationsTask = tasks.getProguardConfigurations.get()

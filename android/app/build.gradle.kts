@@ -3,13 +3,12 @@ import buildlogic.versioning.convertToVersionCode
 import buildlogic.versioning.getAppName
 import buildlogic.versioning.getAppVersion
 import buildlogic.versioning.getAppVersionString
-import buildlogic.versioning.getApplicationPackageName
 import com.android.build.api.artifact.SingleArtifact
 import com.mikepenz.aboutlibraries.plugin.DuplicateMode
 import com.mikepenz.aboutlibraries.plugin.DuplicateRule
-import ir.amirab.installer.InstallerTargetFormat
-import ir.amirab.plugin.common_android.task.SignApkTask
-import ir.amirab.plugin.common_android.task.androidEnableFileTypesGeneratorForManifest
+import grab.bit.installer.InstallerTargetFormat
+import grab.bit.plugin.common_android.task.SignApkTask
+import grab.bit.plugin.common_android.task.androidEnableFileTypesGeneratorForManifest
 import org.gradle.kotlin.dsl.support.uppercaseFirstChar
 import java.util.Properties
 
@@ -27,12 +26,12 @@ android {
     defaultConfig {
         minSdk = 26
         targetSdk = compileSdkVersion
-        applicationId = getApplicationPackageName()
+        applicationId = "grab.bit"
         versionCode = getAppVersion().convertToVersionCode()
         versionName = getAppVersionString()
     }
     compileSdk = compileSdkVersion
-    namespace = "com.abdownloadmanager.android"
+    namespace = "grab.bit"
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
@@ -68,7 +67,7 @@ aboutLibraries {
 }
 
 androidEnableFileTypesGeneratorForManifest(
-    targetActivityClass = ".pages.add.AddDownloadActivity",
+    targetActivityClass = ".android.pages.add.AddDownloadActivity",
     fileTypesFile = project.layout.projectDirectory.file("filetypes.txt")
 )
 

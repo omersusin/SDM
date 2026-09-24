@@ -2,11 +2,11 @@ import buildlogic.CiUtils
 import buildlogic.versioning.getAppVersionString
 import io.github.z4kn4fein.semver.toVersion
 import io.github.z4kn4fein.semver.toVersionOrNull
-import ir.amirab.git_version.core.semanticVersionRegex
+import grab.bit.git_version.core.semanticVersionRegex
 import org.jetbrains.changelog.Changelog
 
 plugins {
-    ir.amirab.`git-version-plugin`
+    grab.bit.`git-version-plugin`
     /**
      * retrieve latest versions of dependencies
      */

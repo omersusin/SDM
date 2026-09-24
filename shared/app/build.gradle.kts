@@ -17,7 +17,7 @@ kotlin {
     jvm("desktop")
     android {
         compileSdk = libs.versions.androidCompileSdk.get().toInt()
-        namespace = "com.abdownloadmanager.shared"
+        namespace = "grab.bit.shared"
         minSdk = 26
     }
     sourceSets {
@@ -81,7 +81,7 @@ dependencies {
 
 // generate a file with these constants
 buildConfig {
-    packageName = "com.abdownloadmanager.shared"
+    packageName = "grab.bit.shared"
     buildConfigField(
         "PACKAGE_NAME",
         provider {

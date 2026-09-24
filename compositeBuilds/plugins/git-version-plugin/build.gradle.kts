@@ -5,7 +5,7 @@ repositories {
     mavenCentral()
 }
 version = 1
-group = "ir.amirab.plugin"
+group = "grab.bit.plugin"
 dependencies {
     implementation(libs.semver)
     implementation(libs.jgit)
@@ -13,8 +13,8 @@ dependencies {
 gradlePlugin {
     plugins {
         create("git-version-plugin") {
-            id = "ir.amirab.git-version-plugin"
-            implementationClass = "ir.amirab.git_version.GitVersionPlugin"
+            id = "grab.bit.git-version-plugin"
+            implementationClass = "grab.bit.git_version.GitVersionPlugin"
         }
     }
 }

@@ -6,7 +6,7 @@ kotlin {
     jvm("desktop")
     android {
         compileSdk = libs.versions.androidCompileSdk.get().toInt()
-        namespace = "com.abdownloadmanager.resources.contracts"
+        namespace = "grab.bit.resources.contracts"
         minSdk = 26
     }
     sourceSets.commonMain.dependencies {
