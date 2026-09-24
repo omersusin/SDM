@@ -29,6 +29,7 @@ import ir.amirab.downloader.torrent.TorrentSession
 import ir.amirab.downloader.torrent.createTorrentSession
 import ir.amirab.downloader.video.VideoFormat
 import ir.amirab.downloader.video.VideoFormatPicker
+import ir.amirab.downloader.video.YtDlpDownloadRequest
 import ir.amirab.downloader.video.YtDlpInfoParser
 import ir.amirab.downloader.video.YtDlpRunner
 import ir.amirab.util.HttpUrlUtils
@@ -176,6 +177,25 @@ class BrowserComponent(
 
     fun closeVideoFormats() {
         _videoFormats.value = VideoFormatsState.Closed
+    }
+
+    fun downloadVideoFormat(format: VideoFormat) {
+        val page = tabs.value.activeTab?.tabState?.lastLoadedUrl ?: return
+        val saveDir = appSettings.defaultDownloadFolder.value
+        scope.launch(Dispatchers.IO) {
+            runCatching {
+                YtDlpRunner.download(
+                    YtDlpDownloadRequest(
+                        url = page,
+                        formatId = format.id,
+                        subtitleLangs = emptyList(),
+                        outputTemplate = "%(title)s.%(ext)s",
+                    ),
+                    saveDir,
+                )
+            }
+        }
+        closeVideoFormats()
     }
 
     val linkPool = LinkPool()

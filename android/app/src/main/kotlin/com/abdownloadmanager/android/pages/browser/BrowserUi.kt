@@ -430,7 +430,7 @@ fun VideoFormatsDialog(
                                         MyIcons.download,
                                         Res.string.download.asStringSource(),
                                     ) {
-                                        browserComponent.downloadMedia(format.url)
+                                        browserComponent.downloadVideoFormat(format)
                                     }
                                 }
                             }
