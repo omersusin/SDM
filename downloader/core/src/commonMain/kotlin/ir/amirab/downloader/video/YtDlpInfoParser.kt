@@ -19,10 +19,18 @@ data class YtDlpFormat(
 )
 
 @Serializable
+data class YtDlpSubtitle(
+    val ext: String = "",
+    val url: String = "",
+    val name: String? = null,
+)
+
+@Serializable
 data class YtDlpInfo(
     val id: String = "",
     val title: String? = null,
     val formats: List<YtDlpFormat> = emptyList(),
+    val subtitles: Map<String, List<YtDlpSubtitle>> = emptyMap(),
 )
 
 // Decodes yt-dlp --dump-single-json output into our VideoFormat model.
@@ -32,6 +40,16 @@ object YtDlpInfoParser {
 
     fun parse(stdout: String): YtDlpInfo {
         return json.decodeFromString(YtDlpInfo.serializer(), stdout)
+    }
+
+    fun subtitleLanguages(info: YtDlpInfo): List<String> {
+        return info.subtitles.keys.sorted()
+    }
+
+    fun subtitleUrls(info: YtDlpInfo, language: String): List<String> {
+        return info.subtitles[language].orEmpty()
+            .filter { it.url.isNotEmpty() }
+            .map { it.url }
     }
 
     fun toVideoFormats(info: YtDlpInfo): List<VideoFormat> {

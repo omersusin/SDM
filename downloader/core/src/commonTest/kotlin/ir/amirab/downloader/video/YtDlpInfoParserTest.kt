@@ -27,4 +27,21 @@ class YtDlpInfoParserTest {
         assertEquals("18", VideoFormatPicker.bestForHeight(formats, 720)?.id)
         assertEquals("140", VideoFormatPicker.audioOnly(formats).map { it.id }.single())
     }
+
+    @Test
+    fun parsesSubtitles() {
+        val json = """
+            {"id":"abc","subtitles":{
+              "en":[{"ext":"vtt","url":"https://cdn.example/en.vtt","name":"English"}],
+              "tr":[{"ext":"vtt","url":"https://cdn.example/tr.vtt"}]
+            }}
+        """.trimIndent()
+        val info = YtDlpInfoParser.parse(json)
+        assertEquals(listOf("en", "tr"), YtDlpInfoParser.subtitleLanguages(info))
+        assertEquals(
+            listOf("https://cdn.example/tr.vtt"),
+            YtDlpInfoParser.subtitleUrls(info, "tr"),
+        )
+        assertEquals(emptyList(), YtDlpInfoParser.subtitleUrls(info, "de"))
+    }
 }
