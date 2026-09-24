@@ -33,7 +33,7 @@ fun Project.getAppDataDirName(): String {
 }
 
 fun Project.getApplicationPackageName(): String {
-    return "com.abdownloadmanager"
+    return "grab.bit"
 }
 
 fun Project.getAppVersionStringForPackaging(targetFormat: TargetFormat? = null): String {

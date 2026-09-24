@@ -7,7 +7,7 @@ kotlin {
     jvm("desktop")
     android {
         compileSdk = libs.versions.androidCompileSdk.get().toInt()
-        namespace = "ir.amirab.util.startup"
+        namespace = "grab.bit.util.startup"
         minSdk = 26
     }
     sourceSets {

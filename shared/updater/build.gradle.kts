@@ -6,7 +6,7 @@ plugins {
 kotlin {
     jvm("desktop")
     android {
-        namespace = "com.abdownloadmanager.updater"
+        namespace = "grab.bit.updater"
         compileSdk = libs.versions.androidCompileSdk.get().toInt()
         minSdk = 26
     }

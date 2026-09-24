@@ -17,16 +17,16 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <application
-            android:name=".ABDMApp"
+            android:name=".android.ABDMApp"
             android:theme="@style/Theme.ABDownloadManager"
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:usesCleartextTraffic="true"
             android:requestLegacyExternalStorage="true"
-            android:label="@string/app_short_name"
+            android:label="Grabbit"
     >
         <activity
-                android:name=".ui.MainActivity"
+                android:name=".android.ui.MainActivity"
                 android:exported="true"
                 android:launchMode="singleInstance"
                 android:windowSoftInputMode="adjustResize"
@@ -37,20 +37,20 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".pages.singledownload.SingleDownloadPageActivity"
+                android:name=".android.pages.singledownload.SingleDownloadPageActivity"
                 android:exported="true"
                 android:theme="@style/Theme.ABDownloadManager.Transparent"
                 android:windowSoftInputMode="adjustResize"
         />
         <activity
-                android:name=".pages.downloaderror.DownloadErrorActivity"
+                android:name=".android.pages.downloaderror.DownloadErrorActivity"
                 android:exported="true"
                 android:theme="@style/Theme.ABDownloadManager.Transparent"
                 android:windowSoftInputMode="adjustResize"
         />
         <activity
-                android:name=".pages.browser.BrowserActivity"
-                android:label="@string/app_browser"
+                android:name=".android.pages.browser.BrowserActivity"
+                android:label="Grabbit Browser"
                 android:exported="true"
                 android:theme="@style/Theme.ABDownloadManager"
                 android:windowSoftInputMode="adjustResize"
@@ -65,7 +65,7 @@
             </intent-filter>
         </activity>
         <activity-alias
-                android:name="com.abdownloadmanager.browser.BrowserIconInLauncher"
+                android:name="grab.bit.browser.BrowserIconInLauncher"
                 android:enabled="false"
                 android:exported="true"
                 android:targetActivity=".pages.browser.BrowserActivity">
@@ -77,47 +77,47 @@
 
         <!--        Accept external download from browsers/send intents etc...-->
         <activity
-                android:name=".pages.add.AddDownloadActivity"
+                android:name=".android.pages.add.AddDownloadActivity"
                 android:exported="true"
                 android:theme="@style/Theme.ABDownloadManager.Transparent"
         />
 
         <activity
-                android:name=".pages.add.single.AddSingleDownloadActivity"
+                android:name=".android.pages.add.single.AddSingleDownloadActivity"
                 android:exported="false"
                 android:theme="@style/Theme.ABDownloadManager.Transparent"
                 android:windowSoftInputMode="adjustResize"
         />
 
         <activity
-                android:name=".pages.add.multiple.AddMultiDownloadActivity"
+                android:name=".android.pages.add.multiple.AddMultiDownloadActivity"
                 android:exported="false"
                 android:theme="@style/Theme.ABDownloadManager"
                 android:windowSoftInputMode="adjustResize"
         />
 
         <activity
-                android:name=".pages.directorypicker.DirectoryPickerActivity"
+                android:name=".android.pages.directorypicker.DirectoryPickerActivity"
                 android:exported="false"
                 android:theme="@style/Theme.ABDownloadManager.Transparent"
                 android:windowSoftInputMode="adjustResize"
         />
 
         <activity
-                android:name=".pages.crashreport.CrashReportActivity"
+                android:name=".android.pages.crashreport.CrashReportActivity"
                 android:exported="true"
                 android:theme="@style/Theme.ABDownloadManager.Transparent"
                 android:windowSoftInputMode="adjustResize"
         />
 
         <service
-                android:name=".service.DownloadSystemService"
+                android:name=".android.service.DownloadSystemService"
                 android:exported="false"
                 android:foregroundServiceType="specialUse"
         />
 
         <receiver
-                android:name=".receiver.StartOnBootBroadcastReceiver"
+                android:name=".android.receiver.StartOnBootBroadcastReceiver"
                 android:enabled="false"
                 android:exported="false"
         >

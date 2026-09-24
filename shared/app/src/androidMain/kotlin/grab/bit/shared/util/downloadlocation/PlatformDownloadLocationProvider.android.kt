@@ -1,0 +1,22 @@
+package grab.bit.shared.util.downloadlocation
+
+import android.os.Environment
+import grab.bit.shared.util.SystemDownloadLocationProvider
+import java.io.File
+
+class AndroidDownloadLocationProvider : SystemDownloadLocationProvider() {
+    override fun getCommonDownloadLocation(): File {
+        return Environment
+            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            .absoluteFile
+    }
+
+    override fun getCurrentDownloadLocation(): File {
+        return getCommonDownloadLocation()
+    }
+
+}
+
+actual fun getPlatformDownloadLocationProvider(): SystemDownloadLocationProvider {
+    return AndroidDownloadLocationProvider()
+}

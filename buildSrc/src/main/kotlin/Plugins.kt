@@ -1,4 +1,4 @@
-import ir.amirab.util.platform.Platform
+import grab.bit.util.platform.Platform
 
 object MyPlugins {
     private const val namespace = "myPlugins"

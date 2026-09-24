@@ -8,7 +8,7 @@ kotlin {
     jvm("desktop")
     android {
         compileSdk = libs.versions.androidCompileSdk.get().toInt()
-        namespace = "ir.amirab.downloader.core"
+        namespace = "grab.bit.downloader.core"
         minSdk = 26
     }
     sourceSets {

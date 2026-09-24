@@ -3,11 +3,11 @@ import buildlogic.versioning.*
 import com.mikepenz.aboutlibraries.plugin.DuplicateMode
 import com.mikepenz.aboutlibraries.plugin.DuplicateRule
 import dev.nucleusframework.desktop.application.dsl.TargetFormat
-import ir.amirab.util.platform.Arch
-import ir.amirab.util.platform.Platform
-import ir.amirab.util.platform.isLinux
-import ir.amirab.util.platform.isMac
-import ir.amirab.util.platform.isWindows
+import grab.bit.util.platform.Arch
+import grab.bit.util.platform.Platform
+import grab.bit.util.platform.isLinux
+import grab.bit.util.platform.isMac
+import grab.bit.util.platform.isWindows
 
 plugins {
     id(MyPlugins.kotlin)
@@ -16,7 +16,7 @@ plugins {
     id(Plugins.ksp)
     id(Plugins.aboutLibraries)
     id(Plugins.kotlinRpc)
-    id("ir.amirab.installer-plugin")
+    id("grab.bit.installer-plugin")
 //    id(MyPlugins.proguardDesktop)
 }
 
@@ -103,7 +103,7 @@ tasks.processResources {
 val cliBinaryName = "${getAppName()}Cli"
 val nativeMessagingHostBinaryName = "${getAppName()}NativeMessagingHost"
 
-val desktopPackageName = "com.abdownloadmanager.desktop"
+val desktopPackageName = "grab.bit.desktop"
 nucleus {
     application {
 //            val getProguardConfigurationsTask = tasks.getProguardConfigurations.get()

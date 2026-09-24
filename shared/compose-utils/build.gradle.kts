@@ -9,7 +9,7 @@ kotlin {
     jvm("desktop")
     android {
         compileSdk = libs.versions.androidCompileSdk.get().toInt()
-        namespace = "ir.amirab.util.compose"
+        namespace = "grab.bit.util.compose"
         minSdk = 26
     }
     sourceSets {

@@ -5,13 +5,13 @@ plugins {
     id(MyPlugins.composeBase)
     id(Plugins.Android.multiplatformLibrary)
 }
-val ourPackageName = "com.abdownloadmanager.resources"
+val ourPackageName = "grab.bit.resources"
 val propertiesToKotlinTask = tasks.register("propertiesToKotlinTask", PropertiesToKotlinTask::class) {
     outputDir.set(file("build/tasks/propertiesToKotlinTask"))
     generatedFileName.set("String.kt")
     packageName.set(ourPackageName)
-    myStringResourceClass.set("ir.amirab.resources.contracts.MyStringResource")
-    propertyFiles.from("src/commonMain/resources/com/abdownloadmanager/resources/locales/en_US.properties")
+    myStringResourceClass.set("grab.bit.resources.contracts.MyStringResource")
+    propertyFiles.from("src/commonMain/resources/grab/bit/resources/locales/en_US.properties")
 }
 val generateResourceMap = tasks.register("generateResourceMap", GenerateResourceMap::class) {
     outputDir.set(file("build/tasks/generateResourceMapTask"))
@@ -31,7 +31,7 @@ kotlin {
     jvm("desktop")
     android {
         compileSdk = libs.versions.androidCompileSdk.get().toInt()
-        namespace = "com.abdownloadmanager.resources"
+        namespace = "grab.bit.resources"
         minSdk = 26
     }
     sourceSets {

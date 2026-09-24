@@ -1,10 +1,10 @@
-import com.abdownloadmanager.InstallableArch
-import com.abdownloadmanager.updateapplier.BaseUpdateApplier
-import com.abdownloadmanager.updateapplier.UpdateDownloader
-import com.abdownloadmanager.updateapplier.UpdateInstaller
-import com.abdownloadmanager.updateapplier.UpdatePreparer
-import com.abdownloadmanager.updatechecker.UpdateInfo
-import com.abdownloadmanager.updatechecker.UpdateSource
+import grab.bit.InstallableArch
+import grab.bit.updateapplier.BaseUpdateApplier
+import grab.bit.updateapplier.UpdateDownloader
+import grab.bit.updateapplier.UpdateInstaller
+import grab.bit.updateapplier.UpdatePreparer
+import grab.bit.updatechecker.UpdateInfo
+import grab.bit.updatechecker.UpdateSource
 
 /**
  * this update applier works for direct downloads!
