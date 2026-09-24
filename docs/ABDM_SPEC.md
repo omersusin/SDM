@@ -51,6 +51,13 @@ Swiss-army-knife, but nothing illogical.
   color discipline. Nothing that feels like a template.
 - Layout and order are mandatory: module structure, naming, file layout
   are set up cleanly from the start and must not degrade as the app grows.
+- 2026-09-24 UI FREEZE (user order): keep ABDM's UI as-is. Do NOT migrate
+  to Material 3 Expressive unless the user explicitly says so. The badge
+  pill + tonal rows (design-1) stay; nothing further.
+- Settings backlog (user approved 2026-09-24, all missing from settings UI):
+  adblock on/off, speed profile selector (High/Low/Snail), scheduler
+  time+day+WiFi editing, torrent add screen entry, video quality default.
+  Only GrabberUiMode is in settings today.
 
 ## Dig reports
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
