@@ -76,8 +76,12 @@ data class ScheduleTimes(
             return true
         }
         val overnight = enabledStartTime && enabledEndTime && endTime <= startTime
-        if (overnight && time < endTime) {
-            return day.minus(1) in daysOfWeek
+        if (overnight) {
+            return if (time < endTime) {
+                day.minus(1) in daysOfWeek
+            } else {
+                day in daysOfWeek && time >= startTime
+            }
         }
         if (day !in daysOfWeek) return false
         if (enabledStartTime && time < startTime) return false
