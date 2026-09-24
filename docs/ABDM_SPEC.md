@@ -96,6 +96,10 @@ Swiss-army-knife, but nothing illogical.
   two-password variant failed mysteriously — don't). First signed
   artifacts on run 36015418112. Keystore+passwords backed up to Downloads
   + 4 GitHub secrets set.
+- 2026-09-24 install-fix: manifest alias target corrected
+  (.android.pages.browser.BrowserActivity); artifacts now signed-only and
+  per-ABI (grabbit-release-arm64/v7a/x86_64). Audit: sigs valid, .so
+  16KB-aligned, no testOnly.
 - 2026-09-24 dig: N_m3u8DL-RE + streamlink + yt-dlp cloned and mined.
 - 2026-09-24 video-7: yt-dlp-style best-first sort + tbr/fps passthrough.
 - 2026-09-24 bulk-5: ExtractorRegistry (first-match-wins + tests).
