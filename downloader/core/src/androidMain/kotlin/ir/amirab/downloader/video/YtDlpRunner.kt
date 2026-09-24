@@ -23,6 +23,16 @@ object YtDlpRunner {
         }.getOrNull()
     }
 
+    suspend fun dumpPlaylist(url: String): String? = withContext(Dispatchers.IO) {
+        runCatching {
+            val request = YoutubeDLRequest(url).apply {
+                addOption("--dump-single-json")
+                addOption("--flat-playlist")
+            }
+            YoutubeDL.getInstance().execute(request, null, null).out
+        }.getOrNull()
+    }
+
     suspend fun download(
         req: YtDlpDownloadRequest,
         saveDir: String,
