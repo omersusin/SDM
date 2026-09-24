@@ -51,4 +51,5 @@ abstract class DefaultAppSettings {
     open val grabberUiMode: GrabberUiMode get() = GrabberUiModes.default
     open val speedProfile: SpeedProfile get() = SpeedProfile.HIGH
     open val adBlockEnabled: Boolean get() = true
+    open val wifiOnlyDownloads: Boolean get() = false
 }

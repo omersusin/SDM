@@ -85,4 +85,21 @@ object AndroidSettings {
             }
         )
     }
+
+    fun wifiOnlyDownloads(
+        appSettingsStorage: AppSettingsStorage
+    ): BooleanConfigurable {
+        return BooleanConfigurable(
+            title = Res.string.settings_wifi_only.asStringSource(),
+            description = Res.string.settings_wifi_only_description.asStringSource(),
+            backedBy = appSettingsStorage.wifiOnlyDownloads,
+            describe = {
+                if (it) {
+                    Res.string.enabled
+                } else {
+                    Res.string.disabled
+                }.asStringSource()
+            }
+        )
+    }
 }
