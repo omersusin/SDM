@@ -163,6 +163,8 @@ Swiss-army-knife, but nothing illogical.
   gate still open (needs ConnectivityManager).
 - 2026-09-24 apk-1: debug APK via apk.yml workflow_dispatch, 130MB,
   copied to phone Downloads. Release signing needs user secrets.
+- 2026-09-24 video-4: browser menu → VideoFormatsDialog (loading/ready/empty,
+  per-format download via engine). Subtitles/playlist still open.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
