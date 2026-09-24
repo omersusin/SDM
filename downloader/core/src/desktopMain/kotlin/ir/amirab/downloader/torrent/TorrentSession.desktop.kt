@@ -39,4 +39,20 @@ class LibtorrentSession : TorrentSession {
     override fun resumeAll() {
         runCatching { manager.resume() }
     }
+
+    override fun pause(infoHashHex: String): Boolean {
+        return runCatching {
+            val handle = manager.find(Sha1Hash.parseHex(infoHashHex)) ?: return false
+            handle.pause()
+            true
+        }.getOrDefault(false)
+    }
+
+    override fun resume(infoHashHex: String): Boolean {
+        return runCatching {
+            val handle = manager.find(Sha1Hash.parseHex(infoHashHex)) ?: return false
+            handle.resume()
+            true
+        }.getOrDefault(false)
+    }
 }
