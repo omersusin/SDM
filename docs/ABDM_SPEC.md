@@ -82,6 +82,8 @@ Swiss-army-knife, but nothing illogical.
 - 2026-09-24 bulk-3: PageMediaHarvester (tag scrape + resolve + dedupe,
   gallery-dl generic recipe, tested).
 - 2026-09-24 torrent-4: progress dialog (2s poll) + pause/resume all.
+- 2026-09-24 home-1: ActiveFirst sort (tested pair logic) + new default.
+  Dense rows skipped (UI freeze).
 
 ## Dig reports
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
