@@ -15,6 +15,7 @@ import com.abdownloadmanager.android.ui.widget.WebViewNavigator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.ByteArrayInputStream
 import java.util.UUID
 
 class WebViewRegistry(
@@ -153,10 +154,14 @@ class ABDMWebViewClient(
 ) : AccompanistWebViewClient() {
     override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
         if (request != null) {
+            val url = request.url.toString()
+            if (requestInterceptor.isAdBlocked(url)) {
+                return WebResourceResponse("text/plain", "utf-8", ByteArrayInputStream(ByteArray(0)))
+            }
             scope.launch(Dispatchers.Main) {
                 requestInterceptor.interceptRequest(
                     ABDMWebRequest(
-                        url = request.url.toString(),
+                        url = url,
                         headers = request.requestHeaders,
                         page = view?.originalUrl ?: view?.url
                     )
@@ -223,6 +228,9 @@ class ABDMChromeClient(
         isUserGesture: Boolean,
         resultMsg: Message?
     ): Boolean {
+        if (!isUserGesture) {
+            return false
+        }
         if (view == null) return false
         val transport = (resultMsg?.obj as? WebView.WebViewTransport) ?: return false
         val newTab = browserComponent.newTab(
