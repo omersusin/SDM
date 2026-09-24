@@ -313,3 +313,45 @@ fun Help(
 ) {
     Help(cfg.description.rememberString(), modifier)
 }
+
+@Composable
+fun PresetChipRow(
+    presets: List<String>,
+    selected: String,
+    onPick: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    labels: List<StringSource>? = null,
+) {
+    FlowRow(modifier.fillMaxWidth()) {
+        presets.forEachIndexed { index, preset ->
+            val isSelected = preset == selected
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .heightIn(mySpacings.thumbSize)
+                    .padding(2.dp)
+                    .clip(myShapes.defaultRounded)
+                    .ifThen(isSelected) {
+                        background(myColors.onBackground / 10)
+                    }
+                    .clickable { onPick(preset) }
+                    .padding(vertical = 4.dp)
+                    .padding(horizontal = 8.dp)
+            ) {
+                if (isSelected) {
+                    MyIcon(
+                        MyIcons.check,
+                        null,
+                        Modifier.size(16.dp),
+                    )
+                    Spacer(Modifier.width(4.dp))
+                }
+                Text(
+                    text = labels?.getOrNull(index) ?: preset,
+                    softWrap = false,
+                    fontSize = myTextSizes.base,
+                )
+            }
+        }
+    }
+}

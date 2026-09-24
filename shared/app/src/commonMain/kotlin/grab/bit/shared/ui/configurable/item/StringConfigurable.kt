@@ -11,6 +11,9 @@ open class StringConfigurable(
     backedBy: MutableStateFlow<String>,
     describe: ((String) -> StringSource),
     validate: (String) -> Boolean = { true },
+    val presets: List<String> = emptyList(),
+    val presetLabels: List<StringSource>? = null,
+    val defaultValue: String? = null,
     enabled: StateFlow<Boolean> = DefaultEnabledValue,
     visible: StateFlow<Boolean> = DefaultVisibleValue,
 ) : Configurable<String>(
