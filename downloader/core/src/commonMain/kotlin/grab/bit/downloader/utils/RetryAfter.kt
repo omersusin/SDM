@@ -45,7 +45,7 @@ object RetryAfter {
         }
         val era = y / 400
         val yoe = y - era * 400
-        val mp = (m - 3 + 4800 - 1) % 12
+        val mp = m - 3
         val doy = (153 * mp + 2) / 5 + day - 1
         val doe = yoe * 365 + yoe / 4 - yoe / 100 + doy
         return era * 146097L + doe - 719468L
