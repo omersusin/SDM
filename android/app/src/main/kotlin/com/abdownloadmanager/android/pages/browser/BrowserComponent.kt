@@ -19,6 +19,8 @@ import com.abdownloadmanager.shared.util.mvi.ContainsEffects
 import com.abdownloadmanager.shared.util.mvi.supportEffects
 import com.abdownloadmanager.shared.util.ui.icon.MyIcons
 import com.arkivanov.decompose.ComponentContext
+import ir.amirab.downloader.queue.CapturedLink
+import ir.amirab.downloader.queue.LinkPool
 import ir.amirab.downloader.video.VideoFormat
 import ir.amirab.downloader.video.VideoFormatPicker
 import ir.amirab.downloader.video.YtDlpInfoParser
@@ -155,6 +157,21 @@ class BrowserComponent(
 
     fun closeVideoFormats() {
         _videoFormats.value = VideoFormatsState.Closed
+    }
+
+    val linkPool = LinkPool()
+
+    fun capturePageMedia() {
+        val page = tabs.value.activeTab?.tabState?.lastLoadedUrl
+        linkPool.addAll(
+            mediaForActivePage().mapNotNull {
+                when (it) {
+                    is MediaCandidate.Direct -> CapturedLink(it.url, page, it.fileName)
+                    is MediaCandidate.Stream -> CapturedLink(it.url, page, null)
+                    MediaCandidate.NotMedia -> null
+                }
+            }
+        )
     }
     private val _mainMenu: MutableStateFlow<MenuItem.SubMenu?> = MutableStateFlow(null)
     val mainMenu = _mainMenu.asStateFlow()

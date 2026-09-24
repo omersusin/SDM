@@ -292,6 +292,12 @@ fun MediaListDialog(
                     },
                     headerActions = {
                         TransparentIconActionButton(
+                            MyIcons.add,
+                            Res.string.browser_media_capture_all.asStringSource(),
+                        ) {
+                            browserComponent.capturePageMedia()
+                        }
+                        TransparentIconActionButton(
                             MyIcons.close,
                             Res.string.close.asStringSource(),
                         ) {
