@@ -44,4 +44,21 @@ class YtDlpInfoParserTest {
         )
         assertEquals(emptyList(), YtDlpInfoParser.subtitleUrls(info, "de"))
     }
+
+    @Test
+    fun parsesFlatPlaylist() {
+        val json = """
+            {"_type":"playlist","id":"PL1","title":"Mix","entries":[
+              {"id":"v1","title":"First","url":"https://video.example/v1"},
+              {"id":"v2","title":"Second","url":"https://video.example/v2"},
+              {"id":"v3"}
+            ]}
+        """.trimIndent()
+        val playlist = YtDlpInfoParser.parsePlaylist(json)
+        assertEquals("PL1", playlist.id)
+        assertEquals(
+            listOf("https://video.example/v1", "https://video.example/v2"),
+            YtDlpInfoParser.playlistUrls(playlist),
+        )
+    }
 }

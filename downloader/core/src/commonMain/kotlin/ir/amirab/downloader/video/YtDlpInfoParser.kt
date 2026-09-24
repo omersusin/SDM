@@ -26,6 +26,20 @@ data class YtDlpSubtitle(
 )
 
 @Serializable
+data class YtDlpPlaylistEntry(
+    val id: String = "",
+    val title: String? = null,
+    val url: String = "",
+)
+
+@Serializable
+data class YtDlpPlaylist(
+    val id: String = "",
+    val title: String? = null,
+    val entries: List<YtDlpPlaylistEntry> = emptyList(),
+)
+
+@Serializable
 data class YtDlpInfo(
     val id: String = "",
     val title: String? = null,
@@ -40,6 +54,14 @@ object YtDlpInfoParser {
 
     fun parse(stdout: String): YtDlpInfo {
         return json.decodeFromString(YtDlpInfo.serializer(), stdout)
+    }
+
+    fun parsePlaylist(stdout: String): YtDlpPlaylist {
+        return json.decodeFromString(YtDlpPlaylist.serializer(), stdout)
+    }
+
+    fun playlistUrls(playlist: YtDlpPlaylist): List<String> {
+        return playlist.entries.mapNotNull { it.url.takeIf { u -> u.isNotEmpty() } }
     }
 
     fun subtitleLanguages(info: YtDlpInfo): List<String> {
