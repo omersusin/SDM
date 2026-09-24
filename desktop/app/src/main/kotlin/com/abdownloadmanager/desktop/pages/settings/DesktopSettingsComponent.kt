@@ -148,6 +148,7 @@ class DesktopSettingsComponent(
                     ConfigurableGroup(
                         nestedConfigurable = listOf(
                             CommonSettings.speedLimitConfig(appRepository),
+                            CommonSettings.speedProfileConfig(appRepository, scope),
                             CommonSettings.threadCountConfig(appRepository),
                             CommonSettings.maxConcurrentDownloads(appRepository),
                             CommonSettings.maxDownloadRetryCount(appRepository),

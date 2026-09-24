@@ -81,6 +81,7 @@ class AppSettingsStorage(
     override val ignoreSSLCertificates = from(AppSettingsModel.ignoreSSLCertificates)
     override val useCategoryByDefault = from(AppSettingsModel.useCategoryByDefault)
     override val userAgent = from(AppSettingsModel.userAgent)
+    override val speedProfile = from(AppSettingsModel.speedProfile)
 
     val browserIconInLauncher = from(AppSettingsModel.browserIconInLauncher)
     val grabberUiMode = from(AppSettingsModel.grabberUiMode)

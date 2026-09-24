@@ -3,6 +3,7 @@ package com.abdownloadmanager.shared.storage.appsettings
 import com.abdownloadmanager.shared.storage.SupportedSizeUnits
 import com.abdownloadmanager.shared.ui.theme.ThemeSettingsStorage
 import com.abdownloadmanager.shared.util.notification.INotificationSettingsStorage
+import ir.amirab.downloader.SpeedProfile
 import ir.amirab.util.compose.localizationmanager.LanguageStorage
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -47,4 +48,5 @@ interface BaseAppSettingsStorage :
     val ignoreSSLCertificates: MutableStateFlow<Boolean>
     val useCategoryByDefault: MutableStateFlow<Boolean>
     val userAgent: MutableStateFlow<String>
+    val speedProfile: MutableStateFlow<SpeedProfile>
 }
