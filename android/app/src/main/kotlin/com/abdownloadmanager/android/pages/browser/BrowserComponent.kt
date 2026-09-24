@@ -49,6 +49,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import java.util.UUID
@@ -181,6 +182,17 @@ class BrowserComponent(
 
     private var torrentSession: TorrentSession? = null
 
+    data class TorrentItem(
+        val infoHash: String,
+        val name: String?,
+        val progress: Float?,
+    )
+
+    private val _torrents = MutableStateFlow(emptyList<TorrentItem>())
+    val torrents = _torrents.asStateFlow()
+
+    private var torrentPolling = false
+
     fun clipboardHasMagnet(): Boolean {
         return ClipboardUtil.read()?.startsWith("magnet:?", ignoreCase = true) == true
     }
@@ -193,10 +205,46 @@ class BrowserComponent(
                     it.start()
                     torrentSession = it
                 }
-                session.addMagnet(magnet)
+                if (session.addMagnet(magnet)) {
+                    _torrents.update {
+                        (it + TorrentItem(magnet.infoHash, magnet.name, null))
+                            .distinctBy { item -> item.infoHash }
+                    }
+                    startTorrentPolling()
+                }
             }
         }
         return true
+    }
+
+    private fun startTorrentPolling() {
+        if (torrentPolling) return
+        torrentPolling = true
+        scope.launch(Dispatchers.IO) {
+            while (true) {
+                delay(2000)
+                val session = torrentSession ?: break
+                _torrents.update { items ->
+                    items.map { item ->
+                        item.copy(
+                            progress = session.progress(item.infoHash)?.progress
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun pauseAllTorrents() {
+        scope.launch(Dispatchers.IO) {
+            runCatching { torrentSession?.pauseAll() }
+        }
+    }
+
+    fun resumeAllTorrents() {
+        scope.launch(Dispatchers.IO) {
+            runCatching { torrentSession?.resumeAll() }
+        }
     }
 
     fun capturePageMedia() {
@@ -216,6 +264,12 @@ class BrowserComponent(
     val showPool = _showPool.asStateFlow()
     fun setShowPool(show: Boolean) {
         _showPool.value = show
+    }
+
+    private val _showTorrents: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val showTorrents = _showTorrents.asStateFlow()
+    fun setShowTorrents(show: Boolean) {
+        _showTorrents.value = show
     }
 
     fun poolLinks(): List<CapturedLink> {
@@ -293,6 +347,15 @@ class BrowserComponent(
                         MyIcons.download,
                     ) {
                         setShowPool(true)
+                    }
+                }
+                if (torrents.value.isNotEmpty()) {
+                    separator()
+                    +simpleAction(
+                        Res.string.browser_torrents.asStringSource(),
+                        MyIcons.download,
+                    ) {
+                        setShowTorrents(true)
                     }
                 }
             }

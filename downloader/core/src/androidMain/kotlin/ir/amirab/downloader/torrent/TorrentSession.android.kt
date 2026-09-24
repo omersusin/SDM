@@ -31,4 +31,12 @@ class LibtorrentSession : TorrentSession {
             manager.find(Sha1Hash.parseHex(infoHashHex))?.status()?.progress()?.let(::TorrentProgress)
         }.getOrNull()
     }
+
+    override fun pauseAll() {
+        runCatching { manager.pause() }
+    }
+
+    override fun resumeAll() {
+        runCatching { manager.resume() }
+    }
 }

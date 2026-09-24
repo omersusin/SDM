@@ -265,6 +265,7 @@ fun BrowserPage(
     MediaListDialog(browserComponent)
     VideoFormatsDialog(browserComponent)
     PoolDialog(browserComponent)
+    TorrentDialog(browserComponent)
 }
 
 @Composable
@@ -516,6 +517,93 @@ fun PoolDialog(
                     },
                     modifier = Modifier.fillMaxWidth(),
                 )
+            }
+        }
+    }
+}
+
+@Composable
+fun TorrentDialog(
+    browserComponent: BrowserComponent,
+) {
+    val visible by browserComponent.showTorrents.collectAsState()
+    val responsiveState = rememberResponsiveDialogState(visible)
+    LaunchedEffect(visible) {
+        if (visible) {
+            responsiveState.show()
+        } else {
+            responsiveState.hide()
+        }
+    }
+    ResponsiveDialog(
+        state = responsiveState,
+        onDismiss = { browserComponent.setShowTorrents(false) }
+    ) {
+        val items = if (visible) browserComponent.torrents.collectAsState().value else emptyList()
+        SheetUI(
+            header = {
+                SheetHeader(
+                    headerTitle = {
+                        SheetTitle(
+                            myStringResource(Res.string.browser_torrents),
+                        )
+                    },
+                    headerActions = {
+                        TransparentIconActionButton(
+                            MyIcons.close,
+                            Res.string.close.asStringSource(),
+                        ) {
+                            browserComponent.setShowTorrents(false)
+                        }
+                    }
+                )
+            }
+        ) {
+            if (items.isEmpty()) {
+                Text(
+                    text = myStringResource(Res.string.browser_media_list_empty),
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                )
+            } else {
+                LazyColumn {
+                    items(items) { item ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(myShapes.defaultRounded)
+                                .background(myColors.onSurface / 0.05f)
+                                .padding(vertical = 8.dp, horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = item.name ?: item.infoHash,
+                                modifier = Modifier.weight(1f),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                            Spacer(Modifier.width(8.dp))
+                            Text(
+                                text = item.progress?.let { "${(it * 100).toInt()}%" } ?: "…",
+                                maxLines = 1,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                    }
+                }
+                Spacer(Modifier.height(8.dp))
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    ActionButton(
+                        text = myStringResource(Res.string.pause),
+                        onClick = { browserComponent.pauseAllTorrents() },
+                        modifier = Modifier.weight(1f),
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    ActionButton(
+                        text = myStringResource(Res.string.resume),
+                        onClick = { browserComponent.resumeAllTorrents() },
+                        modifier = Modifier.weight(1f),
+                    )
+                }
             }
         }
     }
