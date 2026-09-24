@@ -45,6 +45,8 @@ jobs:
           KEY_PASS: ${{ secrets.ABDM_KEYSTORE_KEY_PASSWORD }}
         run: |
           echo "$KEYSTORE_B64" | base64 -d > /tmp/grabbit.jks
+          ls -la /tmp/grabbit.jks
+          keytool -list -keystore /tmp/grabbit.jks -storepass "$KEYSTORE_PASS" -alias "$KEY_ALIAS" 2>&1 | head -n 5
           APKSIGNER=$(echo $ANDROID_HOME/build-tools/*/apksigner | tr ' ' '\n' | sort -V | tail -1)
           for apk in android/app/build/outputs/apk/release/*.apk; do
             case "$apk" in *-signed.apk) continue;; esac
