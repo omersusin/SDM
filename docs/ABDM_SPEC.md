@@ -167,6 +167,8 @@ Swiss-army-knife, but nothing illogical.
 - 2026-09-24 queue-2: media dialog captures page to pool. Pool UI still open.
 - 2026-09-24 refresh-1: LinkRefreshPolicy (403/410 → refresh, else retry +
   2 tests). Re-resolution from downloadPage still open.
+- 2026-09-24 design-1: badge pill (primary/onPrimary) + tonal dialog rows via
+  existing tokens, no new deps. One red: duplicated brace (fixed).
 - 2026-09-24 video-4: browser menu → VideoFormatsDialog (loading/ready/empty,
   per-format download via engine). Subtitles/playlist still open.
 
