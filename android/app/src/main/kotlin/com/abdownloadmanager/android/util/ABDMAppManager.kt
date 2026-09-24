@@ -4,6 +4,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.widget.Toast
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -82,8 +86,32 @@ class ABDMAppManager(
             downloadSystem.boot()
             keepAwakeManager.boot()
             registerReceivers()
+            registerWifiGate()
             registerDownloadEventNotifications()
         }
+    }
+
+    // Stops everything when WiFi is lost and WiFi-only is on. App-scoped
+    // callback (process lifetime). Auto-resume on WiFi return is still open.
+    private fun registerWifiGate() {
+        val connectivity = context.getSystemService(ConnectivityManager::class.java) ?: return
+        val request = NetworkRequest.Builder()
+            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+            .build()
+        connectivity.registerNetworkCallback(
+            request,
+            object : ConnectivityManager.NetworkCallback() {
+                override fun onLost(network: Network) {
+                    if (appSettingsStorage.wifiOnlyDownloads.value) {
+                        scope.launch {
+                            runCatching {
+                                downloadSystem.stopAnything()
+                            }
+                        }
+                    }
+                }
+            }
+        )
     }
 
     private var shouldShowToastsNotifications = MutableStateFlow(true)
