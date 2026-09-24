@@ -75,6 +75,8 @@ Swiss-army-knife, but nothing illogical.
 - 2026-09-24 apk-2: fresh debug APK in Downloads (all features to date).
 - 2026-09-24 video-5: subtitle languages/urls in parser + tests. Subtitle
   download flags still open.
+- 2026-09-24 twin: TorrentSession.progress seam (find+status, source-verified
+  parseHex) + flat-playlist parse/urls + test.
 
 ## Dig reports
 - ABDM_RAPOR.md (16 repos: ABDM, YTDLnis, Seal, XDM, Persepolis, Motrix,
