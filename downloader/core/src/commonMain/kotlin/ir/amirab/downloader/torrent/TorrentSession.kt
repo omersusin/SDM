@@ -7,6 +7,8 @@ interface TorrentSession {
     fun progress(infoHashHex: String): TorrentProgress?
     fun pauseAll()
     fun resumeAll()
+    fun pause(infoHashHex: String): Boolean
+    fun resume(infoHashHex: String): Boolean
 }
 
 data class TorrentProgress(
