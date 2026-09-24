@@ -77,6 +77,10 @@ Swiss-army-knife, but nothing illogical.
   download flags still open.
 - 2026-09-24 twin: TorrentSession.progress seam (find+status, source-verified
   parseHex) + flat-playlist parse/urls + test.
+- 2026-09-24 engine-4: default minPartSize 2kB→1MB (aria2 recipe).
+- 2026-09-24 bulk-4: NameTemplate renderer + tests.
+- 2026-09-24 skills: 117 installed from agent links (220 total on disk).
+  Loader sees them next session; files readable now.
 - 2026-09-24 video-6: YtDlpRequestBuilder (format+subs flags, tested) +
   YtDlpRunner.download seam.
 - 2026-09-24 bulk-3: PageMediaHarvester (tag scrape + resolve + dedupe,
