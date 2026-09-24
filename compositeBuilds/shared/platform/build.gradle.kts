@@ -8,4 +8,5 @@ kotlin {
     jvm("desktop")
 }
 version=1
-group="grab.bit.util"
+// artifact coordinates stay ir.amirab (Maven identity + composite substitution)
+group="ir.amirab.util"
