@@ -54,6 +54,15 @@ jobs:
           done
           rm -f /tmp/grabbit.jks
 
+      - name: Verify signatures
+        if: inputs.build == 'release'
+        run: |
+          APKSIGNER=$(echo $ANDROID_HOME/build-tools/*/apksigner | tr ' ' '\n' | sort -V | tail -1)
+          for apk in android/app/build/outputs/apk/release/*-signed.apk; do
+            "$APKSIGNER" verify --print-certs "$apk" | head -n 4
+          done
+          rm -f android/app/build/outputs/apk/release/*-unsigned.apk
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
