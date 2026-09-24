@@ -22,4 +22,24 @@ object YtDlpRunner {
             YoutubeDL.getInstance().execute(request, null, null).out
         }.getOrNull()
     }
+
+    suspend fun download(
+        req: YtDlpDownloadRequest,
+        saveDir: String,
+    ): Boolean = withContext(Dispatchers.IO) {
+        runCatching {
+            val request = YoutubeDLRequest(req.url).apply {
+                YtDlpRequestBuilder.buildOptions(req).forEach { (option, value) ->
+                    if (value != null) {
+                        addOption(option, value)
+                    } else {
+                        addOption(option)
+                    }
+                }
+                addOption("-P", saveDir)
+            }
+            YoutubeDL.getInstance().execute(request, null, null)
+            true
+        }.getOrDefault(false)
+    }
 }
