@@ -153,6 +153,8 @@ Swiss-army-knife, but nothing illogical.
   rerun green).
 - 2026-09-24 video-3: YtDlpRunner.init wired into ABDMApp.onCreate (IO thread,
   failure contained). Runtime behavior needs device.
+- 2026-09-24 adblock-1: AdBlockMatcher (EasyList ||domain^ subset + 4 tests).
+  WebView intercept wiring + popup blocking next.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
