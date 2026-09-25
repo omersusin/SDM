@@ -71,7 +71,6 @@ kotlin {
 
 dependencies {
     add("kspAndroid", libs.arrow.opticKsp)
-    add("kspDesktop", libs.arrow.opticKsp)
 }
 
 // generate a file with these constants
