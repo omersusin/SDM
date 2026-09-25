@@ -20,6 +20,7 @@ import androidx.compose.ui.focus.focusRequester
 import grab.bit.resources.Res
 import grab.bit.shared.ui.configurable.Configurable
 import grab.bit.shared.ui.widget.ActionButton
+import grab.bit.shared.ui.widget.Text
 import grab.bit.shared.ui.widget.TransparentIconActionButton
 import grab.bit.shared.util.ui.icon.MyIcons
 import grab.bit.shared.util.ui.theme.mySpacings
@@ -45,6 +46,7 @@ fun <T> SheetInput(
 ) {
     SheetInput(
         title = configurable.title,
+        description = configurable.description,
         validate = configurable.validate,
         isOpened = isOpened,
         onDismiss = onDismiss,
@@ -57,6 +59,7 @@ fun <T> SheetInput(
 @Composable
 fun <T> SheetInput(
     title: StringSource,
+    description: StringSource? = null,
     validate: (T) -> Boolean,
     isOpened: Boolean,
     initialValue: () -> T,
@@ -88,6 +91,11 @@ fun <T> SheetInput(
             val fr = remember { FocusRequester() }
             LaunchedEffect(Unit) {
                 fr.requestFocus()
+            }
+            val descriptionText = description?.rememberString().orEmpty()
+            if (descriptionText.isNotBlank()) {
+                Text(descriptionText)
+                Spacer(Modifier.height(mySpacings.mediumSpace))
             }
             inputContent(
                 InputParams(

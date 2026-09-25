@@ -233,11 +233,12 @@ object CommonSettings {
                 Res.string.settings_user_agent_safari_iphone.asStringSource(),
             ),
             defaultValue = "",
+            placeholder = Res.string.settings_default_user_agent_placeholder.asStringSource(),
             describe = {
                 if (it.isBlank()) {
                     Res.string.disabled.asStringSource()
                 } else {
-                    "".asStringSource()
+                    it.take(80).asStringSource()
                 }
             },
         )
@@ -533,7 +534,7 @@ object CommonSettings {
         val allLanguages = languageManager.languageList.value
         return EnumConfigurable(
             title = Res.string.settings_language.asStringSource(),
-            description = "".asStringSource(),
+            description = Res.string.settings_language_description.asStringSource(),
             backedBy = createMutableStateFlowFromStateFlow(
                 flow = currentLanguageName.mapStateFlow { language ->
                     language?.let {

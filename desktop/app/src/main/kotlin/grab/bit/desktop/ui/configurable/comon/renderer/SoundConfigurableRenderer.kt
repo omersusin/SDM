@@ -13,10 +13,12 @@ import androidx.compose.ui.unit.dp
 import grab.bit.desktop.ui.configurable.ConfigTemplate
 import grab.bit.desktop.ui.configurable.TitleAndDescription
 import grab.bit.desktop.ui.util.rememberMyFilePickerLauncher
+import grab.bit.resources.Res
 import grab.bit.shared.ui.configurable.ConfigurableRenderer
 import grab.bit.shared.ui.configurable.ConfigurableUiProps
 import grab.bit.shared.ui.configurable.item.SoundConfigurable
 import grab.bit.shared.ui.widget.MyTextField
+import grab.bit.util.compose.resources.myStringResource
 import grab.bit.shared.util.notification.INotificationSound
 import grab.bit.shared.util.notification.platformNotificationSound
 import grab.bit.shared.util.ui.icon.MyIcons
@@ -73,7 +75,7 @@ object SoundConfigurableRenderer : ConfigurableRenderer<SoundConfigurable> {
                         if (value != INotificationSound.DEFAULT_VALUE) {
                             MyIcon(
                                 icon = MyIcons.clear,
-                                contentDescription = null,
+                                contentDescription = myStringResource(Res.string.reset),
                                 modifier = Modifier
                                     .pointerHoverIcon(PointerIcon.Default)
                                     .fillMaxHeight()
@@ -85,7 +87,7 @@ object SoundConfigurableRenderer : ConfigurableRenderer<SoundConfigurable> {
                         }
                         MyIcon(
                             icon = MyIcons.resume,
-                            contentDescription = null,
+                            contentDescription = myStringResource(Res.string.settings_notification_sound_preview),
                             modifier = Modifier
                                 .pointerHoverIcon(PointerIcon.Default)
                                 .fillMaxHeight()
@@ -99,7 +101,7 @@ object SoundConfigurableRenderer : ConfigurableRenderer<SoundConfigurable> {
                         )
                         MyIcon(
                             icon = MyIcons.folder,
-                            contentDescription = null,
+                            contentDescription = myStringResource(Res.string.settings_notification_sound_pick),
                             modifier = Modifier
                                 .pointerHoverIcon(PointerIcon.Default)
                                 .fillMaxHeight()

@@ -57,10 +57,11 @@ object LongConfigurableRenderer : ConfigurableRenderer<LongConfigurable> {
 //                            backgroundColor = Color.Transparent
 //                        ),
                             modifier = Modifier.width(200.dp),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             interactionSource = interactionSource,
                             range = cfg.range,
                             enabled = enabled,
+                            placeholder = if (cfg.range.last <= 100_000L) "${cfg.range.first}–${cfg.range.last}" else "",
                         )
                     }
                 }

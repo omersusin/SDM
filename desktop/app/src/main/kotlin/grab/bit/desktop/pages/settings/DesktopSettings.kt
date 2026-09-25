@@ -90,8 +90,8 @@ object DesktopSettings {
         customRenderApi: CustomRenderApi,
     ): EnumConfigurable<RenderApi?> {
         return EnumConfigurable(
-            title = "Render API".asStringSource(),
-            description = "Configures the Render API backend used by the application. A restart is required for the change to take effect.".asStringSource(),
+            title = Res.string.settings_render_api.asStringSource(),
+            description = Res.string.settings_render_api_description.asStringSource(),
             backedBy = customRenderApi.data,
             possibleValues = buildList {
                 add(null)

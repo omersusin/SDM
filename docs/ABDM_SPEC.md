@@ -97,6 +97,17 @@ Swiss-army-knife, but nothing illogical.
   0-meaning describes, batch [N-M] hint, dead-string cleanup. Skipped
   deliberately: switches/dialogs already correct, scheduler UI, desktop
   video (no browser), material3 dep (off design language).
+- 2026-09-25 settings-UX standing rule (user-ordered, applies to ALL future
+  settings/features): no setting without guidance — every configurable must
+  have a non-empty description, a placeholder/example where free text is
+  entered, range hints on numeric inputs, Number keyboard for ints,
+  password masking on secrets, validation with the OK button disabled while
+  invalid, and dialogs must show the setting description. Shipped:
+  language/permissions descriptions, UA value display + placeholder,
+  per-host host/username/password/UA describes + blank-host validation +
+  masked password, range placeholders on int/long/float, proxy password
+  masking (both platforms), sound icon contentDescriptions, Render API
+  strings, description shown in Android edit dialogs.
 - 2026-09-24 release: R8 on (dontobfuscate, lib rules), ABI splits
   (arm64/v7a/x86_64), apksigner signing in CI (single-password keystore;
   two-password variant failed mysteriously — don't). First signed

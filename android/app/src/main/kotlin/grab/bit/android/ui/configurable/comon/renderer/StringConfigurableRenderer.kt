@@ -12,6 +12,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import grab.bit.android.ui.configurable.ConfigTemplate
 import grab.bit.android.ui.configurable.NextIcon
 import grab.bit.android.ui.configurable.TitleAndDescription
@@ -69,8 +72,12 @@ object StringConfigurableRenderer : ConfigurableRenderer<StringConfigurable> {
                         },
                         shape = myShapes.defaultRounded,
                         textPadding = PaddingValues(8.dp),
-                        placeholder = "",
+                        placeholder = cfg.placeholder?.rememberString().orEmpty(),
                         interactionSource = interactionSource,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = if (cfg.secret) KeyboardType.Password else KeyboardType.Text,
+                        ),
+                        visualTransformation = if (cfg.secret) PasswordVisualTransformation() else VisualTransformation.None,
                         keyboardActions = params.keyboardActions,
                     )
                     if (cfg.presets.isNotEmpty()) {
