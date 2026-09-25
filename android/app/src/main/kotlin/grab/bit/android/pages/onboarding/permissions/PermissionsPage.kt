@@ -75,7 +75,28 @@ fun PermissionsPage(
                     .padding(bottom = 24.dp)
                 when (it) {
                     is PermissionsPageSteps.AtPermission -> {
-                        RenderPermissionContent(it.appPermission, modifier)
+                        Column(modifier) {
+                            val stepIndex = component.permissionsToAsk.indexOf(it.appPermission)
+                            Text(
+                                myStringResource(
+                                    Res.string.permissions_step,
+                                    Res.string.permissions_step_createArgs(
+                                        current = (stepIndex + 2).toString(),
+                                        total = (component.permissionsToAsk.size + 2).toString(),
+                                    )
+                                ),
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(
+                                        start = mySpacings.mediumSpace,
+                                        bottom = mySpacings.smallSpace,
+                                    )
+                            )
+                            RenderPermissionContent(
+                                it.appPermission,
+                                Modifier.fillMaxWidth(),
+                            )
+                        }
                     }
 
                     PermissionsPageSteps.Done -> {
@@ -195,7 +216,7 @@ fun RenderPermissionActions(
             )
         }
         AnimatedVisibility(
-            userProbablyPressedOnDontAskAgain && !isGranted && !appPermission.isOptional
+            !isGranted && !appPermission.isOptional
         ) {
             Text(
                 myStringResource(
@@ -203,6 +224,22 @@ fun RenderPermissionActions(
                 ),
                 color = myColors.error,
                 fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(
+                        start = mySpacings.mediumSpace,
+                        bottom = mySpacings.mediumSpace,
+                    )
+            )
+        }
+        val showBlocked by permissionComponent.showBlockedMessage.collectAsState()
+        AnimatedVisibility(
+            showBlocked && !isGranted && !appPermission.isOptional
+        ) {
+            Text(
+                myStringResource(
+                    Res.string.permission_required_to_continue,
+                ),
+                color = myColors.error,
                 modifier = Modifier
                     .padding(
                         start = mySpacings.mediumSpace,
@@ -231,6 +268,16 @@ fun RenderPermissionActions(
                     }
                 },
             )
+            if (userProbablyPressedOnDontAskAgain) {
+                Spacer(Modifier.height(mySpacings.smallSpace))
+                Text(
+                    myStringResource(
+                        Res.string.permission_open_settings_hint,
+                    ),
+                    modifier = Modifier
+                        .padding(horizontal = mySpacings.mediumSpace)
+                )
+            }
         } else {
             PrimaryMainActionButton(
                 text = myStringResource(Res.string.next),
@@ -248,6 +295,14 @@ fun RenderPermissionActions(
                 onClick = {
                     permissionComponent.goToNextPermissionPage()
                 },
+            )
+            Spacer(Modifier.height(mySpacings.smallSpace))
+            Text(
+                myStringResource(
+                    Res.string.permission_skip_optional_note,
+                ),
+                modifier = Modifier
+                    .padding(horizontal = mySpacings.mediumSpace)
             )
         }
     }
