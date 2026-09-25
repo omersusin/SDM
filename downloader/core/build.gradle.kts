@@ -5,7 +5,6 @@ plugins {
     id(Plugins.Android.multiplatformLibrary)
 }
 kotlin {
-    jvm("desktop")
     android {
         compileSdk = libs.versions.androidCompileSdk.get().toInt()
         namespace = "grab.bit.downloader.core"
@@ -32,10 +31,6 @@ kotlin {
             implementation(libs.libtorrent4j.android.x86)
             implementation(libs.libtorrent4j.android.x86.x4)
             implementation(libs.youtubedl.android.library)
-        }
-        val desktopMain = getByName("desktopMain")
-        desktopMain.dependencies {
-            implementation(libs.libtorrent4j)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))

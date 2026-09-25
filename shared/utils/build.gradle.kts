@@ -4,7 +4,6 @@ plugins {
     id(Plugins.Android.multiplatformLibrary)
 }
 kotlin {
-    jvm("desktop")
     android {
         compileSdk = libs.versions.androidCompileSdk.get().toInt()
         namespace = "grab.bit.util"
@@ -21,10 +20,6 @@ kotlin {
             api(libs.arrow.optics)
             api(libs.kermit)
             api("ir.amirab.util:platform:1")
-        }
-        val desktopMain = getByName("desktopMain")
-        desktopMain.dependencies {
-            api(libs.jna.platform)
         }
         androidMain.dependencies {
             implementation(libs.koin.core)

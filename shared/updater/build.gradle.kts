@@ -4,7 +4,6 @@ plugins {
     id(Plugins.Kotlin.serialization)
 }
 kotlin {
-    jvm("desktop")
     android {
         namespace = "grab.bit.updater"
         compileSdk = libs.versions.androidCompileSdk.get().toInt()
@@ -18,10 +17,6 @@ kotlin {
             implementation(project(":shared:utils"))
             implementation(libs.semver)
             implementation("ir.amirab.util:platform:1")
-        }
-        val desktopMain = getByName("desktopMain")
-        desktopMain.dependencies {
-            implementation(libs.jna.platform)
         }
     }
 }

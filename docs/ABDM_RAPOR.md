@@ -1,6 +1,6 @@
 # ABDM Fork — Dig Report (8 repos)
 
-Base: AB Download Manager (Kotlin, Android+Desktop, multi-part engine ready)
+Base: AB Download Manager (Kotlin, Android-only since 2026-09-25, multi-part engine ready)
 
 ## From the group list → where to take it from
 1. Media grabber (1DM) → XDM's sniffing logic (m3u8/mpd parsing, fragment filtering) + 1DM WebView intercept recipe

@@ -28,7 +28,6 @@ val generateResObject = tasks.register("generateResObject", GenerateResObject::c
 }
 
 kotlin {
-    jvm("desktop")
     android {
         compileSdk = libs.versions.androidCompileSdk.get().toInt()
         namespace = "grab.bit.resources"
