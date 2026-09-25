@@ -236,6 +236,7 @@ fun HomePage(component: HomeComponent) {
                             .weight(1f),
                         contentPadding = params.paddingValues,
                         downloadErrorReasons = component.failedDownloads.collectAsState().value,
+                        isFiltering = component.filterState.isFiltering,
                     )
                 }
                 AnimatedVisibility(

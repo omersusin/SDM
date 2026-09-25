@@ -15,4 +15,10 @@ class FilterState {
     var typeCategoryFilter by mutableStateOf(null as Category?)
     var queueFilter by mutableStateOf(null as QueueModel?)
     var statusFilter by mutableStateOf<DownloadStatusCategoryFilter>(DefinedStatusCategories.All)
+
+    val isFiltering: Boolean
+        get() = textToSearch.isNotBlank() ||
+            typeCategoryFilter != null ||
+            queueFilter != null ||
+            statusFilter != DefinedStatusCategories.All
 }

@@ -40,6 +40,7 @@ fun DownloadList(
     modifier: Modifier,
     contentPadding: PaddingValues,
     downloadErrorReasons: Map<Long, DownloadErrorReason>,
+    isFiltering: Boolean = false,
 ) {
 
     fun newSelection(ids: List<Long>, isSelected: Boolean) {
@@ -119,9 +120,11 @@ fun DownloadList(
             ) {
                 WithContentAlpha(0.75f) {
                     Text(
-                        myStringResource(Res.string.list_is_empty),
+                        myStringResource(
+                            if (isFiltering) Res.string.search_no_results
+                            else Res.string.list_is_empty
+                        ),
                         Modifier.align(Alignment.Center),
-                        maxLines = 1,
                     )
                 }
             }
