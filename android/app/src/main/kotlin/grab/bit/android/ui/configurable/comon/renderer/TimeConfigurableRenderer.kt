@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import grab.bit.android.ui.configurable.ConfigTemplate
 import grab.bit.android.ui.configurable.SheetInput
 import grab.bit.android.ui.configurable.TitleAndDescription
+import grab.bit.resources.Res
 import grab.bit.shared.ui.configurable.ConfigurableRenderer
 import grab.bit.shared.ui.configurable.ConfigurableUiProps
 import grab.bit.shared.ui.configurable.isConfigEnabled
@@ -30,6 +31,7 @@ import grab.bit.shared.ui.widget.IntTextField
 import grab.bit.shared.ui.widget.Text
 import grab.bit.shared.util.ui.icon.MyIcons
 import grab.bit.shared.util.ui.widget.MyIcon
+import grab.bit.util.compose.resources.myStringResource
 import kotlinx.datetime.LocalTime
 
 object TimeConfigurableRenderer : ConfigurableRenderer<TimeConfigurable> {
@@ -94,11 +96,11 @@ object TimeConfigurableRenderer : ConfigurableRenderer<TimeConfigurable> {
                             modifier = textFieldModifier,
                             enabled = enabled,
                             keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Companion.Decimal,
+                                keyboardType = KeyboardType.Companion.Number,
                                 imeAction = ImeAction.Next
                             ),
                             keyboardActions = KeyboardActions.Default,
-                            placeholder = "hour",
+                            placeholder = myStringResource(Res.string.settings_time_hour),
                             prettify = { it.toString().padStart(2, '0') },
                         )
                         Text(":", Modifier.padding(horizontal = 4.dp))
@@ -111,11 +113,11 @@ object TimeConfigurableRenderer : ConfigurableRenderer<TimeConfigurable> {
                             modifier = textFieldModifier,
                             enabled = enabled,
                             keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Decimal,
+                                keyboardType = KeyboardType.Number,
                                 imeAction = ImeAction.Done
                             ),
                             keyboardActions = inputParams.keyboardActions,
-                            placeholder = "minute",
+                            placeholder = myStringResource(Res.string.settings_time_minute),
                             prettify = { it.toString().padStart(2, '0') },
                         )
                     }

@@ -94,7 +94,7 @@ object CommonSettings {
             description = Res.string.settings_download_max_retries_count_description.asStringSource(),
             backedBy = appRepository.maxDownloadRetryCount,
             range = 0..MaximumDownloadRetriesLimitation.MAX_ALLOWED_RETRIES,
-            renderMode = IntConfigurable.RenderMode.TextField,
+            renderMode = IntConfigurable.RenderMode.Stepper,
             describe = {
                 if (it == 0) {
                     Res.string.settings_download_max_retries_count_describe_no_retries.asStringSource()

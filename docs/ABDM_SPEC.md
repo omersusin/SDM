@@ -108,6 +108,13 @@ Swiss-army-knife, but nothing illogical.
   masked password, range placeholders on int/long/float, proxy password
   masking (both platforms), sound icon contentDescriptions, Render API
   strings, description shown in Android edit dialogs.
+- 2026-09-25 settings-controls (user-approved): IntConfigurable.Stepper mode
+  (both platforms, inline -/value/+, range-clamped, localized labels);
+  max-retry-count uses Stepper; thread count stays TextField (1–256 range,
+  keyboard logical per rule); video quality stays radio-list dialog
+  (already compliant, AUTO default + migration kept); Time hour/minute
+  placeholders localized + Number keyboard (both platforms); DayOfWeek
+  already chip-group. No stored-type changes, no migration needed.
 - 2026-09-24 release: R8 on (dontobfuscate, lib rules), ABI splits
   (arm64/v7a/x86_64), apksigner signing in CI (single-password keystore;
   two-password variant failed mysteriously — don't). First signed

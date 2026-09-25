@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import grab.bit.desktop.ui.configurable.ConfigTemplate
+import grab.bit.resources.Res
 import grab.bit.shared.ui.configurable.ConfigurableRenderer
 import grab.bit.desktop.ui.configurable.TitleAndDescription
 import grab.bit.shared.ui.configurable.ConfigurableUiProps
@@ -23,6 +24,7 @@ import grab.bit.shared.ui.configurable.isConfigEnabled
 import grab.bit.shared.ui.configurable.item.TimeConfigurable
 import grab.bit.shared.ui.widget.IntTextField
 import grab.bit.shared.ui.widget.Text
+import grab.bit.util.compose.resources.myStringResource
 import kotlinx.datetime.LocalTime
 
 object TimeConfigurableRenderer : ConfigurableRenderer<TimeConfigurable> {
@@ -68,8 +70,8 @@ object TimeConfigurableRenderer : ConfigurableRenderer<TimeConfigurable> {
                         range = 0..23,
                         modifier = textFieldModifier,
                         enabled = enabled,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                        placeholder = "hour",
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        placeholder = myStringResource(Res.string.settings_time_hour),
                         prettify = { it.toString().padStart(2, '0') },
                     )
                     Text(":", Modifier.padding(horizontal = 4.dp))
@@ -81,8 +83,8 @@ object TimeConfigurableRenderer : ConfigurableRenderer<TimeConfigurable> {
                         range = 0..59,
                         modifier = textFieldModifier,
                         enabled = enabled,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                        placeholder = "minute",
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        placeholder = myStringResource(Res.string.settings_time_minute),
                         prettify = { it.toString().padStart(2, '0') },
                     )
                 }
