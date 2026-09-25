@@ -144,7 +144,11 @@ class HttpNewDownloadInputs(
                 }, scope
             ),
             describe = {
-                "".asStringSource()
+                if (it.isBlank()) {
+                    Res.string.download_item_settings_credentials_empty.asStringSource()
+                } else {
+                    it.asStringSource()
+                }
             }
         ),
         StringConfigurable(
@@ -158,8 +162,13 @@ class HttpNewDownloadInputs(
                     setCredentials(credentials.value.copy(password = it.takeIf { it.isNotBlank() }))
                 }, scope
             ),
+            secret = true,
             describe = {
-                "".asStringSource()
+                if (it.isBlank()) {
+                    Res.string.download_item_settings_credentials_empty.asStringSource()
+                } else {
+                    "••••••••".asStringSource()
+                }
             }
         ),
         StringConfigurable(
@@ -173,8 +182,13 @@ class HttpNewDownloadInputs(
                     copy(userAgent = it.takeIf { it.isNotEmpty() })
                 }
             ),
+            placeholder = Res.string.settings_default_user_agent_placeholder.asStringSource(),
             describe = {
-                "".asStringSource()
+                if (it.isBlank()) {
+                    Res.string.use_global_settings.asStringSource()
+                } else {
+                    it.take(80).asStringSource()
+                }
             }
         ),
         StringConfigurable(
@@ -189,7 +203,11 @@ class HttpNewDownloadInputs(
                 }
             ),
             describe = {
-                "".asStringSource()
+                if (it.isBlank()) {
+                    Res.string.download_item_settings_credentials_empty.asStringSource()
+                } else {
+                    it.asStringSource()
+                }
             }
         )
     )
