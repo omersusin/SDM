@@ -12,6 +12,7 @@ class IntConfigurable(
     describe: ((Int) -> StringSource),
     val range: IntRange,
     val renderMode: RenderMode = RenderMode.TextField,
+    val step: Int = 1,
     enabled: StateFlow<Boolean> = DefaultEnabledValue,
     visible: StateFlow<Boolean> = DefaultVisibleValue,
 ) : Configurable<Int>(
@@ -29,6 +30,7 @@ class IntConfigurable(
 
     enum class RenderMode {
         TextField,
+        Stepper,
     }
 }
 

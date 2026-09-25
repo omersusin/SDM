@@ -2,7 +2,9 @@ package grab.bit.android.ui.configurable.comon.renderer
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,22 +16,30 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import grab.bit.android.ui.configurable.ConfigTemplate
 import grab.bit.android.ui.configurable.NextIcon
 import grab.bit.android.ui.configurable.SheetInput
 import grab.bit.android.ui.configurable.TitleAndDescription
+import grab.bit.resources.Res
 import grab.bit.shared.ui.configurable.ConfigurableRenderer
 import grab.bit.shared.ui.configurable.ConfigurableUiProps
 import grab.bit.shared.ui.configurable.isConfigEnabled
 import grab.bit.shared.ui.configurable.item.FloatConfigurable
 import grab.bit.shared.ui.configurable.item.IntConfigurable
 import grab.bit.shared.ui.widget.FloatTextField
+import grab.bit.shared.ui.widget.IconActionButton
 import grab.bit.shared.ui.widget.IntTextField
+import grab.bit.shared.ui.widget.Text
 import grab.bit.shared.util.ui.icon.MyIcons
 import grab.bit.shared.util.ui.widget.MyIcon
+import grab.bit.util.compose.asStringSource
+import grab.bit.util.compose.resources.myStringResource
+import grab.bit.util.ifThen
 
 object IntConfigurableRenderer : ConfigurableRenderer<IntConfigurable> {
     @Composable
@@ -60,7 +70,9 @@ object IntConfigurableRenderer : ConfigurableRenderer<IntConfigurable> {
 
         ConfigTemplate(
             modifier = configurableUiProps.modifier
-                .clickable { isOpened = true }
+                .ifThen(cfg.renderMode == IntConfigurable.RenderMode.TextField) {
+                    clickable { isOpened = true }
+                }
                 .padding(configurableUiProps.itemPaddingValues),
             title = {
                 TitleAndDescription(cfg, true)
@@ -71,8 +83,40 @@ object IntConfigurableRenderer : ConfigurableRenderer<IntConfigurable> {
                         NextIcon()
                         RenderTextFieldIntInput(cfg = cfg, isOpened = isOpened, onDismiss = onDismiss)
                     }
+
+                    IntConfigurable.RenderMode.Stepper -> {
+                        RenderStepperIntInput(cfg = cfg)
+                    }
                 }
             })
+    }
+
+    @Composable
+    fun RenderStepperIntInput(cfg: IntConfigurable) {
+        val value by cfg.stateFlow.collectAsState()
+        val enabled = isConfigEnabled()
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End,
+        ) {
+            IconActionButton(
+                MyIcons.minus,
+                Res.string.settings_stepper_decrease.asStringSource(),
+                enabled = enabled && value > cfg.range.first,
+                onClick = { cfg.set(value - cfg.step) },
+            )
+            Text(
+                "$value",
+                modifier = Modifier.width(56.dp),
+                textAlign = TextAlign.Center,
+            )
+            IconActionButton(
+                MyIcons.add,
+                Res.string.settings_stepper_increase.asStringSource(),
+                enabled = enabled && value < cfg.range.last,
+                onClick = { cfg.set(value + cfg.step) },
+            )
+        }
     }
 
     @Composable
