@@ -104,6 +104,7 @@ class AndroidSettingsComponent(
                     CommonSettings.threadCountConfig(appRepository),
                     CommonSettings.maxConcurrentDownloads(appRepository),
                     CommonSettings.maxDownloadRetryCount(appRepository),
+                    CommonSettings.retryDelayConfig(appRepository),
                     CommonSettings.dynamicPartDownloadConfig(appRepository),
                 )
             ),

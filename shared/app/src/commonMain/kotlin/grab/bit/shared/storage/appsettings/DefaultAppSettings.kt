@@ -23,6 +23,7 @@ abstract class DefaultAppSettings {
     open val threadCount: Int get() = 8
     open val maxConcurrentDownloads: Int get() = 3
     open val maxDownloadRetryCount: Int get() = 3
+    open val retryDelaySeconds: Int get() = 3
     open val dynamicPartCreation: Boolean get() = true
     open val useServerLastModifiedTime: Boolean get() = false
     open val appendExtensionToIncompleteDownloads: Boolean get() = false

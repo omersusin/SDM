@@ -36,6 +36,10 @@ object BaseAppSettingsDefinition {
             .range(0, MaximumDownloadRetriesLimitation.MAX_ALLOWED_RETRIES).catch(
                 PlatformDefaultSettings::maxDownloadRetryCount
             )
+        prop(IAppSettingsModel::retryDelaySeconds) bind S.int()
+            .range(0, 3600).catch(
+                PlatformDefaultSettings::retryDelaySeconds
+            )
         prop(IAppSettingsModel::dynamicPartCreation) bind S.boolean()
             .catch(PlatformDefaultSettings::dynamicPartCreation)
         prop(IAppSettingsModel::useServerLastModifiedTime) bind S.boolean()

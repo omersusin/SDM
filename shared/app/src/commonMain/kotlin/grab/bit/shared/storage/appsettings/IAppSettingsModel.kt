@@ -20,6 +20,7 @@ interface IAppSettingsModel {
     val threadCount: Int
     val maxConcurrentDownloads: Int
     val maxDownloadRetryCount: Int
+    val retryDelaySeconds: Int
     val dynamicPartCreation: Boolean
     val useServerLastModifiedTime: Boolean
     val appendExtensionToIncompleteDownloads: Boolean
