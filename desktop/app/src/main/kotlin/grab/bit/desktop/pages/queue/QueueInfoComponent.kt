@@ -9,6 +9,9 @@ import androidx.compose.runtime.toMutableStateList
 import grab.bit.desktop.storage.DesktopExtraQueueSettings
 import grab.bit.shared.storage.ExtraQueueSettingsStorage
 import grab.bit.resources.Res
+import grab.bit.shared.ui.configurable.describeDays
+import grab.bit.shared.ui.configurable.enabledDisabledDescribe
+import grab.bit.shared.ui.configurable.hourMinuteString
 import grab.bit.shared.ui.configurable.item.BooleanConfigurable
 import grab.bit.shared.ui.configurable.item.DayOfWeekConfigurable
 import grab.bit.shared.ui.configurable.item.IntConfigurable
@@ -248,8 +251,8 @@ class QueueInfoComponent(
                 nestedVisible = enabledSchedulerFlow,
                 mainConfigurable = BooleanConfigurable(
                     Res.string.queue_enable_scheduler.asStringSource(),
-                    description = "".asStringSource(),
-                    describe = { "".asStringSource() },
+                    description = Res.string.queue_enable_scheduler_description.asStringSource(),
+                    describe = { enabledDisabledDescribe(it) },
                     backedBy = createMutableStateFlowFromStateFlow(
                         flow = enabledSchedulerFlow,
                         scope = scope,
@@ -281,12 +284,12 @@ class QueueInfoComponent(
                         validate = {
                             it.isNotEmpty()
                         },
-                        describe = { "".asStringSource() },
+                        describe = { it.describeDays() },
                     ),
                     BooleanConfigurable(
                         Res.string.queue_scheduler_enable_auto_start_time.asStringSource(),
-                        description = "".asStringSource(),
-                        describe = { "".asStringSource() },
+                        description = Res.string.queue_scheduler_enable_auto_start_time_description.asStringSource(),
+                        describe = { enabledDisabledDescribe(it) },
                         backedBy = createMutableStateFlowFromStateFlow(
                             scope = scope,
                             flow = enabledStartTimeFlow,
@@ -299,7 +302,7 @@ class QueueInfoComponent(
                     ),
                     TimeConfigurable(
                         Res.string.queue_scheduler_auto_start_time.asStringSource(),
-                        "".asStringSource(),
+                        Res.string.queue_scheduler_auto_start_time_description.asStringSource(),
                         backedBy = createMutableStateFlowFromStateFlow(
                             scope = scope,
                             flow = downloadQueue.queueModel.mapStateFlow() {
@@ -311,13 +314,13 @@ class QueueInfoComponent(
                                 }
                             },
                         ),
-                        describe = { "".asStringSource() },
+                        describe = { it.hourMinuteString().asStringSource() },
                         visible = enabledStartTimeFlow,
                     ),
                     BooleanConfigurable(
                         Res.string.queue_scheduler_enable_auto_stop_time.asStringSource(),
-                        description = "".asStringSource(),
-                        describe = { "".asStringSource() },
+                        description = Res.string.queue_scheduler_enable_auto_stop_time_description.asStringSource(),
+                        describe = { enabledDisabledDescribe(it) },
                         backedBy = createMutableStateFlowFromStateFlow(
                             scope = scope,
                             flow = enabledEndTimeFlow,
@@ -330,7 +333,7 @@ class QueueInfoComponent(
                     ),
                     TimeConfigurable(
                         Res.string.queue_scheduler_auto_stop_time.asStringSource(),
-                        "".asStringSource(),
+                        Res.string.queue_scheduler_auto_stop_time_description.asStringSource(),
                         backedBy = createMutableStateFlowFromStateFlow(
                             scope = scope,
                             flow = downloadQueue.queueModel.mapStateFlow() {
@@ -342,7 +345,7 @@ class QueueInfoComponent(
                                 }
                             },
                         ),
-                        describe = { "".asStringSource() },
+                        describe = { it.hourMinuteString().asStringSource() },
                         visible = enabledEndTimeFlow,
                     ),
                 )
