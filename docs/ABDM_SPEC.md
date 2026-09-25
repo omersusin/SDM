@@ -123,6 +123,11 @@ Swiss-army-knife, but nothing illogical.
   crash notification strings + keep-alive reason strings; updater shows
   current version row. Deferred (needs new plumbing, asked as feature):
   Retry/Edit actions on download-error pages.
+- 2026-09-25 retry-delay (competitor-mined, 1DM parity): retry delay
+  between attempts is now a user setting (0–3600s stepper, default 3s)
+  instead of a hardcoded 3000ms; wired through prefs → repository →
+  DownloadSettings into HTTP+HLS engines with live reload. Old installs
+  migrate cleanly via schema catch-default.
 - 2026-09-25 agent-audit-3: FilterState.isFiltering + filter-aware empty
   states (both platforms);   per-host Android search box restored with
   no-match text; browser per-dialog empty strings + localized stream

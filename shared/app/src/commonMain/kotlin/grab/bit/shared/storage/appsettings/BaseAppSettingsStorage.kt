@@ -28,6 +28,7 @@ interface BaseAppSettingsStorage :
     val useSparseFileAllocation: MutableStateFlow<Boolean>
     val useAverageSpeed: MutableStateFlow<Boolean>
     val maxDownloadRetryCount: MutableStateFlow<Int>
+    val retryDelaySeconds: MutableStateFlow<Int>
     val showDownloadProgressDialog: MutableStateFlow<Boolean>
     val showDownloadCompletionDialog: MutableStateFlow<Boolean>
     val speedLimit: MutableStateFlow<Long>

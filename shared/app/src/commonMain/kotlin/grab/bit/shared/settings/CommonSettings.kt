@@ -110,6 +110,28 @@ object CommonSettings {
         )
     }
 
+    fun retryDelayConfig(appRepository: BaseAppRepository): IntConfigurable {
+        return IntConfigurable(
+            title = Res.string.settings_download_retry_delay.asStringSource(),
+            description = Res.string.settings_download_retry_delay_description.asStringSource(),
+            backedBy = appRepository.retryDelaySeconds,
+            range = 0..3600,
+            renderMode = IntConfigurable.RenderMode.Stepper,
+            describe = {
+                if (it == 0) {
+                    Res.string.settings_download_retry_delay_no_delay.asStringSource()
+                } else {
+                    Res.string.settings_download_retry_delay_seconds
+                        .asStringSourceWithARgs(
+                            Res.string.settings_download_retry_delay_seconds_createArgs(
+                                count = "$it"
+                            )
+                        )
+                }
+            },
+        )
+    }
+
     fun dynamicPartDownloadConfig(appRepository: BaseAppRepository): BooleanConfigurable {
         return BooleanConfigurable(
             title = Res.string.settings_dynamic_part_creation.asStringSource(),

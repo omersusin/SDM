@@ -10,6 +10,7 @@ data class DownloadSettings(
     // aria2 uses 20M; 2kB created swarms of wasteful range requests.
     val minPartSize: Long = 1024 * 1024,//1MB
     var maxDownloadRetryCount: Int = 0,
+    var retryDelayMillis: Long = 3_000L,
     // WARNING: this is used in boot so make sure to update it before booting
     // make it val or add a way to reload it properly
     var appendExtensionToIncompleteDownloads: Boolean = false,

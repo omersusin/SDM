@@ -346,7 +346,8 @@ class HLSDownloadJob(
     }
 
     var failedDownloadTries = 0
-    val delayForEachRetry = 3_000L
+    val delayForEachRetry: Long
+        get() = downloadManager.settings.retryDelayMillis
     private var downloadedSizeBeforeRetry = 0L
 
     private var retryJob: Job? = null
