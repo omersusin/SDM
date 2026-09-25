@@ -107,6 +107,8 @@ class ABDMServiceNotificationManager(
             NotificationManager.IMPORTANCE_LOW,
         )
         notificationChanel.setShowBadge(false)
+        notificationChanel.description =
+            Res.string.download_notification_channel_description.asStringSource().getString()
         notificationManagerCompat.createNotificationChannel(notificationChanel)
     }
 

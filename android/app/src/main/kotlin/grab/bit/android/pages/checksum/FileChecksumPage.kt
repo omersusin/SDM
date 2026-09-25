@@ -300,7 +300,7 @@ private data object FileChecksumTableCellRenderers {
                 }
             },
             valueContent = {
-                Text(item.savedChecksum.orEmpty())
+                Text(item.savedChecksum ?: myStringResource(Res.string.file_checksum_saved_placeholder))
             },
             actions = {
                 TransparentIconActionButton(
@@ -432,6 +432,12 @@ private data object FileChecksumTableCellRenderers {
             text = text.rememberString(),
             color = color,
         )
+        if (status == ChecksumStatus.Finished.NotMatches) {
+            Spacer(Modifier.width(8.dp))
+            Help(
+                myStringResource(Res.string.file_checksum_mismatch_help)
+            )
+        }
     }
 
     @Composable

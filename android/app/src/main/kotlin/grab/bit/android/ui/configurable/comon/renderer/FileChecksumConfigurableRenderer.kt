@@ -80,7 +80,7 @@ object FileChecksumConfigurableRenderer : ConfigurableRenderer<FileChecksumConfi
                                     textPadding = PaddingValues(4.dp),
                                     enabled = enabled,
                                     modifier = Modifier.weight(1f),
-                                    placeholder = myStringResource(Res.string.file_checksum),
+                                    placeholder = myStringResource(Res.string.file_checksum_placeholder),
                                 )
                             }
                         }

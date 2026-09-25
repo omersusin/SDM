@@ -60,7 +60,7 @@ fun BatchDownload(
                         MyTextFieldWithIcons(
                             text = link,
                             onTextChange = setLink,
-                            placeholder = "https://example.com/photo-*.png",
+                            placeholder = myStringResource(Res.string.batch_download_link_placeholder),
                             modifier = Modifier
                                 .focusRequester(linkFocusRequester)
                                 .fillMaxWidth(),
@@ -105,8 +105,9 @@ fun BatchDownload(
                             MyTextFieldWithIcons(
                                 text = start,
                                 onTextChange = setStart,
-                                placeholder = "",
+                                placeholder = myStringResource(Res.string.batch_download_range_start_placeholder),
                                 modifier = Modifier.width(90.dp),
+                                errorText = rangeErrorText(start, end, validationResult),
                                 start = {
                                     Text(
                                         "${myStringResource(Res.string.range_from)}:",
@@ -121,8 +122,9 @@ fun BatchDownload(
                             MyTextFieldWithIcons(
                                 text = end,
                                 onTextChange = setEnd,
-                                placeholder = "",
+                                placeholder = myStringResource(Res.string.batch_download_range_end_placeholder),
                                 modifier = Modifier.width(90.dp),
+                                errorText = rangeErrorText(start, end, validationResult),
                                 start = {
                                     Text(
                                         "${myStringResource(Res.string.range_to)}:",
@@ -230,9 +232,10 @@ private fun WildcardLengthUi(
     var customLength by remember {
         mutableStateOf(2)
     }
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+    Column {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
         Multiselect(
             selections = entries,
             selectedItem = WildcardSelect.fromWildcardLength(wildcardLength),
@@ -249,24 +252,42 @@ private fun WildcardLengthUi(
                 Text(it.text.rememberString())
             }
         )
-        AnimatedVisibility(wildcardLength is WildcardLength.Custom) {
-            Row {
-                Spacer(Modifier.width(8.dp))
-                IntTextField(
-                    value = customLength,
-                    onValueChange = {
-                        customLength = it
-                        onChangeWildcardLength(
-                            WildcardLength.Custom(it)
-                        )
-                    },
-                    range = 1..10,
-                    keyboardOptions = KeyboardOptions.Default,
-                    modifier = Modifier.width(72.dp)
-                )
+            AnimatedVisibility(wildcardLength is WildcardLength.Custom) {
+                Row {
+                    Spacer(Modifier.width(8.dp))
+                    IntTextField(
+                        value = customLength,
+                        onValueChange = {
+                            customLength = it
+                            onChangeWildcardLength(
+                                WildcardLength.Custom(it)
+                            )
+                        },
+                        range = 1..10,
+                        keyboardOptions = KeyboardOptions.Default,
+                        modifier = Modifier.width(72.dp)
+                    )
+                }
             }
         }
+        Spacer(Modifier.height(4.dp))
+        Text(myStringResource(Res.string.batch_download_wildcard_help))
     }
+}
+        }
+    }
+}
+
+@Composable
+private fun rangeErrorText(
+    start: String,
+    end: String,
+    validationResult: BatchDownloadValidationResult,
+): String? {
+    if (start.isNotBlank() && end.isNotBlank() && validationResult is BatchDownloadValidationResult.Others) {
+        return myStringResource(Res.string.batch_download_invalid_range)
+    }
+    return null
 }
 
 @Composable

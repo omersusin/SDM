@@ -91,6 +91,11 @@ fun ResponsiveDialogScope.NewUpdatePage(
                             )
                         }
                         Spacer(Modifier.height(8.dp))
+                        RenderKeyValue(
+                            myStringResource(Res.string.update_current_version),
+                            currentVersion.toString(),
+                        )
+                        Spacer(Modifier.height(8.dp))
                         Text(
                             text = myStringResource(Res.string.update_available_suggest_to_to_update),
                             fontSize = myTextSizes.base,

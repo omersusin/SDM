@@ -312,7 +312,7 @@ private data object FileChecksumTableCellRenderers {
         ) {
             Column(Modifier.fillMaxSize()) {
                 CellContent {
-                    SimpleText(item.savedChecksum.orEmpty())
+                    SimpleText(item.savedChecksum ?: myStringResource(Res.string.file_checksum_saved_placeholder))
                 }
                 if (edit) {
                     ChecksumEditDropDown(
@@ -454,6 +454,12 @@ private data object FileChecksumTableCellRenderers {
             text = text.rememberString(),
             color = color,
         )
+        if (status == ChecksumStatus.Finished.NotMatches) {
+            Spacer(Modifier.width(8.dp))
+            Help(
+                myStringResource(Res.string.file_checksum_mismatch_help)
+            )
+        }
     }
 
     @Composable

@@ -115,6 +115,14 @@ Swiss-army-knife, but nothing illogical.
   (already compliant, AUTO default + migration kept); Time hour/minute
   placeholders localized + Number keyboard (both platforms); DayOfWeek
   already chip-group. No stored-type changes, no migration needed.
+- 2026-09-25 agent-audit-2 (10 read-only agents, single-writer apply):
+  checksum format-hint placeholder + mismatch Help + saved-hash hint
+  (both platforms); batch link/range placeholders + invalid-range error +
+  wildcard help (both platforms); permission guard strings localized;
+  about icon contentDescriptions; notification channel descriptions +
+  crash notification strings + keep-alive reason strings; updater shows
+  current version row. Deferred (needs new plumbing, asked as feature):
+  Retry/Edit actions on download-error pages.
 - 2026-09-24 release: R8 on (dontobfuscate, lib rules), ABI splits
   (arm64/v7a/x86_64), apksigner signing in CI (single-password keystore;
   two-password variant failed mysteriously — don't). First signed
