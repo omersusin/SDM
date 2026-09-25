@@ -103,7 +103,7 @@ fun LongTextField(
         modifier = modifier,
         enabled = enabled,
         keyboardOptions = keyboardOptions.copy(
-            keyboardType = KeyboardType.Decimal
+            keyboardType = KeyboardType.Number
         ),
         keyboardActions = keyboardActions,
         interactionSource = interactionSource,
