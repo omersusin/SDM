@@ -100,3 +100,11 @@ val ABDMIcons.AppIcon: ImageVector
                 lineTo(117f, 130f)
                 lineTo(100f, 148f)
                 close()
+            }
+        }.build()
+
+        return _AppIcon!!
+    }
+
+@Suppress("ObjectPropertyName")
+private var _AppIcon: ImageVector? = null
