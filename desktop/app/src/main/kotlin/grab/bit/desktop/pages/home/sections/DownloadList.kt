@@ -86,6 +86,7 @@ fun DownloadList(
     categoryManager: CategoryManager,
     lazyListState: LazyListState,
     failedDownloadReasons: Map<Long, DownloadErrorReason>,
+    isFiltering: Boolean = false,
 ) {
     ShowDownloadOptions(
         downloadOptions, onRequestCloseOption
@@ -156,7 +157,13 @@ fun DownloadList(
                 ),
             drawOnEmpty = {
                 WithContentAlpha(0.75f) {
-                    Text(myStringResource(Res.string.list_is_empty), Modifier.align(Alignment.Center))
+                    Text(
+                        myStringResource(
+                            if (isFiltering) Res.string.search_no_results
+                            else Res.string.list_is_empty
+                        ),
+                        Modifier.align(Alignment.Center)
+                    )
                 }
             },
             wrapHeader = {

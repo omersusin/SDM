@@ -363,6 +363,7 @@ fun HomePage(component: HomeComponent) {
                         categoryManager = component.categoryManager,
                         lazyListState = lazyListState,
                         failedDownloadReasons = component.failedDownloads.collectAsState().value,
+                        isFiltering = component.filterState.isFiltering,
                     )
                     Spacer(
                         Modifier

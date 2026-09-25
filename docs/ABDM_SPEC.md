@@ -123,6 +123,10 @@ Swiss-army-knife, but nothing illogical.
   crash notification strings + keep-alive reason strings; updater shows
   current version row. Deferred (needs new plumbing, asked as feature):
   Retry/Edit actions on download-error pages.
+- 2026-09-25 agent-audit-3: FilterState.isFiltering + filter-aware empty
+  states (both platforms); per-host Android search box restored with
+  no-match text; browser per-dialog empty strings + localized stream
+  label + GB/MB sizes.
 - 2026-09-24 release: R8 on (dontobfuscate, lib rules), ABI splits
   (arm64/v7a/x86_64), apksigner signing in CI (single-password keystore;
   two-password variant failed mysteriously — don't). First signed

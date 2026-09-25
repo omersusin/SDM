@@ -231,31 +231,42 @@ private fun HostList(
             if (filteredHosts.isEmpty()) {
                 WithContentAlpha(0.75f) {
                     Text(
-                        myStringResource(Res.string.list_is_empty),
+                        myStringResource(
+                            if (search.isNotEmpty()) Res.string.per_host_settings_no_match
+                            else Res.string.list_is_empty
+                        ),
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
             }
         }
 
-//        Row(
-//            modifier = Modifier
-//                .padding(vertical = 4.dp)
-//                .padding(horizontal = 8.dp)
-//                .height(IntrinsicSize.Max)
-//                .fillMaxWidth(),
-//            verticalAlignment = Alignment.CenterVertically,
-//            horizontalArrangement = Arrangement.End
-//        ) {
-//            SearchBox(
-//                search,
-//                onTextChange = {
-//                    search = it
-//                },
-//                placeholder = myStringResource(Res.string.search),
-//                modifier = Modifier.weight(1f).fillMaxHeight(),
-//            )
-//        }
+        Row(
+            modifier = Modifier
+                .padding(vertical = 4.dp)
+                .padding(horizontal = 8.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            MyTextFieldWithIcons(
+                text = search,
+                onTextChange = {
+                    search = it
+                },
+                placeholder = myStringResource(Res.string.search),
+                modifier = Modifier.weight(1f),
+                start = {
+                    MyTextFieldIcon(MyIcons.search)
+                },
+                end = {
+                    if (search.isNotEmpty()) {
+                        MyTextFieldIcon(MyIcons.clear) {
+                            search = ""
+                        }
+                    }
+                }
+            )
+        }
     }
 }
 

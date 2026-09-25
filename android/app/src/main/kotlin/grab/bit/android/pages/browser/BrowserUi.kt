@@ -325,7 +325,13 @@ fun MediaListDialog(
                         }
                         val label = when (item) {
                             is MediaCandidate.Direct -> item.fileName ?: item.url
-                            is MediaCandidate.Stream -> "${item.kind}: ${item.url}"
+                            is MediaCandidate.Stream -> myStringResource(
+                                Res.string.browser_stream_label,
+                                Res.string.browser_stream_label_createArgs(
+                                    kind = item.kind.name,
+                                    url = item.url,
+                                )
+                            )
                             MediaCandidate.NotMedia -> return@items
                         }
                         Row(
@@ -403,7 +409,7 @@ fun VideoFormatsDialog(
                 is BrowserComponent.VideoFormatsState.Ready -> {
                     if (s.formats.isEmpty()) {
                         Text(
-                            text = myStringResource(Res.string.browser_media_list_empty),
+                            text = myStringResource(Res.string.browser_formats_empty),
                             modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
                         )
                     } else {
@@ -430,7 +436,10 @@ fun VideoFormatsDialog(
                                 val label = listOfNotNull(
                                     format.height?.let { "${it}p" },
                                     ".${format.ext}",
-                                    format.filesize?.let { "${it / 1024 / 1024}MB" },
+                                    format.filesize?.let { bytes ->
+                                        val mb = bytes / 1024 / 1024
+                                        if (mb >= 1024) "${mb / 1024} GB" else "$mb MB"
+                                    },
                                 ).joinToString(" ")
                                 Row(
                                     modifier = Modifier
@@ -502,7 +511,7 @@ fun PoolDialog(
         ) {
             if (items.isEmpty()) {
                 Text(
-                    text = myStringResource(Res.string.browser_media_list_empty),
+                    text = myStringResource(Res.string.browser_pool_empty),
                     modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
                 )
             } else {
@@ -574,7 +583,7 @@ fun TorrentDialog(
         ) {
             if (items.isEmpty()) {
                 Text(
-                    text = myStringResource(Res.string.browser_media_list_empty),
+                    text = myStringResource(Res.string.browser_torrents_empty),
                     modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
                 )
             } else {
