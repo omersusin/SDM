@@ -10,6 +10,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import grab.bit.R
 import grab.bit.android.pages.crashreport.CrashReportActivity
+import grab.bit.resources.Res
+import grab.bit.util.compose.asStringSource
 import kotlin.system.exitProcess
 
 class AndroidGlobalExceptionHandler(
@@ -62,6 +64,8 @@ class AndroidGlobalExceptionHandler(
                     NotificationManager.IMPORTANCE_LOW,
                 )
                 notificationChanel.setShowBadge(false)
+                notificationChanel.description =
+                    Res.string.crash_notification_channel_description.asStringSource().getString()
                 notificationManagerCompat.createNotificationChannel(notificationChanel)
             }
             initialized = true
@@ -78,9 +82,9 @@ class AndroidGlobalExceptionHandler(
             val notification = NotificationCompat
                 .Builder(context, AndroidConstants.NOTIFICATION_CRASH_REPORT_CHANEL_ID)
                 .setSmallIcon(R.drawable.ic_monochrome)
-                .setContentTitle("Application crashed!")
-                .setSubText("Click to show info")
-                .setGroup("Crash Report")
+                .setContentTitle(Res.string.crash_notification_title.asStringSource().getString())
+                .setSubText(Res.string.crash_notification_text.asStringSource().getString())
+                .setGroup(Res.string.crash_report_group.asStringSource().getString())
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)

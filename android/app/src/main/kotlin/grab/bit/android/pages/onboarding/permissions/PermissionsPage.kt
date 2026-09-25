@@ -211,7 +211,7 @@ fun RenderPermissionActions(
             )
         }
         val activity = requireNotNull(LocalActivity.current) {
-            "Activity is required to open app details"
+            Res.string.permission_activity_required.asStringSource().getString()
         }
         if (permissionStatus is PermissionStatus.NotGranted) {
             PrimaryMainActionButton(

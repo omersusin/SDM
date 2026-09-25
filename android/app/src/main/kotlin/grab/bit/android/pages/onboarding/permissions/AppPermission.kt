@@ -20,8 +20,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import grab.bit.resources.Res
 import grab.bit.util.compose.IconSource
 import grab.bit.util.compose.StringSource
+import grab.bit.util.compose.asStringSource
 
 data class AppPermission(
     val title: StringSource,
@@ -39,7 +41,7 @@ fun rememberAppPermissionState(
     onNewResult: (Boolean) -> Unit = {},
 ): AppPermissionState {
     val activity = requireNotNull(LocalActivity.current) {
-        "We should query permissions from activity"
+        Res.string.permission_query_from_activity.asStringSource().getString()
     }
     val state = remember(
         appPermission,

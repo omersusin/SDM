@@ -163,7 +163,7 @@ private fun AppIconAndVersion(
         val shape = RoundedCornerShape(16.dp)
         Image(
             MyIcons.appIcon.rememberPainter(),
-            null,
+            myStringResource(Res.string.app_title),
             Modifier
                 .shadow(12.dp, shape, spotColor = myColors.primary)
                 .clip(shape)

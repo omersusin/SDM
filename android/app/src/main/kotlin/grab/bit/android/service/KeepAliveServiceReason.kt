@@ -26,7 +26,7 @@ sealed interface KeepAliveServiceReason {
         override fun getKeyChanges() = queueModels.size
         override fun getReasonString(): String {
             val qNames = queueModels.joinToString(", ") { it.name }
-            return "Q: $qNames ⏳"
+            return Res.string.notification_active_queues.asStringSource().getString() + ": $qNames"
         }
     }
 
@@ -37,12 +37,12 @@ sealed interface KeepAliveServiceReason {
         override fun getReasonString(): String {
             val q = queueModels.map {
                 it to it.scheduledTimes.getNearestTimeToStart()
-            }.minByOrNull() { it.second } ?: return ""
+            }.minByOrNull() { it.second } ?: return Res.string.idle.asStringSource().getString()
             val startTime = q.second
             val instant = Instant.fromEpochMilliseconds(startTime)
             val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
             val fDateTime = dateTime.format(MyDateAndTimeFormats.fullDateTimeWithoutYearAndSeconds)
-            return "Q: ${q.first.name} - $fDateTime"
+            return Res.string.notification_next_queue.asStringSource().getString() + ": ${q.first.name} - $fDateTime"
         }
     }
 
