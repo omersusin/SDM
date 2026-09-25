@@ -1,9 +1,6 @@
 package grab.bit.resources.icons
 
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.SolidColor
@@ -27,59 +24,22 @@ val ABDMIcons.AppIcon: ImageVector
                 fill = SolidColor(Color(0xFF0D3B2E)),
                 pathFillType = PathFillType.NonZero
             ) {
-                addRoundRect(
-                    RoundRect(
-                        rect = Rect(0f, 0f, 200f, 200f),
-                        cornerRadius = CornerRadius(44f, 44f)
-                    )
-                )
+                addRect(Rect(0f, 0f, 200f, 200f))
             }
             path(
                 fill = SolidColor(Color.White),
                 pathFillType = PathFillType.NonZero
             ) {
-                // mascot body
+                // mascot body (rounded rect via arcs)
                 moveTo(95f, 52f)
                 lineTo(105f, 52f)
-                arcTo(
-                    rect = Rect(65f, 52f, 145f, 132f),
-                    startAngleDegrees = 270f,
-                    sweepAngleDegrees = 90f,
-                    forceMoveTo = false
-                )
+                arcToRelative(65f, 52f, 145f, 132f, 270f, 90f, false)
                 lineTo(145f, 112f)
-                arcTo(
-                    rect = Rect(65f, 72f, 145f, 152f),
-                    startAngleDegrees = 0f,
-                    sweepAngleDegrees = 90f,
-                    forceMoveTo = false
-                )
+                arcToRelative(65f, 72f, 145f, 152f, 0f, 90f, false)
                 lineTo(95f, 152f)
-                arcTo(
-                    rect = Rect(55f, 72f, 135f, 152f),
-                    startAngleDegrees = 90f,
-                    sweepAngleDegrees = 90f,
-                    forceMoveTo = false
-                )
-                lineTo(55f, 92f)
-                arcTo(
-                    rect = Rect(55f, 52f, 135f, 132f),
-                    startAngleDegrees = 180f,
-                    sweepAngleDegrees = 90f,
-                    forceMoveTo = false
-                )
-                close()
-                // belly arrow shaft
-                addRoundRect(
-                    RoundRect(
-                        rect = Rect(93f, 110f, 107f, 134f),
-                        cornerRadius = CornerRadius(7f, 7f)
-                    )
-                )
-                // belly arrow head
-                moveTo(83f, 130f)
-                lineTo(117f, 130f)
-                lineTo(100f, 148f)
+                arcToRelative(55f, 72f, 135f, 152f, 90f, 90f, false)
+                lineTo(55f, 112f)
+                arcToRelative(55f, 52f, 135f, 132f, 180f, 90f, false)
                 close()
             }
             path(
@@ -102,13 +62,8 @@ val ABDMIcons.AppIcon: ImageVector
                 fill = SolidColor(Color(0xFFC6F135)),
                 pathFillType = PathFillType.NonZero
             ) {
-                // lime arrow overlay on belly
-                addRoundRect(
-                    RoundRect(
-                        rect = Rect(93f, 110f, 107f, 134f),
-                        cornerRadius = CornerRadius(7f, 7f)
-                    )
-                )
+                // lime belly arrow
+                addRect(Rect(93f, 110f, 107f, 134f))
                 moveTo(83f, 130f)
                 lineTo(117f, 130f)
                 lineTo(100f, 148f)
