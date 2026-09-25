@@ -92,7 +92,13 @@ class HLSEditDownloadInputs(
                     copy(fileChecksum = it?.toString())
                 }
             ),
-            describe = { "".asStringSource() }
+            describe = {
+                if (it == null) {
+                    Res.string.download_item_settings_credentials_empty.asStringSource()
+                } else {
+                    it.toString().asStringSource()
+                }
+            }
         ),
         IntConfigurable(
             Res.string.settings_download_thread_count.asStringSource(),

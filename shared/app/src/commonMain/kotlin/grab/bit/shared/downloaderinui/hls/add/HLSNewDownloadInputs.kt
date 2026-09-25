@@ -114,7 +114,13 @@ class HLSNewDownloadInputs(
             Res.string.download_item_settings_file_checksum.asStringSource(),
             Res.string.download_item_settings_file_checksum_description.asStringSource(),
             backedBy = fileChecksum,
-            describe = { "".asStringSource() }
+            describe = {
+                if (it == null) {
+                    Res.string.download_item_settings_credentials_empty.asStringSource()
+                } else {
+                    it.toString().asStringSource()
+                }
+            }
         ),
         IntConfigurable(
             Res.string.settings_download_thread_count.asStringSource(),

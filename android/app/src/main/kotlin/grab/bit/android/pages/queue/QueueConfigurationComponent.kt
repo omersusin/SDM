@@ -2,6 +2,9 @@ package grab.bit.android.pages.queue
 
 import grab.bit.resources.Res
 import grab.bit.shared.ui.configurable.ConfigurableGroup
+import grab.bit.shared.ui.configurable.describeDays
+import grab.bit.shared.ui.configurable.enabledDisabledDescribe
+import grab.bit.shared.ui.configurable.hourMinuteString
 import grab.bit.shared.ui.configurable.item.BooleanConfigurable
 import grab.bit.shared.ui.configurable.item.DayOfWeekConfigurable
 import grab.bit.shared.ui.configurable.item.IntConfigurable
@@ -19,7 +22,6 @@ import grab.bit.util.flow.createMutableStateFlowFromStateFlow
 import grab.bit.util.flow.mapStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.datetime.LocalTime
 
 class QueueConfigurationComponent(
     ctx: ComponentContext,
@@ -120,8 +122,8 @@ class QueueConfigurationComponent(
                 nestedVisible = enabledSchedulerFlow,
                 mainConfigurable = BooleanConfigurable(
                     Res.string.queue_enable_scheduler.asStringSource(),
-                    description = "".asStringSource(),
-                    describe = { "".asStringSource() },
+                    description = Res.string.queue_enable_scheduler_description.asStringSource(),
+                    describe = { enabledDisabledDescribe(it) },
                     backedBy = createMutableStateFlowFromStateFlow(
                         flow = enabledSchedulerFlow,
                         scope = scope,
@@ -153,12 +155,12 @@ class QueueConfigurationComponent(
                         validate = {
                             it.isNotEmpty()
                         },
-                        describe = { "".asStringSource() },
+                        describe = { it.describeDays() },
                     ),
                     BooleanConfigurable(
                         Res.string.queue_scheduler_enable_auto_start_time.asStringSource(),
-                        description = "".asStringSource(),
-                        describe = { "".asStringSource() },
+                        description = Res.string.queue_scheduler_enable_auto_start_time_description.asStringSource(),
+                        describe = { enabledDisabledDescribe(it) },
                         backedBy = createMutableStateFlowFromStateFlow(
                             scope = scope,
                             flow = enabledStartTimeFlow,
@@ -171,7 +173,7 @@ class QueueConfigurationComponent(
                     ),
                     TimeConfigurable(
                         Res.string.queue_scheduler_auto_start_time.asStringSource(),
-                        "".asStringSource(),
+                        Res.string.queue_scheduler_auto_start_time_description.asStringSource(),
                         backedBy = createMutableStateFlowFromStateFlow(
                             scope = scope,
                             flow = downloadQueue.queueModel.mapStateFlow() {
@@ -183,13 +185,13 @@ class QueueConfigurationComponent(
                                 }
                             },
                         ),
-                        describe = { hourAndMinutesToString(it).asStringSource() },
+                        describe = { it.hourMinuteString().asStringSource() },
                         visible = enabledStartTimeFlow,
                     ),
                     BooleanConfigurable(
                         Res.string.queue_scheduler_enable_auto_stop_time.asStringSource(),
-                        description = "".asStringSource(),
-                        describe = { "".asStringSource() },
+                        description = Res.string.queue_scheduler_enable_auto_stop_time_description.asStringSource(),
+                        describe = { enabledDisabledDescribe(it) },
                         backedBy = createMutableStateFlowFromStateFlow(
                             scope = scope,
                             flow = enabledEndTimeFlow,
@@ -202,7 +204,7 @@ class QueueConfigurationComponent(
                     ),
                     TimeConfigurable(
                         Res.string.queue_scheduler_auto_stop_time.asStringSource(),
-                        "".asStringSource(),
+                        Res.string.queue_scheduler_auto_stop_time_description.asStringSource(),
                         backedBy = createMutableStateFlowFromStateFlow(
                             scope = scope,
                             flow = downloadQueue.queueModel.mapStateFlow() {
@@ -214,7 +216,7 @@ class QueueConfigurationComponent(
                                 }
                             },
                         ),
-                        describe = { hourAndMinutesToString(it).asStringSource() },
+                        describe = { it.hourMinuteString().asStringSource() },
                         visible = enabledEndTimeFlow,
                     ),
                 )
@@ -223,8 +225,3 @@ class QueueConfigurationComponent(
     }
 }
 
-private fun hourAndMinutesToString(it: LocalTime): String {
-    val hour = it.hour.toString().padStart(2, '0')
-    val min = it.minute.toString().padStart(2, '0')
-    return "$hour:$min"
-}

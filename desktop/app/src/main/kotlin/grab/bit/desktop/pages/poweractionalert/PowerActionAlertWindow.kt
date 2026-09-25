@@ -113,7 +113,7 @@ private fun PowerActionAlertPage(component: PowerActionComponent) {
                             modifier = Modifier,
                         )
                         Text(
-                            "s",
+                            myStringResource(Res.string.settings_seconds_short),
                             fontSize = myTextSizes.xl,
                         )
                     } else {
