@@ -23,8 +23,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Run shared unit tests
-        run: ./gradlew :shared:utils:testDebugUnitTest :downloader:core:testDebugUnitTest --no-daemon
+      - name: Run Android unit tests
+        run: ./gradlew :android:app:testDebugUnitTest --no-daemon
 
       - name: Compile Android app
         run: ./gradlew :android:app:compileDebugKotlin --no-daemon
