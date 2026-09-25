@@ -274,9 +274,6 @@ private fun WildcardLengthUi(
         Text(myStringResource(Res.string.batch_download_wildcard_help))
     }
 }
-        }
-    }
-}
 
 @Composable
 private fun rangeErrorText(
