@@ -1,6 +1,5 @@
 package grab.bit.resources.icons
 
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.SolidColor
@@ -24,55 +23,80 @@ val ABDMIcons.AppIcon: ImageVector
                 fill = SolidColor(Color(0xFF0D3B2E)),
                 pathFillType = PathFillType.NonZero
             ) {
-                addRect(Rect(0f, 0f, 200f, 200f))
+                moveTo(0f, 0f)
+                lineTo(200f, 0f)
+                lineTo(200f, 200f)
+                lineTo(0f, 200f)
+                close()
             }
             path(
                 fill = SolidColor(Color.White),
                 pathFillType = PathFillType.NonZero
             ) {
-                // mascot body (rounded rect via arcs)
-                moveTo(95f, 52f)
-                lineTo(105f, 52f)
-                arcToRelative(65f, 52f, 145f, 132f, 270f, 90f, false)
-                lineTo(145f, 112f)
-                arcToRelative(65f, 72f, 145f, 152f, 0f, 90f, false)
-                lineTo(95f, 152f)
-                arcToRelative(55f, 72f, 135f, 152f, 90f, 90f, false)
-                lineTo(55f, 112f)
-                arcToRelative(55f, 52f, 135f, 132f, 180f, 90f, false)
+
+                moveTo(95.0f, 52.0f)
+                lineTo(105.0f, 52.0f)
+                curveTo(127.1f, 52.0f, 145.0f, 69.9f, 145.0f, 92.0f)
+                lineTo(145.0f, 112.0f)
+                curveTo(145.0f, 134.1f, 127.1f, 152.0f, 105.0f, 152.0f)
+                lineTo(95.0f, 152.0f)
+                curveTo(72.9f, 152.0f, 55.0f, 134.1f, 55.0f, 112.0f)
+                lineTo(55.0f, 92.0f)
+                curveTo(55.0f, 69.9f, 72.9f, 52.0f, 95.0f, 52.0f)
                 close()
             }
             path(
                 fill = SolidColor(Color(0xFF0D3B2E)),
                 pathFillType = PathFillType.NonZero
             ) {
-                // eyes
-                addOval(Rect(72f, 86f, 92f, 106f))
-                addOval(Rect(108f, 86f, 128f, 106f))
+
+                moveTo(92.0f, 96.0f)
+                curveTo(92.0f, 101.5f, 87.5f, 106.0f, 82.0f, 106.0f)
+                curveTo(76.5f, 106.0f, 72.0f, 101.5f, 72.0f, 96.0f)
+                curveTo(72.0f, 90.5f, 76.5f, 86.0f, 82.0f, 86.0f)
+                curveTo(87.5f, 86.0f, 92.0f, 90.5f, 92.0f, 96.0f)
+                close()
+                moveTo(128.0f, 96.0f)
+                curveTo(128.0f, 101.5f, 123.5f, 106.0f, 118.0f, 106.0f)
+                curveTo(112.5f, 106.0f, 108.0f, 101.5f, 108.0f, 96.0f)
+                curveTo(108.0f, 90.5f, 112.5f, 86.0f, 118.0f, 86.0f)
+                curveTo(123.5f, 86.0f, 128.0f, 90.5f, 128.0f, 96.0f)
+                close()
             }
             path(
                 fill = SolidColor(Color.White),
                 pathFillType = PathFillType.NonZero
             ) {
-                // eye sparkles
-                addOval(Rect(81.8f, 89.8f, 88.2f, 96.2f))
-                addOval(Rect(117.8f, 89.8f, 124.2f, 96.2f))
+
+                moveTo(88.2f, 93.0f)
+                curveTo(88.2f, 94.8f, 86.8f, 96.2f, 85.0f, 96.2f)
+                curveTo(83.2f, 96.2f, 81.8f, 94.8f, 81.8f, 93.0f)
+                curveTo(81.8f, 91.2f, 83.2f, 89.8f, 85.0f, 89.8f)
+                curveTo(86.8f, 89.8f, 88.2f, 91.2f, 88.2f, 93.0f)
+                close()
+                moveTo(124.2f, 93.0f)
+                curveTo(124.2f, 94.8f, 122.8f, 96.2f, 121.0f, 96.2f)
+                curveTo(119.2f, 96.2f, 117.8f, 94.8f, 117.8f, 93.0f)
+                curveTo(117.8f, 91.2f, 119.2f, 89.8f, 121.0f, 89.8f)
+                curveTo(122.8f, 89.8f, 124.2f, 91.2f, 124.2f, 93.0f)
+                close()
             }
             path(
                 fill = SolidColor(Color(0xFFC6F135)),
                 pathFillType = PathFillType.NonZero
             ) {
-                // lime belly arrow
-                addRect(Rect(93f, 110f, 107f, 134f))
+
+                moveTo(100.0f, 110.0f)
+                lineTo(100.0f, 110.0f)
+                curveTo(103.9f, 110.0f, 107.0f, 113.1f, 107.0f, 117.0f)
+                lineTo(107.0f, 127.0f)
+                curveTo(107.0f, 130.9f, 103.9f, 134.0f, 100.0f, 134.0f)
+                lineTo(100.0f, 134.0f)
+                curveTo(96.1f, 134.0f, 93.0f, 130.9f, 93.0f, 127.0f)
+                lineTo(93.0f, 117.0f)
+                curveTo(93.0f, 113.1f, 96.1f, 110.0f, 100.0f, 110.0f)
+                close()
                 moveTo(83f, 130f)
                 lineTo(117f, 130f)
                 lineTo(100f, 148f)
                 close()
-            }
-        }.build()
-
-        return _AppIcon!!
-    }
-
-@Suppress("ObjectPropertyName")
-private var _AppIcon: ImageVector? = null
