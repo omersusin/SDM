@@ -37,6 +37,7 @@ import grab.bit.shared.util.ui.theme.myTextSizes
 import grab.bit.util.compose.StringSource
 import grab.bit.util.compose.asStringSource
 import grab.bit.util.compose.layout.RelativeAlignment
+import grab.bit.util.compose.resources.myStringResource
 
 @Composable
 fun StartUpPageTemplate(
@@ -124,7 +125,7 @@ fun AppIcon(
     val shape = RoundedCornerShape(24.dp)
     Image(
         MyIcons.appIcon.rememberPainter(),
-        null,
+        myStringResource(Res.string.app_title),
         modifier
             .shadow(12.dp, shape, spotColor = myColors.primary)
             .clip(shape)

@@ -11,6 +11,7 @@ class PermissionComponent(
     private val onDismiss: () -> Unit,
 ) : BaseComponent(componentContext) {
     val currentPermission: MutableStateFlow<PermissionsPageSteps> = MutableStateFlow(PermissionsPageSteps.Initial)
+    val showBlockedMessage: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val permissionsToAsk = permissionManager.permissions.sortedBy {
         !it.isOptional
     }
@@ -22,10 +23,14 @@ class PermissionComponent(
                 val nextIndex = index + 1
                 if (nextIndex > permissionsToAsk.lastIndex) {
                     this.currentPermission.value = PermissionsPageSteps.Done
+                    showBlockedMessage.value = false
                 } else {
                     if (permissionManager.isReady(currentPermission.appPermission)) {
                         val appPermission = permissionsToAsk[nextIndex]
                         this.currentPermission.value = PermissionsPageSteps.AtPermission(appPermission)
+                        showBlockedMessage.value = false
+                    } else {
+                        showBlockedMessage.value = true
                     }
                 }
             }

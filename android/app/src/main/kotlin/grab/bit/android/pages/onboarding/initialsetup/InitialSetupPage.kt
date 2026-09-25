@@ -61,7 +61,7 @@ fun InitialSetupPage(
                     Row {
                         PrimaryMainActionButton(
                             onClick = component::onUserPressFinish,
-                            text = myStringResource(Res.string.next),
+                            text = myStringResource(Res.string.initial_setup_continue),
                             modifier = Modifier
                                 .fillMaxWidth(),
                         )

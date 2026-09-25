@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import grab.bit.android.pages.onboarding.permissions.AppPermissionState
 import grab.bit.android.pages.onboarding.permissions.rememberAppPermissionState
 import grab.bit.android.ui.configurable.ConfigTemplate
@@ -15,7 +17,9 @@ import grab.bit.android.ui.configurable.android.item.PermissionConfigurable
 import grab.bit.resources.Res
 import grab.bit.shared.ui.configurable.ConfigurableRenderer
 import grab.bit.shared.ui.configurable.ConfigurableUiProps
+import grab.bit.shared.ui.widget.Text
 import grab.bit.shared.util.ui.LocalContentColor
+import grab.bit.shared.util.ui.WithContentAlpha
 import grab.bit.shared.util.ui.myColors
 import grab.bit.util.compose.asStringSource
 
@@ -71,6 +75,17 @@ object PermissionConfigurableRenderer : ConfigurableRenderer<PermissionConfigura
             },
             value = {
                 NextIcon()
+            },
+            nestedContent = {
+                val reason = cfg.description.rememberString()
+                if (reason.isNotBlank()) {
+                    WithContentAlpha(0.75f) {
+                        Text(
+                            reason,
+                            modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
+                        )
+                    }
+                }
             }
         )
     }
