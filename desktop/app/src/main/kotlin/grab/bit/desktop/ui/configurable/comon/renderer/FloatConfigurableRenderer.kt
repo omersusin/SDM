@@ -51,7 +51,7 @@ object FloatConfigurableRenderer : ConfigurableRenderer<FloatConfigurable> {
                             modifier = modifier,
                             enabled = enabled,
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Companion.Decimal),
-                            placeholder = "",
+                            placeholder = "${cfg.range.start}–${cfg.range.endInclusive}",
                         )
                     }
                 }

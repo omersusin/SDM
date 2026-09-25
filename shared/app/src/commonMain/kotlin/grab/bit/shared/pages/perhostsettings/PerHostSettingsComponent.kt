@@ -148,8 +148,16 @@ abstract class BasePerHostSettingsComponent(
                                 copy(host = it)
                             }
                         ),
+                        validate = {
+                            it.isNotBlank()
+                        },
+                        placeholder = Res.string.settings_per_host_settings_host_placeholder.asStringSource(),
                         describe = {
-                            "".asStringSource()
+                            if (it.isBlank()) {
+                                Res.string.settings_per_host_settings_host_empty.asStringSource()
+                            } else {
+                                it.asStringSource()
+                            }
                         }
                     ),
                 )
@@ -210,7 +218,11 @@ abstract class BasePerHostSettingsComponent(
                             }
                         ),
                         describe = {
-                            "".asStringSource()
+                            if (it.isBlank()) {
+                                Res.string.download_item_settings_credentials_empty.asStringSource()
+                            } else {
+                                it.asStringSource()
+                            }
                         }
                     ),
                     StringConfigurable(
@@ -224,8 +236,13 @@ abstract class BasePerHostSettingsComponent(
                                 copy(password = it.takeIf { it.isNotBlank() })
                             }
                         ),
+                        secret = true,
                         describe = {
-                            "".asStringSource()
+                            if (it.isBlank()) {
+                                Res.string.download_item_settings_credentials_empty.asStringSource()
+                            } else {
+                                "••••••••".asStringSource()
+                            }
                         }
                     ),
                 )
@@ -243,8 +260,13 @@ abstract class BasePerHostSettingsComponent(
                                 copy(userAgent = it.takeIf { it.isNotBlank() })
                             }
                         ),
+                        placeholder = Res.string.settings_default_user_agent_placeholder.asStringSource(),
                         describe = {
-                            "".asStringSource()
+                            if (it.isBlank()) {
+                                Res.string.use_global_settings.asStringSource()
+                            } else {
+                                it.take(80).asStringSource()
+                            }
                         }
                     ),
                 )

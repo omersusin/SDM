@@ -38,6 +38,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.takeOrElse
+import androidx.compose.ui.text.input.VisualTransformation
 import grab.bit.shared.util.ui.theme.myShapes
 import grab.bit.shared.util.ui.theme.mySpacings
 
@@ -59,6 +60,7 @@ fun MyTextField(
     enabled: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     singleLine: Boolean = true,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
     minLines: Int = 1,
@@ -153,6 +155,7 @@ fun MyTextField(
             cursorBrush = SolidColor(myColors.primary),
             keyboardActions = keyboardActions,
             keyboardOptions = keyboardOptions,
+            visualTransformation = visualTransformation,
         )
         end?.let {
             it()

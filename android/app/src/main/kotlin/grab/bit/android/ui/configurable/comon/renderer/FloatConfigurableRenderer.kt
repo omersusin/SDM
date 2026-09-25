@@ -88,7 +88,7 @@ object FloatConfigurableRenderer : ConfigurableRenderer<FloatConfigurable> {
                     ),
                     textPadding = PaddingValues(8.dp),
                     keyboardActions = params.keyboardActions,
-                    placeholder = "",
+                    placeholder = "${cfg.range.start}–${cfg.range.endInclusive}",
                 )
             },
             onConfirm = {

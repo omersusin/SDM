@@ -61,8 +61,8 @@ object IntConfigurableRenderer : ConfigurableRenderer<IntConfigurable> {
                             range = cfg.range,
                             modifier = Modifier.width(100.dp),
                             enabled = enabled,
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                            placeholder = "",
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            placeholder = if (cfg.range.last <= 100_000) "${cfg.range.first}–${cfg.range.last}" else "",
                         )
                     }
                 }

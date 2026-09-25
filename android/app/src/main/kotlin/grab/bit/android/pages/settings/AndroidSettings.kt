@@ -20,7 +20,7 @@ object AndroidSettings {
     ): NavigatableConfigurable {
         return NavigatableConfigurable(
             title = Res.string.permissions.asStringSource(),
-            description = "".asStringSource(),
+            description = Res.string.settings_permissions_description.asStringSource(),
             onRequestNavigate = {
                 permissionsPageManager.openPermissionsPage(false)
             },

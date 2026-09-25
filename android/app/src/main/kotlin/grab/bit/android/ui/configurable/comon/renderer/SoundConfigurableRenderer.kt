@@ -72,7 +72,7 @@ object SoundConfigurableRenderer : ConfigurableRenderer<SoundConfigurable> {
                     }
                     IconActionButton(
                         MyIcons.resume,
-                        "".asStringSource(),
+                        Res.string.settings_notification_sound_preview.asStringSource(),
                         onClick = {
                             platformNotificationSound().actualPlay(value)
                         }

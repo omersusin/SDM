@@ -96,10 +96,10 @@ object LongConfigurableRenderer : ConfigurableRenderer<LongConfigurable> {
                     interactionSource = interactionSource,
                     range = cfg.range,
                     modifier = params.modifier.fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     keyboardActions = params.keyboardActions,
                     textPadding = PaddingValues(8.dp),
-                    placeholder = "",
+                    placeholder = if (cfg.range.last <= 100_000L) "${cfg.range.first}–${cfg.range.last}" else "",
                 )
             },
             onConfirm = {

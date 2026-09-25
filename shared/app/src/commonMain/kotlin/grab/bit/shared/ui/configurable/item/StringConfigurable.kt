@@ -14,6 +14,8 @@ open class StringConfigurable(
     val presets: List<String> = emptyList(),
     val presetLabels: List<StringSource>? = null,
     val defaultValue: String? = null,
+    val placeholder: StringSource? = null,
+    val secret: Boolean = false,
     enabled: StateFlow<Boolean> = DefaultEnabledValue,
     visible: StateFlow<Boolean> = DefaultVisibleValue,
 ) : Configurable<String>(
