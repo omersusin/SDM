@@ -21,6 +21,6 @@ dependencies {
     implementation(libs.semver)
     implementation("ir.amirab.util:platform:1")
     implementation("grab.bit.plugin:git-version-plugin:1")
-    implementation("grab.bit.plugin:installer-plugin:1")
     implementation("grab.bit.plugin:common-android:1")
+    implementation("grab.bit.plugin:installer-plugin:1")
 }

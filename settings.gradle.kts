@@ -16,14 +16,8 @@ dependencyResolutionManagement {
 rootProject.name = "ABDownloadManager"
 
 include("android:app")
-include("desktop:app")
-include("desktop:app-utils")
-include("desktop:shared")
-include("desktop:slf4j-impl")
-include("desktop:mac_utils")
 include("downloader:core")
 include("downloader:monitor")
-include("integration:server")
 include("shared:utils")
 include("shared:app")
 include("shared:compose-utils")

@@ -7,7 +7,7 @@
 
 ## Project
 Fork of AB Download Manager (https://github.com/amir1376/ab-download-manager).
-Kotlin Multiplatform. Android first. Single-codebase discipline.
+Kotlin Multiplatform. Android-only since 2026-09-25 (desktop target + integration server removed). Single-codebase discipline.
 
 ## Mission
 A free, open-source download manager surpassing IDM / ADM / 1DM / NDM / FDM.

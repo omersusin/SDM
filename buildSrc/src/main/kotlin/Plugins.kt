@@ -6,9 +6,7 @@ object MyPlugins {
     const val androidBase = "$namespace.androidBase"
     const val kotlinMultiplatform = "$namespace.kotlinMultiplatform"
     const val composeAndroid = "$namespace.composeAndroid"
-    const val composeDesktop = "$namespace.composeDesktop"
     const val composeBase = "$namespace.composeBase"
-    const val proguardDesktop = "$namespace.proguardDesktop"
 }
 object MyPlatform{
     fun getPlatform() = Platform

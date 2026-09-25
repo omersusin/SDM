@@ -14,7 +14,6 @@ plugins {
     id(Plugins.ksp)
 }
 kotlin {
-    jvm("desktop")
     android {
         compileSdk = libs.versions.androidCompileSdk.get().toInt()
         namespace = "grab.bit.shared"
@@ -66,10 +65,6 @@ kotlin {
             }
         }
         val androidMain = getByName("androidMain")
-        val desktopMain = getByName("desktopMain")
-        desktopMain.dependencies {
-            implementation(libs.nucleus.darkmodeDetector)
-        }
     }
 }
 

@@ -3,7 +3,6 @@ plugins {
     id(Plugins.Android.multiplatformLibrary)
 }
 kotlin {
-    jvm("desktop")
     android {
         compileSdk = libs.versions.androidCompileSdk.get().toInt()
         namespace = "grab.bit.resources.contracts"
