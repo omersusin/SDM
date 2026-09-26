@@ -132,6 +132,81 @@ object CommonSettings {
         )
     }
 
+    fun maxConnectionsPerHostConfig(appRepository: BaseAppRepository): IntConfigurable {
+        return IntConfigurable(
+            title = Res.string.settings_max_connections_per_host.asStringSource(),
+            description = Res.string.settings_max_connections_per_host_description.asStringSource(),
+            backedBy = appRepository.maxConnectionsPerHost,
+            range = 0..32,
+            renderMode = IntConfigurable.RenderMode.TextField,
+            describe = {
+                if (it == 0) {
+                    Res.string.unlimited.asStringSource()
+                } else {
+                    "$it".asStringSource()
+                }
+            },
+        )
+    }
+
+    fun interDownloadDelayConfig(appRepository: BaseAppRepository): IntConfigurable {
+        return IntConfigurable(
+            title = Res.string.settings_inter_download_delay.asStringSource(),
+            description = Res.string.settings_inter_download_delay_description.asStringSource(),
+            backedBy = appRepository.interDownloadDelayMs,
+            range = 0..60000,
+            renderMode = IntConfigurable.RenderMode.TextField,
+            describe = {
+                if (it == 0) {
+                    Res.string.settings_download_retry_delay_no_delay.asStringSource()
+                } else {
+                    Res.string.settings_inter_download_delay_ms
+                        .asStringSourceWithARgs(
+                            Res.string.settings_inter_download_delay_ms_createArgs(
+                                count = "$it"
+                            )
+                        )
+                }
+            },
+        )
+    }
+
+    fun minSplitSizeConfig(appRepository: BaseAppRepository): IntConfigurable {
+        return IntConfigurable(
+            title = Res.string.settings_min_split_size.asStringSource(),
+            description = Res.string.settings_min_split_size_description.asStringSource(),
+            backedBy = appRepository.minSplitSizeKb,
+            range = 64..1024 * 1024,
+            renderMode = IntConfigurable.RenderMode.TextField,
+            describe = {
+                Res.string.settings_min_split_size_kb
+                    .asStringSourceWithARgs(
+                        Res.string.settings_min_split_size_kb_createArgs(
+                            count = "$it"
+                        )
+                    )
+            },
+        )
+    }
+
+    fun httpTimeoutConfig(appRepository: BaseAppRepository): IntConfigurable {
+        return IntConfigurable(
+            title = Res.string.settings_http_timeout.asStringSource(),
+            description = Res.string.settings_http_timeout_description.asStringSource(),
+            backedBy = appRepository.httpTimeoutSeconds,
+            range = 5..300,
+            renderMode = IntConfigurable.RenderMode.Stepper,
+            describe = {
+                Res.string.settings_download_retry_delay_seconds
+                    .asStringSourceWithARgs(
+                        Res.string.settings_download_retry_delay_seconds_createArgs(
+                            count = "$it"
+                        )
+                    )
+            },
+        )
+    }
+
     fun dynamicPartDownloadConfig(appRepository: BaseAppRepository): BooleanConfigurable {
         return BooleanConfigurable(
             title = Res.string.settings_dynamic_part_creation.asStringSource(),

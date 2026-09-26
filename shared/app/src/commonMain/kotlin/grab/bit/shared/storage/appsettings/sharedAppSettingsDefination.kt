@@ -40,6 +40,22 @@ object BaseAppSettingsDefinition {
             .range(0, 3600).catch(
                 PlatformDefaultSettings::retryDelaySeconds
             )
+        prop(IAppSettingsModel::maxConnectionsPerHost) bind S.int()
+            .range(0, 32).catch(
+                PlatformDefaultSettings::maxConnectionsPerHost
+            )
+        prop(IAppSettingsModel::interDownloadDelayMs) bind S.int()
+            .range(0, 60000).catch(
+                PlatformDefaultSettings::interDownloadDelayMs
+            )
+        prop(IAppSettingsModel::minSplitSizeKb) bind S.int()
+            .range(64, 1024 * 1024).catch(
+                PlatformDefaultSettings::minSplitSizeKb
+            )
+        prop(IAppSettingsModel::httpTimeoutSeconds) bind S.int()
+            .range(5, 300).catch(
+                PlatformDefaultSettings::httpTimeoutSeconds
+            )
         prop(IAppSettingsModel::autoUncompressArchives) bind S.boolean()
             .catch(PlatformDefaultSettings::autoUncompressArchives)
         prop(IAppSettingsModel::clipboardMonitor) bind S.boolean()

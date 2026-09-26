@@ -50,5 +50,13 @@ interface DownloadManagerMinimalControl {
     suspend fun startJob(id: Long, context: DownloadItemContext = EmptyContext)
     suspend fun stopJob(id: Long, context: DownloadItemContext = EmptyContext)
     fun canActivateJob(id: Long): Boolean
+    // Per-host slot check for DownloadSettings.maxConnectionsPerHost.
+    // False = host is saturated, the queue must skip (not drop) this item.
+    fun isHostSlotAvailable(id: Long): Boolean
+    // Randomized inter-download stagger, 0 = off. Read live from settings.
+    val interDownloadDelayMs: Int
+    // Scheduler low-speed override (global limiter) + restore support.
+    fun limitGlobalSpeed(bytesPerSec: Long)
+    fun currentGlobalSpeedLimit(): Long
     val listOfJobsEvents: SharedFlow<DownloadManagerEvents>
 }

@@ -2,6 +2,7 @@ package grab.bit.android.pages.settings
 
 import grab.bit.android.storage.AppSettingsStorage
 import grab.bit.android.util.pagemanager.PermissionsPageManager
+import grab.bit.resources.Res
 import grab.bit.shared.pagemanager.PerHostSettingsPageManager
 import grab.bit.shared.repository.BaseAppRepository
 import grab.bit.shared.settings.BaseSettingsComponent
@@ -11,6 +12,7 @@ import grab.bit.shared.ui.configurable.ConfigurableGroup
 import grab.bit.shared.ui.theme.ThemeManager
 import grab.bit.shared.util.proxy.ProxyManager
 import com.arkivanov.decompose.ComponentContext
+import grab.bit.util.compose.asStringSource
 import grab.bit.util.compose.localizationmanager.LanguageManager
 import grab.bit.util.flow.mapStateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -107,9 +109,18 @@ class AndroidSettingsComponent(
                     AndroidSettings.wifiOnlyDownloads(appSettings),
                     CommonSettings.threadCountConfig(appRepository),
                     CommonSettings.maxConcurrentDownloads(appRepository),
+                    CommonSettings.maxConnectionsPerHostConfig(appRepository),
+                    CommonSettings.interDownloadDelayConfig(appRepository),
+                    CommonSettings.dynamicPartDownloadConfig(appRepository),
+                )
+            ),
+            ConfigurableGroup(
+                groupTitle = MutableStateFlow(Res.string.settings_advanced.asStringSource()),
+                nestedConfigurable = listOf(
+                    CommonSettings.minSplitSizeConfig(appRepository),
                     CommonSettings.maxDownloadRetryCount(appRepository),
                     CommonSettings.retryDelayConfig(appRepository),
-                    CommonSettings.dynamicPartDownloadConfig(appRepository),
+                    CommonSettings.httpTimeoutConfig(appRepository),
                 )
             ),
             ConfigurableGroup(

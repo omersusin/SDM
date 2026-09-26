@@ -7,14 +7,20 @@ import grab.bit.downloader.db.QueueModel
 import grab.bit.downloader.downloaditem.contexts.Queue
 import grab.bit.downloader.downloaditem.contexts.ResumedBy
 import grab.bit.downloader.downloaditem.contexts.StoppedBy
+import grab.bit.downloader.downloaditem.http.BotErrorTripPolicy
 import grab.bit.downloader.utils.swap
 import grab.bit.downloader.utils.swapped
 import grab.bit.util.coroutines.debounce
 import grab.bit.util.guardedEntry
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import kotlin.random.Random
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.ExperimentalTime
 
 
 class DownloadQueue(
@@ -90,13 +96,34 @@ class DownloadQueue(
                 canceledItems.add(id)
             }
         }
+        recordBotError(e)
         shake(
             itemChangeHappened = removed,
         )
     }
 
+    // Consecutive 403s mean bot-protection; pause the queue so we don't burn
+    // through retries. Any other outcome resets the streak.
+    private var consecutiveBotErrors = 0
+    private fun recordBotError(e: Throwable) {
+        if (!isQueueActive) {
+            consecutiveBotErrors = 0
+            return
+        }
+        consecutiveBotErrors = if (BotErrorTripPolicy.isBotError(e)) {
+            consecutiveBotErrors + 1
+        } else {
+            0
+        }
+        if (consecutiveBotErrors >= BotErrorTripPolicy.DEFAULT_THRESHOLD) {
+            consecutiveBotErrors = 0
+            stop()
+        }
+    }
+
 
     private fun onDownloadFinished(id: Long) {
+        consecutiveBotErrors = 0
         removeFromQueue(id)
         shake(
             itemChangeHappened = true,
@@ -108,6 +135,7 @@ class DownloadQueue(
 //        println("on start queue")
         canceledItems.clear()
         trimmedItems.clear()
+        consecutiveBotErrors = 0
         ensureBooted()
         setActive(true)
 //        println("starting")
@@ -216,6 +244,7 @@ class DownloadQueue(
                 val wasActive = isQueueActive
                 onEvent(QueueEvent.OnQueueStartTimeReached(id, wasActive))
                 start()
+                applyScheduledSpeedOverride()
                 //wait a little
                 delay(1.seconds)
                 //for tomorrow
@@ -240,12 +269,41 @@ class DownloadQueue(
                 val wasActive = isQueueActive
                 onEvent(QueueEvent.QueueEndTimeReached(id, wasActive))
                 stop()
+                restoreScheduledSpeedOverride()
                 //wait a little
                 delay(1.seconds)
                 //for tomorrow
                 setUpAutoStopJob()
             }
         }
+    }
+
+    // Low-speed mode: override the global limiter for the scheduled window,
+    // restore the previous value when the window ends. Last-writer-wins if
+    // several queues override at once.
+    private var preScheduleSpeedLimit: Long? = null
+
+    @OptIn(ExperimentalTime::class)
+    private fun isScheduleActiveNow(): Boolean {
+        val schedule = scheduleTimes
+        if (!schedule.enabledStartTime && !schedule.enabledEndTime) return true
+        val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+        return schedule.isActiveAt(now.dayOfWeek, now.time)
+    }
+
+    private fun applyScheduledSpeedOverride() {
+        val model = getQueueModel()
+        if (!model.scheduledLowSpeedEnabled) return
+        if (preScheduleSpeedLimit == null) {
+            preScheduleSpeedLimit = downloadEvents.currentGlobalSpeedLimit()
+        }
+        downloadEvents.limitGlobalSpeed(model.scheduledLowSpeedBytesPerSec)
+    }
+
+    private fun restoreScheduledSpeedOverride() {
+        val stashed = preScheduleSpeedLimit ?: return
+        preScheduleSpeedLimit = null
+        downloadEvents.limitGlobalSpeed(stashed)
     }
 
 
@@ -289,6 +347,22 @@ class DownloadQueue(
             it.copy(scheduledTimes = updater(it.scheduledTimes))
         }
         setupAutoStartAndStop()
+    }
+
+    fun setScheduledLowSpeed(enabled: Boolean, bytesPerSec: Long) {
+        _queueModel.update {
+            it.copy(
+                scheduledLowSpeedEnabled = enabled,
+                scheduledLowSpeedBytesPerSec = bytesPerSec.coerceAtLeast(0),
+            )
+        }
+        // If the window is already active, apply immediately; otherwise the
+        // next auto-start picks it up. Disabling restores right away.
+        if (!enabled) {
+            restoreScheduledSpeedOverride()
+        } else if (isQueueActive && isScheduleActiveNow()) {
+            applyScheduledSpeedOverride()
+        }
     }
 
     fun setName(newValue: String) {
@@ -424,6 +498,16 @@ class DownloadQueue(
         return getDownloadableItemFromQueue()?.let {
             activeItems.add(it)
             scope.launch {
+                // Randomized stagger so we don't hammer the server with
+                // back-to-back starts. Slot is held during the wait.
+                val maxDelay = downloadEvents.interDownloadDelayMs.coerceIn(0, 60_000)
+                if (maxDelay > 0) {
+                    delay(Random.nextLong(maxDelay + 1L))
+                }
+                if (!isQueueActive || it !in activeItems) {
+                    activeItems.remove(it)
+                    return@launch
+                }
                 downloadEvents.startJob(it, ResumedBy(me))
             }
             true
@@ -446,6 +530,11 @@ class DownloadQueue(
 
                 !downloadEvents.canActivateJob(it) -> {
 //                    println("it is not cultivatable")
+                    false
+                }
+
+                // Host saturated: skip for now, keep the item queued.
+                !downloadEvents.isHostSlotAvailable(it) -> {
                     false
                 }
 

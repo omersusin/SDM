@@ -8,6 +8,7 @@ import grab.bit.shared.ui.configurable.hourMinuteString
 import grab.bit.shared.ui.configurable.item.BooleanConfigurable
 import grab.bit.shared.ui.configurable.item.DayOfWeekConfigurable
 import grab.bit.shared.ui.configurable.item.IntConfigurable
+import grab.bit.shared.ui.configurable.item.SpeedLimitConfigurable
 import grab.bit.shared.ui.configurable.item.StringConfigurable
 import grab.bit.shared.ui.configurable.item.TimeConfigurable
 import grab.bit.shared.util.BaseComponent
@@ -48,6 +49,9 @@ class QueueConfigurationComponent(
         }
         val enabledSchedulerFlow = combineStateFlows(enabledStartTimeFlow, enabledEndTimeFlow) { start, end ->
             start || end
+        }
+        val enabledLowSpeedFlow = downloadQueue.queueModel.mapStateFlow() {
+            it.scheduledLowSpeedEnabled
         }
         return listOf(
             ConfigurableGroup(
@@ -218,6 +222,42 @@ class QueueConfigurationComponent(
                         ),
                         describe = { it.hourMinuteString().asStringSource() },
                         visible = enabledEndTimeFlow,
+                    ),
+                    BooleanConfigurable(
+                        Res.string.queue_scheduler_low_speed.asStringSource(),
+                        description = Res.string.queue_scheduler_low_speed_description.asStringSource(),
+                        describe = { enabledDisabledDescribe(it) },
+                        backedBy = createMutableStateFlowFromStateFlow(
+                            scope = scope,
+                            flow = enabledLowSpeedFlow,
+                            updater = { newValue ->
+                                downloadQueue.setScheduledLowSpeed(
+                                    newValue,
+                                    downloadQueue.getQueueModel().scheduledLowSpeedBytesPerSec,
+                                )
+                            },
+                        ),
+                    ),
+                    SpeedLimitConfigurable(
+                        Res.string.queue_scheduler_low_speed.asStringSource(),
+                        Res.string.queue_scheduler_low_speed_description.asStringSource(),
+                        backedBy = createMutableStateFlowFromStateFlow(
+                            scope = scope,
+                            flow = downloadQueue.queueModel.mapStateFlow() {
+                                it.scheduledLowSpeedBytesPerSec
+                            },
+                            updater = { newValue ->
+                                downloadQueue.setScheduledLowSpeed(
+                                    downloadQueue.getQueueModel().scheduledLowSpeedEnabled,
+                                    newValue,
+                                )
+                            },
+                        ),
+                        describe = {
+                            if (it == 0L) Res.string.unlimited.asStringSource()
+                            else "$it B/s".asStringSource()
+                        },
+                        visible = enabledLowSpeedFlow,
                     ),
                 )
             ),
