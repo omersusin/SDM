@@ -66,6 +66,8 @@ data class ProxyData(
     val proxyWithRules: ProxyWithRules,
     //configuration script config
     val pac: PACProxy,
+    //kill-switch: when true, no direct connections are allowed
+    val forceProxy: Boolean = false,
 ) {
     companion object {
         fun default() = ProxyData(

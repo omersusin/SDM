@@ -67,6 +67,8 @@ data class AppSettingsModel(
     val grabberUiMode: GrabberUiMode,
     val adBlockEnabled: Boolean,
     val wifiOnlyDownloads: Boolean,
+    val ssidProfiles: String,
+    val bindInterface: String,
     val videoMaxHeight: Int,
     val videoQuality: VideoQuality,
     val videoQualityMigrated: Boolean,
@@ -87,6 +89,10 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             .catch(PlatformDefaultSettings::adBlockEnabled)
         prop(AppSettingsModel::wifiOnlyDownloads) bind S.boolean()
             .catch(PlatformDefaultSettings::wifiOnlyDownloads)
+        prop(AppSettingsModel::ssidProfiles) bind S.string()
+            .catch(PlatformDefaultSettings::ssidProfiles)
+        prop(AppSettingsModel::bindInterface) bind S.string()
+            .catch(PlatformDefaultSettings::bindInterface)
         prop(AppSettingsModel::videoMaxHeight) bind S.int()
             .range(144, 4320).catch(PlatformDefaultSettings::videoMaxHeight)
         prop(AppSettingsModel::videoQuality) bind S.enum<VideoQuality>()
@@ -144,6 +150,8 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             grabberUiMode = it[AppSettingsModel::grabberUiMode],
             adBlockEnabled = it[AppSettingsModel::adBlockEnabled],
             wifiOnlyDownloads = it[AppSettingsModel::wifiOnlyDownloads],
+            ssidProfiles = it[AppSettingsModel::ssidProfiles],
+            bindInterface = it[AppSettingsModel::bindInterface],
             videoMaxHeight = it[AppSettingsModel::videoMaxHeight],
             videoQuality = it[AppSettingsModel::videoQuality],
             videoQualityMigrated = it[AppSettingsModel::videoQualityMigrated],

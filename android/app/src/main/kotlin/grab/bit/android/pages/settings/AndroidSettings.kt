@@ -8,6 +8,7 @@ import grab.bit.resources.Res
 import grab.bit.shared.ui.configurable.item.BooleanConfigurable
 import grab.bit.shared.ui.configurable.item.EnumConfigurable
 import grab.bit.shared.ui.configurable.item.NavigatableConfigurable
+import grab.bit.shared.ui.configurable.item.StringConfigurable
 import grab.bit.util.GrabberUiMode
 import grab.bit.util.VideoQuality
 import grab.bit.util.compose.asStringSource
@@ -101,6 +102,42 @@ object AndroidSettings {
                     Res.string.disabled
                 }.asStringSource()
             }
+        )
+    }
+
+    fun ssidProfiles(
+        appSettingsStorage: AppSettingsStorage
+    ): StringConfigurable {
+        return StringConfigurable(
+            title = Res.string.settings_ssid_profiles.asStringSource(),
+            description = Res.string.settings_ssid_profiles_description.asStringSource(),
+            backedBy = appSettingsStorage.ssidProfiles,
+            placeholder = Res.string.settings_ssid_profiles_placeholder.asStringSource(),
+            describe = {
+                if (it.isBlank()) {
+                    Res.string.disabled.asStringSource()
+                } else {
+                    it.take(80).asStringSource()
+                }
+            },
+        )
+    }
+
+    fun bindInterface(
+        appSettingsStorage: AppSettingsStorage
+    ): StringConfigurable {
+        return StringConfigurable(
+            title = Res.string.settings_bind_interface.asStringSource(),
+            description = Res.string.settings_bind_interface_description.asStringSource(),
+            backedBy = appSettingsStorage.bindInterface,
+            placeholder = Res.string.settings_bind_interface_placeholder.asStringSource(),
+            describe = {
+                if (it.isBlank()) {
+                    Res.string.disabled.asStringSource()
+                } else {
+                    it.take(80).asStringSource()
+                }
+            },
         )
     }
 

@@ -104,6 +104,7 @@ class AndroidSettingsComponent(
                     CommonSettings.speedLimitConfig(appRepository),
                     CommonSettings.speedProfileConfig(appRepository, scope),
                     AndroidSettings.wifiOnlyDownloads(appSettings),
+                    AndroidSettings.ssidProfiles(appSettings),
                     CommonSettings.threadCountConfig(appRepository),
                     CommonSettings.maxConcurrentDownloads(appRepository),
                     CommonSettings.maxDownloadRetryCount(appRepository),
@@ -119,6 +120,8 @@ class AndroidSettingsComponent(
             ConfigurableGroup(
                 nestedConfigurable = listOf(
                     CommonSettings.proxyConfig(proxyManager),
+                    CommonSettings.forceProxyKillSwitch(proxyManager, scope),
+                    AndroidSettings.bindInterface(appSettings),
                     CommonSettings.dnsConfig(dnsStorage),
                     CommonSettings.userAgent(appSettings),
                     CommonSettings.ignoreSSLCertificates(appSettings),

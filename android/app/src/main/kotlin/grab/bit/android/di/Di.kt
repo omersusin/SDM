@@ -3,6 +3,7 @@ package grab.bit.android.di
 import AndroidDirectLinkUpdateApplier
 import android.app.Application
 import android.content.Context
+import android.net.ConnectivityManager
 import grab.bit.github.GithubApi
 import grab.bit.UpdateDownloadLocationProvider
 import grab.bit.UpdateManager
@@ -139,6 +140,10 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import okhttp3.Protocol
 import okhttp3.internal.tls.OkHostnameVerifier
+import java.io.IOException
+import java.net.InetAddress
+import java.net.Socket
+import javax.net.SocketFactory
 
 val downloaderModule = module {
     single<IDownloadQueueDatabase> {
@@ -600,10 +605,17 @@ fun getAppModule(context: ABDMApp) = module {
     single<OkHttpClient> {
         val baseClient = get<OkHttpClient>(BaseOKHttpClientQualifier)
         val appDns: AppDns = get()
-        baseClient.newBuilder()
+        val appSettings: AppSettingsStorage = get()
+        val builder = baseClient.newBuilder()
             .protocols(listOf(Protocol.HTTP_1_1))
             .dns(appDns)
-            .build()
+        val bindInterface = appSettings.bindInterface.value
+        if (bindInterface.isNotBlank()) {
+            context.getSystemService(ConnectivityManager::class.java)?.let { connectivity ->
+                builder.socketFactory(InterfaceBindingSocketFactory(connectivity, bindInterface))
+            }
+        }
+        builder.build()
     }
     single<ILastSavedLocationsStorage> {
         val definedPaths = get<AndroidDefinedPaths>()
@@ -725,4 +737,45 @@ object Di : KoinComponent {
             modules(getAppModule(applicationContext))
         }
     }
+}
+
+// Binds download sockets to the named network interface (e.g. a VPN's tun0).
+// The interface is resolved on every socket creation so VPN up/down is picked
+// up without rebuilding the client. If the interface is gone, connects fail
+// and the existing download retry path (maxDownloadRetryCount) handles it.
+internal class InterfaceBindingSocketFactory(
+    private val connectivity: ConnectivityManager,
+    private val interfaceName: String,
+) : SocketFactory() {
+    private fun delegate(): SocketFactory {
+        val network = runCatching {
+            connectivity.allNetworks.firstOrNull {
+                runCatching { connectivity.getLinkProperties(it)?.interfaceName }.getOrNull() == interfaceName
+            }
+        }.getOrNull()
+        return network?.socketFactory
+            ?: throw IOException("Network interface \"$interfaceName\" is not available")
+    }
+
+    override fun createSocket(): Socket = delegate().createSocket()
+
+    override fun createSocket(host: String, port: Int): Socket =
+        delegate().createSocket(host, port)
+
+    override fun createSocket(
+        host: String,
+        port: Int,
+        localHost: InetAddress,
+        localPort: Int,
+    ): Socket = delegate().createSocket(host, port, localHost, localPort)
+
+    override fun createSocket(host: InetAddress, port: Int): Socket =
+        delegate().createSocket(host, port)
+
+    override fun createSocket(
+        address: InetAddress,
+        port: Int,
+        localAddress: InetAddress,
+        localPort: Int,
+    ): Socket = delegate().createSocket(address, port, localAddress, localPort)
 }
