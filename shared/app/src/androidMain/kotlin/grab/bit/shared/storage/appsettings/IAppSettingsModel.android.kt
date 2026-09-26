@@ -10,6 +10,7 @@ import io.github.amir1376.schemakt.schema.modifier.catch
 import io.github.amir1376.schemakt.schema.modifier.range
 import io.github.amir1376.schemakt.schema.primitive.boolean
 import io.github.amir1376.schemakt.schema.primitive.int
+import io.github.amir1376.schemakt.schema.primitive.string
 import grab.bit.downloader.SpeedProfile
 import grab.bit.util.GrabberUiMode
 import grab.bit.util.VideoQuality
