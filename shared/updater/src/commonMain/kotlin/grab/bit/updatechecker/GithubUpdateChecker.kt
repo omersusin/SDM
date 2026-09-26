@@ -22,8 +22,13 @@ class GithubUpdateChecker(
         var foundVersion: Version? = null
         var initializedVersionFromAssetNames = false
         val hashLinks = release.assets
-            .filter { it.name.endsWith(".md5") }
-            .associate { it.name.removeSuffix(".md5") to it.downloadLink }
+            .filter { it.name.endsWith(".sha256") || it.name.endsWith(".md5") }
+            .groupBy { it.name.removeSuffix(".sha256").removeSuffix(".md5") }
+            .mapValues { (_, assets) ->
+                val best = assets.firstOrNull { it.name.endsWith(".sha256") } ?: assets.first()
+                val algo = if (best.name.endsWith(".sha256")) "sha256" else "md5"
+                best.downloadLink to algo
+            }
         for (asset in release.assets) {
             val v = ArtifactUtil.getArtifactInfo(asset.name) ?: continue
             if (v.platform != currentPlatform) continue
@@ -33,18 +38,18 @@ class GithubUpdateChecker(
                 foundVersion = v.version
                 initializedVersionFromAssetNames = true
             }
-            val isHashFile = asset.name.endsWith(".md5")
+            val isHashFile = asset.name.endsWith(".md5") || asset.name.endsWith(".sha256")
             if (!isHashFile) {
                 updateSources.add(
                     UpdateSource.DirectDownloadLink(
                         link = asset.downloadLink,
                         name = asset.name,
-                        hash = hashLinks[asset.name]?.let { hashLink ->
+                        hash = hashLinks[asset.name]?.let { (hashLink, algo) ->
                             githubApi.downloadText(hashLink)
                                 ?.split(Regex("\\s+"))
                                 ?.firstOrNull()
                                 ?.takeIf { it.isNotBlank() }
-                                ?.let { "md5:$it" }
+                                ?.let { "$algo:$it" }
                         },
                         installableArch = v.arch,
                     )

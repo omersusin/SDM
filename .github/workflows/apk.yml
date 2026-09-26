@@ -60,6 +60,7 @@ jobs:
           APKSIGNER=$(echo $ANDROID_HOME/build-tools/*/apksigner | tr ' ' '\n' | sort -V | tail -1)
           for apk in android/app/build/outputs/apk/release/*-signed.apk; do
             "$APKSIGNER" verify --print-certs "$apk" | head -n 4
+            sha256sum "$apk" | awk '{print $1}' > "$apk.sha256"
           done
           rm -f android/app/build/outputs/apk/release/*-unsigned.apk
 
@@ -75,18 +76,24 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: grabbit-release-arm64
-          path: android/app/build/outputs/apk/release/*-arm64-*-signed.apk
+          path: |
+            android/app/build/outputs/apk/release/*-arm64-*-signed.apk
+            android/app/build/outputs/apk/release/*-arm64-*-signed.apk.sha256
 
       - name: Upload signed v7a APK
         if: inputs.build == 'release'
         uses: actions/upload-artifact@v4
         with:
           name: grabbit-release-v7a
-          path: android/app/build/outputs/apk/release/*-armeabi-*-signed.apk
+          path: |
+            android/app/build/outputs/apk/release/*-armeabi-*-signed.apk
+            android/app/build/outputs/apk/release/*-armeabi-*-signed.apk.sha256
 
       - name: Upload signed x86_64 APK
         if: inputs.build == 'release'
         uses: actions/upload-artifact@v4
         with:
           name: grabbit-release-x86_64
-          path: android/app/build/outputs/apk/release/*-x86_64-*-signed.apk
+          path: |
+            android/app/build/outputs/apk/release/*-x86_64-*-signed.apk
+            android/app/build/outputs/apk/release/*-x86_64-*-signed.apk.sha256
