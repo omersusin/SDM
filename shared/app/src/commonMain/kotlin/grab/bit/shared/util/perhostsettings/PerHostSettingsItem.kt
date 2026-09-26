@@ -11,4 +11,5 @@ data class PerHostSettingsItem(
     val threadCount: Int? = null,
     val speedLimit: Long? = null,
     val disableCapture: Boolean = false,
+    val folder: String? = null,
 )

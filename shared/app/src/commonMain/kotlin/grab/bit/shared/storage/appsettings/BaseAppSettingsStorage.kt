@@ -53,6 +53,7 @@ interface BaseAppSettingsStorage :
     val speedUnit: MutableStateFlow<SupportedSizeUnits>
     val ignoreSSLCertificates: MutableStateFlow<Boolean>
     val useCategoryByDefault: MutableStateFlow<Boolean>
+    val organizeByType: MutableStateFlow<Boolean>
     val userAgent: MutableStateFlow<String>
     val speedProfile: MutableStateFlow<SpeedProfile>
 }

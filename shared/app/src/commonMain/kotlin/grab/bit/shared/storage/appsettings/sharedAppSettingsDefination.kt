@@ -88,6 +88,8 @@ object BaseAppSettingsDefinition {
             .catch(PlatformDefaultSettings::ignoreSSLCertificates)
         prop(IAppSettingsModel::useCategoryByDefault) bind S.boolean()
             .catch(PlatformDefaultSettings::useCategoryByDefault)
+        prop(IAppSettingsModel::organizeByType) bind S.boolean()
+            .catch(PlatformDefaultSettings::organizeByType)
         prop(IAppSettingsModel::userAgent) bind S.string().catch(PlatformDefaultSettings::userAgent)
         prop(IAppSettingsModel::speedProfile) bind S.enum<SpeedProfile>().catch(PlatformDefaultSettings::speedProfile)
     }

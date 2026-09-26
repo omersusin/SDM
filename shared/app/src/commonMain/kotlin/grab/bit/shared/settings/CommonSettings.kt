@@ -357,6 +357,21 @@ object CommonSettings {
         )
     }
 
+    fun organizeByType(appSettingsStorage: BaseAppSettingsStorage): BooleanConfigurable {
+        return BooleanConfigurable(
+            title = Res.string.settings_organize_by_type.asStringSource(),
+            description = Res.string.settings_organize_by_type_description.asStringSource(),
+            backedBy = appSettingsStorage.organizeByType,
+            describe = {
+                if (it) {
+                    Res.string.enabled.asStringSource()
+                } else {
+                    Res.string.disabled.asStringSource()
+                }
+            },
+        )
+    }
+
     fun sizeUnit(
         appRepository: BaseAppRepository,
         scope: CoroutineScope

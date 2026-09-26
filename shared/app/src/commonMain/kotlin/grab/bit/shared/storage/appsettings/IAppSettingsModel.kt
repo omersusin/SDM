@@ -50,6 +50,7 @@ interface IAppSettingsModel {
     val speedUnit: SupportedSizeUnits
     val ignoreSSLCertificates: Boolean
     val useCategoryByDefault: Boolean
+    val organizeByType: Boolean
     val userAgent: String
     val speedProfile: SpeedProfile
 }
