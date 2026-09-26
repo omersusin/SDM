@@ -33,7 +33,7 @@ fun MyDropDown(
         content = {
             AnimatedVisibility(
                 true,
-                enter = fadeIn() + scaleIn(.95f),
+                enter = fadeIn() + scaleIn(initialScale = .95f),
                 exit = fadeOut() + scaleOut(),
                 label = "drop",
             ) {
