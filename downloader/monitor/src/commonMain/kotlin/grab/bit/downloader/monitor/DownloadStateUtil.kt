@@ -9,15 +9,3 @@ fun IDownloadItemState.statusOrFinished(): DownloadJobStatus {
 fun IDownloadItemState.isFinished(): Boolean {
     return this is CompletedDownloadItemState
 }
-
-fun IDownloadItemState.isNotFinished(): Boolean {
-    return this is ProcessingDownloadItemState
-}
-
-fun IDownloadItemState.speedOrNull(): Long? {
-    return (this as? ProcessingDownloadItemState)?.speed
-}
-
-fun IDownloadItemState.remainingOrNull(): Long? {
-    return (this as? ProcessingDownloadItemState)?.remainingTime
-}

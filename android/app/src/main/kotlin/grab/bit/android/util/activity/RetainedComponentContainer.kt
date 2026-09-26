@@ -23,10 +23,6 @@ class RetainedComponentContainer<T>(
         this.currentActivity = WeakReference(activity)
     }
 
-    fun getCurrentActivity(): ComponentActivity? {
-        return currentActivity.get()
-    }
-
     override fun startActivityAction(intent: Intent) {
         sendEffect(Effects.StartActivity(intent))
     }

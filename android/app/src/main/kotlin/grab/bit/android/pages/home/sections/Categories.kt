@@ -168,35 +168,17 @@ private fun ReorderableListItemScope.CategoryFilterItem(
     isDragging: Boolean,
     onRequestOpenOptionMenu: (Category?, Offset) -> Unit,
 ) {
-//    var isDraggingOnMe by remember { mutableStateOf(false) }
     var layoutCoordinates by remember {
         mutableStateOf<LayoutCoordinates?>(null)
     }
     val shouldShowDrag = isSelected || isDragging
     Box(
         modifier
-//            .dropDownloadItemsHere(
-//                onDragIn = { isDraggingOnMe = true },
-//                onDragDone = { isDraggingOnMe = false },
-//                onItemsDropped = onItemsDropped,
-//            )
             .background(
                 if (isSelected) {
                     myColors.onBackground / 0.05f
                 } else Color.Transparent
             )
-//            .ifThen(isDraggingOnMe) {
-//                val infiniteTransition = rememberInfiniteTransition()
-//                val color by infiniteTransition.animateColor(
-//                    initialValue = myColors.primary,
-//                    targetValue = myColors.secondary,
-//                    animationSpec = infiniteRepeatable(
-//                        animation = tween(1000, easing = LinearEasing),
-//                        repeatMode = RepeatMode.Reverse
-//                    )
-//                )
-//                border(1.dp, color)
-//            }
             .heightIn(mySpacings.thumbSize)
             .onGloballyPositioned {
                 layoutCoordinates = it
@@ -217,12 +199,6 @@ private fun ReorderableListItemScope.CategoryFilterItem(
             ),
         contentAlignment = Alignment.CenterStart,
     ) {
-//        if (isDraggingOnMe) {
-//            DelayedTooltipPopup(
-//                {},
-//                myStringResource(Res.string.move_to_this_category),
-//            )
-//        }
         Row(
             modifier = Modifier
                 .padding(start = 24.dp)

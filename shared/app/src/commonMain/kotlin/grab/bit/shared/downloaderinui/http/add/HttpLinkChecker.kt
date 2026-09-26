@@ -33,9 +33,10 @@ class HttpLinkChecker(
     }
 
     private fun updateNameAndLength(responseInfo: HttpResponseInfo?) {
-        val suggestedName = responseInfo
-            ?.fileName ?: HttpUrlUtils.extractNameFromLink(credentials.value.link)
-            ?.let(FilenameFixer::fix)
+        val suggestedName = (
+            responseInfo?.fileName
+                ?: HttpUrlUtils.extractNameFromLink(credentials.value.link)
+            )?.let(FilenameFixer::fix)
         val length = responseInfo?.run {
             totalLength.takeIf { isSuccessFul }
         }

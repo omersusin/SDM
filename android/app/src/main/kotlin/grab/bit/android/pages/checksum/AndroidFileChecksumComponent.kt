@@ -28,6 +28,5 @@ class AndroidFileChecksumComponent(
     ) : BaseFileChecksumComponent.Config
 
     sealed interface Effects : BaseFileChecksumComponent.Effects.Platform {
-        data object BringToFront : Effects
     }
 }

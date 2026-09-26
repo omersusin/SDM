@@ -178,8 +178,6 @@ internal fun QueuesSection(
                                 showQueueOption = { position ->
                                     showQueueOption(queue, position)
                                 }
-//                                parentShape = clipShape,
-//                                isLast = queues.lastIndex == index
                             )
                         }
                     }
@@ -207,46 +205,15 @@ private fun QueueFilterItem(
     isActive: Boolean,
     modifier: Modifier = Modifier,
     showQueueOption: (offset: Offset) -> Unit,
-    // I add this to properly create border on drag when the item is in the last position
-//    isLast: Boolean,
-//    parentShape: RoundedCornerShape,
 ) {
-//    var isDraggingOnMe by remember { mutableStateOf(false) }
     var layoutCoordinates by remember { mutableStateOf(null as LayoutCoordinates?) }
     Box(
         modifier
-//            .dropDownloadItemsHere(
-//                onDragIn = { isDraggingOnMe = true },
-//                onDragDone = { isDraggingOnMe = false },
-//                onItemsDropped = onItemsDroppedInQueue,
-//            )
             .background(
                 if (isSelected) {
                     myColors.onBackground / 0.05f
                 } else Color.Transparent
             )
-//            .ifThen(isDraggingOnMe) {
-//                val infiniteTransition = rememberInfiniteTransition()
-//                val color by infiniteTransition.animateColor(
-//                    initialValue = myColors.primary,
-//                    targetValue = myColors.secondary,
-//                    animationSpec = infiniteRepeatable(
-//                        animation = tween(1000, easing = LinearEasing),
-//                        repeatMode = RepeatMode.Reverse
-//                    )
-//                )
-//                val shape = RoundedCornerShape(0.dp).let {
-//                    when {
-//                        isLast -> it.copy(
-//                            bottomStart = parentShape.bottomStart,
-//                            bottomEnd = parentShape.bottomEnd,
-//                        )
-//
-//                        else -> it
-//                    }
-//                }
-//                border(1.dp, color, shape)
-//            }
             .onGloballyPositioned {
                 layoutCoordinates = it
             }
@@ -261,12 +228,6 @@ private fun QueueFilterItem(
                 indication = LocalIndication.current,
             )
     ) {
-//        if (isDraggingOnMe) {
-//            DelayedTooltipPopup(
-//                {},
-//                myStringResource(Res.string.move_to_this_queue),
-//            )
-//        }
         Row(
             Modifier
                 .heightIn(mySpacings.thumbSize)

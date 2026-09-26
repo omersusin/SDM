@@ -349,25 +349,18 @@ private fun RenderProgressBar(
             .background(myColors.onBackground / 15)
     ) {
         progress?.let { progress ->
+            val animatedProgress by animateFloatAsState(
+                progress,
+                tween(300, easing = LinearEasing),
+                label = "downloadProgress",
+            )
             Box(
                 Modifier
                     .clip(myShapes.defaultRounded)
                     .background(background)
                     .fillMaxHeight()
-                    .fillMaxWidth(
-                        animateFloatAsState(
-                            progress,
-                            tween(100, easing = LinearEasing)
-                        ).value
-                    )
+                    .fillMaxWidth(animatedProgress)
             ) {
-//                if (status is DownloadJobStatus.Downloading) {
-//                    JetFade(
-//                        Modifier
-//                            .fillMaxSize()
-//                            .padding(end = 1.dp)
-//                    )
-//                }
             }
         }
         if (progress == null && status is DownloadJobStatus.IsActive) {
