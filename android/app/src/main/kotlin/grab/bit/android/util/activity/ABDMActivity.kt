@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowInsetsControllerCompat
 import grab.bit.android.storage.AndroidOnBoardingStorage
 import grab.bit.android.storage.HomePageStorage
+import grab.bit.android.storage.ManualOrderStorage
 import grab.bit.android.ui.ABDownloadManagerApplicationContent
 import grab.bit.android.util.ABDMAppManager
 import grab.bit.android.util.AndroidUi
@@ -45,6 +46,7 @@ abstract class ABDMActivity : ComponentActivity(), KoinComponent {
     val abdmAppManager: ABDMAppManager by inject()
     val onBoardingStorage: AndroidOnBoardingStorage by inject()
     val homePageStorage: HomePageStorage by inject()
+    val manualOrderStorage: ManualOrderStorage by inject()
 
     open fun handleIntent(intent: Intent) {}
 

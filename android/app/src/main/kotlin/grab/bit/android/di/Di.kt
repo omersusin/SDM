@@ -18,6 +18,7 @@ import grab.bit.android.storage.AndroidOnBoardingStorage
 import grab.bit.android.storage.AppSettingsStorage
 import grab.bit.android.storage.BrowserBookmarksStorage
 import grab.bit.android.storage.HomePageStorage
+import grab.bit.android.storage.ManualOrderStorage
 import grab.bit.android.storage.OnBoardingData
 import grab.bit.android.util.ABDMAppManager
 import grab.bit.android.util.ABDMServiceNotificationManager
@@ -692,6 +693,16 @@ fun getAppModule(context: ABDMApp) = module {
                 paths.homePageFile.toFile(),
                 get(),
                 ::HomePageStateToPersist,
+            )
+        )
+    }
+    single {
+        val paths = get<AndroidDefinedPaths>()
+        ManualOrderStorage(
+            kotlinxSerializationDataStore<List<Long>>(
+                paths.manualOrderFile.toFile(),
+                get(),
+                ::emptyList,
             )
         )
     }

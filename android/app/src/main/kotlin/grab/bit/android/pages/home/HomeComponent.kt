@@ -7,6 +7,7 @@ import grab.bit.android.action.createOpenBrowserAction
 import grab.bit.android.pages.enterurl.AndroidEnterNewURLComponent
 import grab.bit.android.pages.home.sections.sort.DownloadSortBy
 import grab.bit.android.storage.HomePageStorage
+import grab.bit.android.storage.ManualOrderStorage
 import grab.bit.android.util.AppInfo
 import grab.bit.android.util.pagemanager.IBrowserPageManager
 import grab.bit.resources.Res
@@ -117,6 +118,7 @@ class HomeComponent(
     downloaderInUiRegistry: DownloaderInUiRegistry,
     private val updateComponent: UpdateComponent,
     private val homePageStorage: HomePageStorage,
+    private val manualOrderStorage: ManualOrderStorage,
 ) : BaseHomeComponent(
     componentContext,
     downloadItemOpener,
@@ -454,7 +456,7 @@ class HomeComponent(
         DownloadSortBy.Status,
     )
 
-    private val manualOrder = homePageStorage.manualOrder
+    private val manualOrder = manualOrderStorage.manualOrder
 
     init {
         scope.launch {
