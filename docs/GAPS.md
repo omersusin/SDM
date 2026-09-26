@@ -37,3 +37,23 @@
 30. Eklenti sistemi (JS sandbox) — Motrix/Gopeed
 31. Rename-maskeleri + toplu-seçim — DownThemAll
 32. Collector-staging (grabber→kuyruk) — JDownloader/pyLoad/arcdlp
+
+## Süpürme turu 2 (Wave 4 final, 8 ajan)
+33. Sıralı/oynatırken-indir (sequential chunks) — FDM/qBittorrent istekleri
+34. Türe-göre otomatik klasör — FDM/Gopeed istekleri
+35. Bitince kopyala (seed ederken NAS'a kopya) — qBittorrent #19139
+36. RSS oto-indirme — Transmission/Deluge/Motrix/Gopeed istekleri
+37. VPN arayüz-bağlama + kill-switch — Transmission #338
+38. İndirme-öncesi probe (format picker) — MeTube #1032
+39. PO-token/bot-koruması yönetimi — yt-dlp/Seal dalgası
+40. Global uyku/backoff (IP-ban koruması) — Pinchflat #401
+41. 0-ilerleme watchdog (sonsuz takılmayı öldür) — Gopeed #1288
+42. Uygulama kapalıyken oto-başlat/sıraya al — ABDM #1210
+43. Tek-seferlik yakalama-atlama (Alt+tık) — ABDM #757
+44. Hata ayrımı (403/timeout/404 ayrı mesaj) — ABDM #1159
+45. Sunucu-bazlı limitler — ABDM #1015
+46. Küçük pencere/ilerleme konumu + oto-kapat — ABDM #19
+47. Kopyala-yol (Ctrl+C), dl/ul grafiği + ETA — FDM forumu
+48. Sabitlenebilir ilerleme overlay'i — FDM forumu
+49. Bugün-indirilen sayacı — NZBGet #767
+50. Boyut yanlış-raporlama düzeltmesi — AriaNg #837
