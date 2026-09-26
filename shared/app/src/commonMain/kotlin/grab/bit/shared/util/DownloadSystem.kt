@@ -11,7 +11,7 @@ import grab.bit.shared.util.downloaderror.faileddownloads.FailedDownloads
 import grab.bit.shared.util.downloaderror.faileddownloads.IFailedDownloadErrorStorage
 import grab.bit.shared.util.ondownloadcompletion.OnDownloadCompletionActionRunner
 import grab.bit.shared.util.onqueuecompletion.OnQueueEventActionRunner
-import grab.bit.shared.api.RestApiServer
+import grab.bit.shared.api.RestApiBoot
 import grab.bit.shared.util.webhook.WebhookNotifier
 import grab.bit.downloader.DownloadManager
 import grab.bit.downloader.NewDownloadItemProps
@@ -57,7 +57,7 @@ class DownloadSystem(
     private val failedDownloadErrorStorage: IFailedDownloadErrorStorage,
     private val foldersRegistry: DownloadFoldersRegistry,
     private val webhookNotifier: WebhookNotifier,
-    private val restApiServer: RestApiServer,
+    private val restApiServer: RestApiBoot,
 ) {
     private val booted = suspendGuardedEntry()
 

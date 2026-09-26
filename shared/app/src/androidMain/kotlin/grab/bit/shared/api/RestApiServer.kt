@@ -52,12 +52,12 @@ class RestApiServer(
     private val saveLocation: StateFlow<String>,
     private val appSettings: BaseAppSettingsStorage,
     private val scope: CoroutineScope,
-) {
+) : RestApiBoot {
     private val booted = guardedEntry()
     private var server: ServerSocket? = null
     private val json = Json { ignoreUnknownKeys = true }
 
-    fun boot() {
+    override fun boot() {
         booted.action {
             if (!appSettings.apiEnabled.value) {
                 return@action
@@ -68,7 +68,7 @@ class RestApiServer(
         }
     }
 
-    fun stop() {
+    override fun stop() {
         runCatching { server?.close() }
         server = null
     }
