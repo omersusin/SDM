@@ -32,6 +32,7 @@ interface BaseAppSettingsStorage :
     val autoUncompressArchives: MutableStateFlow<Boolean>
     val clipboardMonitor: MutableStateFlow<Boolean>
     val autoRemoveFinishedDownloads: MutableStateFlow<Boolean>
+    val clipboardAddPaused: MutableStateFlow<Boolean>
     val showDownloadProgressDialog: MutableStateFlow<Boolean>
     val showDownloadCompletionDialog: MutableStateFlow<Boolean>
     val speedLimit: MutableStateFlow<Long>

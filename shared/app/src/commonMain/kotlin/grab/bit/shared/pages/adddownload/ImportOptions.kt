@@ -10,4 +10,5 @@ data class SilentImportOptions(
 @Serializable
 data class ImportOptions(
     val silentImport: SilentImportOptions? = null,
+    val startPaused: Boolean = false,
 )

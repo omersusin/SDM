@@ -95,6 +95,7 @@ class AndroidSettingsComponent(
                     CommonSettings.defaultDownloadFolderConfig(appSettings),
                     CommonSettings.useCategoryByDefault(appSettings),
                     CommonSettings.clipboardMonitor(appSettings),
+                    CommonSettings.clipboardAddPaused(appSettings),
                 )
             ),
             ConfigurableGroup(

@@ -65,6 +65,7 @@ class AppSettingsStorage(
     override val autoUncompressArchives = from(AppSettingsModel.autoUncompressArchives)
     override val clipboardMonitor = from(AppSettingsModel.clipboardMonitor)
     override val autoRemoveFinishedDownloads = from(AppSettingsModel.autoRemoveFinishedDownloads)
+    override val clipboardAddPaused = from(AppSettingsModel.clipboardAddPaused)
     override val showDownloadProgressDialog = from(AppSettingsModel.showDownloadProgressDialog)
     override val showDownloadCompletionDialog = from(AppSettingsModel.showDownloadCompletionDialog)
     override val speedLimit = from(AppSettingsModel.speedLimit)

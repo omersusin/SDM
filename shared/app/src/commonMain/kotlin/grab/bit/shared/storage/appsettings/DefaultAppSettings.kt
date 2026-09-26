@@ -27,6 +27,7 @@ abstract class DefaultAppSettings {
     open val autoUncompressArchives: Boolean get() = false
     open val clipboardMonitor: Boolean get() = false
     open val autoRemoveFinishedDownloads: Boolean get() = false
+    open val clipboardAddPaused: Boolean get() = false
     open val dynamicPartCreation: Boolean get() = true
     open val useServerLastModifiedTime: Boolean get() = false
     open val appendExtensionToIncompleteDownloads: Boolean get() = false

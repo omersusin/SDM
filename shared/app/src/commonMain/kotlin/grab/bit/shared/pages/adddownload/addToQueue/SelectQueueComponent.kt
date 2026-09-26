@@ -18,6 +18,7 @@ class SelectQueueComponent(
     private val queueManager: QueueManager,
     private val selectQueueStorage: ISelectQueueStorage,
     private val onRequestAddToQueue: (SelectQueueSettings) -> Unit,
+    initialStartQueue: Boolean? = null,
 ) : BaseComponent(ctx) {
     val queueList = queueManager.queues
     val lastSettings get() = selectQueueStorage.selectQueueSettings.value
@@ -42,7 +43,7 @@ class SelectQueueComponent(
         _selectedQueue.value = id
     }
 
-    private val _startQueue = MutableStateFlow(lastSettings.startQueue)
+    private val _startQueue = MutableStateFlow(initialStartQueue ?: lastSettings.startQueue)
     val startQueue = _startQueue.asStateFlow()
     fun setStartQueue(value: Boolean) {
         _startQueue.value = value
