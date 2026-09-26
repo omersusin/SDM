@@ -695,7 +695,7 @@ fun getAppModule(context: ABDMApp) = module {
     single<RestApiBoot> {
         RestApiServer(
             downloadSystem = { get() },
-            saveLocation = get<BaseAppRepository>().saveLocation,
+            saveLocation = { get<BaseAppRepository>().saveLocation.value },
             appSettings = get(),
             scope = get(),
         )
