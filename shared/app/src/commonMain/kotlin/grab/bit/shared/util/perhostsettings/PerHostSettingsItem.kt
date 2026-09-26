@@ -10,4 +10,5 @@ data class PerHostSettingsItem(
     val userAgent: String? = null,
     val threadCount: Int? = null,
     val speedLimit: Long? = null,
+    val disableCapture: Boolean = false,
 )

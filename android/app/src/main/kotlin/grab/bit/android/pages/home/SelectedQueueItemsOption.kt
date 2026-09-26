@@ -15,6 +15,34 @@ import grab.bit.shared.util.ui.icon.MyIcons
 import grab.bit.util.compose.asStringSource
 
 @Immutable
+data class ManualOrderMenuProps(
+    val onRequestMoveUp: () -> Unit,
+    val onRequestMoveDown: () -> Unit,
+)
+
+@Composable
+fun RenderManualOrderMenu(
+    props: ManualOrderMenuProps,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        TransparentIconActionButton(
+            icon = MyIcons.up,
+            contentDescription = Res.string.move_up.asStringSource(),
+            onClick = props.onRequestMoveUp,
+            shape = RectangleShape,
+        )
+        TransparentIconActionButton(
+            icon = MyIcons.down,
+            contentDescription = Res.string.move_down.asStringSource(),
+            onClick = props.onRequestMoveDown,
+            shape = RectangleShape,
+        )
+    }
+}
+
+@Immutable
 data class QueueSelectedItemsMenuProps(
     val queueName: String,
     val onRequestQueueItemsUp: () -> Unit,

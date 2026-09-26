@@ -11,4 +11,5 @@ class HomePageStorage(
     dataStore = dataStore,
 ) {
     val sortBy = from(HomePageStateToPersist.sortBy)
+    val manualOrder = from(HomePageStateToPersist.manualOrder)
 }

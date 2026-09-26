@@ -8,7 +8,8 @@ import kotlinx.serialization.Serializable
 @optics
 @Serializable
 data class HomePageStateToPersist(
-    val sortBy: Sort<DownloadSortBy> = Sort<DownloadSortBy>(DownloadSortBy.ActiveFirst, false)
+    val sortBy: Sort<DownloadSortBy> = Sort<DownloadSortBy>(DownloadSortBy.ActiveFirst, false),
+    val manualOrder: List<Long> = emptyList(),
 ) {
     companion object {}
 }
