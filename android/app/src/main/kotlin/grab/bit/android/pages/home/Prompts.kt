@@ -212,7 +212,7 @@ private fun ShowDeletePrompts(
 }
 
 @Composable
-private fun ShowConfirmPrompt(
+fun ShowConfirmPrompt(
     promptState: ConfirmPromptState,
     onConfirm: () -> Unit,
     onCancel: () -> Unit,

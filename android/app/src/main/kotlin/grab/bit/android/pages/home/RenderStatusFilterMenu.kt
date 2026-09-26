@@ -81,6 +81,19 @@ fun RenderStatusFilterMenu(
                         mySpacings.largeSpace
                     ),
             )
+            if (component.filterState.isFiltering) {
+                ActionButton(
+                    text = myStringResource(Res.string.clear),
+                    onClick = {
+                        component.clearFilters()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            mySpacings.largeSpace
+                        ),
+                )
+            }
         }
     }
 }

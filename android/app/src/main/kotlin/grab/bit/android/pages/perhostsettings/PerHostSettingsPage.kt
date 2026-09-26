@@ -30,6 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import grab.bit.android.ui.page.PageHeader
+import grab.bit.android.pages.home.ShowConfirmPrompt
+import grab.bit.shared.pages.home.ConfirmPromptState
 import grab.bit.android.ui.page.PageTitle
 import grab.bit.android.ui.page.PageUi
 import grab.bit.shared.ui.widget.*
@@ -88,7 +90,7 @@ fun PerHostSettingsPage(component: AndroidPerHostSettingsComponent) {
                             icon = MyIcons.remove,
                             contentDescription = Res.string.remove.asStringSource(),
                             onClick = {
-                                component.onRequestDeleteConfig(configurableList.id)
+                                confirmDeleteHost = true
                             }
                         )
                         TransparentIconActionButton(
@@ -101,6 +103,22 @@ fun PerHostSettingsPage(component: AndroidPerHostSettingsComponent) {
                             },
                             contentDescription = Res.string.update.asStringSource()
                         )
+                    if (confirmDeleteHost && configurableList != null) {
+                        ShowConfirmPrompt(
+                            promptState = ConfirmPromptState(
+                                title = Res.string.per_host_settings_delete_title.asStringSource(),
+                                description = Res.string.per_host_settings_delete_description.asStringSource(),
+                                onConfirm = {},
+                            ),
+                            onConfirm = {
+                                confirmDeleteHost = false
+                                component.onRequestDeleteConfig(configurableList.id)
+                            },
+                            onCancel = {
+                                confirmDeleteHost = false
+                            },
+                        )
+                    }
                     }
                 }
             )
@@ -199,6 +217,7 @@ private fun HostList(
     val shape = myShapes.defaultRounded
     val borderColor = myColors.surface / 0.5f
     var search by remember { mutableStateOf("") }
+    var confirmDeleteHost by remember { mutableStateOf(false) }
     val defaultEmptyName = myStringResource(Res.string.settings_per_host_settings_new_host)
     val filteredHosts = remember(hosts, search) {
         hosts.ifThen(search.isNotEmpty()) {
