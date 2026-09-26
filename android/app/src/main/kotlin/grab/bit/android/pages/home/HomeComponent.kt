@@ -435,35 +435,6 @@ class HomeComponent(
         }
     }
 
-    fun reorderQueueItems(fromIndex: Int, toIndex: Int) {
-        val downloadQueue = getCurrentDownloadQueue() ?: return
-        val currentDraggingItem = runCatching {
-            downloadQueue.getQueueItemFromOrder(fromIndex)
-        }.getOrNull()
-        val listOfIds = selectionList.value
-            .let {
-                if (currentDraggingItem != null && !it.contains(currentDraggingItem)) {
-                    it.plus(currentDraggingItem)
-                } else {
-                    it
-                }
-            }
-
-        val delta = toIndex - fromIndex
-        downloadQueue.move(
-            listOfIds, delta
-        )
-        val queueItems = downloadQueue.queueModel.value.queueItems
-        val itemToScroll = if (delta > 0) {
-            queueItems.lastOrNull { listOfIds.contains(it) }
-        } else {
-            queueItems.firstOrNull { listOfIds.contains(it) }
-        }
-        itemToScroll?.let {
-            sendEffect(BaseHomeComponent.Effects.Common.ScrollToDownloadItem(it))
-        }
-    }
-
     fun removeQueueItems() {
         val downloadQueue = getCurrentDownloadQueue() ?: return
         val itemsToRemove = selectionList.value

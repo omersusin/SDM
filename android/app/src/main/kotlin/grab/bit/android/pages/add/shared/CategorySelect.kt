@@ -70,20 +70,6 @@ fun CategorySelect(
             onSelect = {
                 onCategorySelected(it)
             },
-//        renderEmpty = {
-//            Column(
-//                modifier = Modifier.fillMaxSize().wrapContentSize(),
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//            ) {
-//                MyIcon(MyIcons.info, null, Modifier.size(64.dp))
-//                Spacer(Modifier.height(16.dp))
-//                Text(
-//                    myStringResource(Res.string.no_categories_found),
-//                    fontWeight = FontWeight.Bold,
-//                    fontSize = myTextSizes.lg,
-//                )
-//            }
-//        }
         )
     }
 }

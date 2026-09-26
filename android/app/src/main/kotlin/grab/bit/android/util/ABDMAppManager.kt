@@ -59,9 +59,6 @@ class ABDMAppManager(
 ) : KoinComponent, NotificationSender {
     private var booted = guardedEntry()
     private var downloadSystemBooted = suspendGuardedEntry()
-    fun isSoundAllowed(): Boolean {
-        return appSettingsStorage.notificationSound.value
-    }
 
     fun boot() {
         booted.action {
@@ -397,14 +394,6 @@ class ABDMAppManager(
                 type = type,
             )
         }
-    }
-
-    /**
-     * in case of the notification permission is granted recently
-     * we ask service notification manager to repost the notification
-     */
-    fun repostServiceNotification() {
-        serviceNotificationManager.updateNotificationWithDefaultValue()
     }
 
     fun bootDownloadSystemAndService(): Boolean {

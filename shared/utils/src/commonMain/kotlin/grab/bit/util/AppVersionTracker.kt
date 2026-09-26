@@ -14,11 +14,4 @@ class AppVersionTracker(
         val previousVersion = previousVersion() ?: return false
         return previousVersion < currentVersion
     }
-
-    fun isDowngraded(): Boolean {
-        val previousVersion = previousVersion() ?: return false
-        return previousVersion > currentVersion
-    }
-
-    fun isNewOrUpdated() = isNewInstall() || isUpgraded()
 }

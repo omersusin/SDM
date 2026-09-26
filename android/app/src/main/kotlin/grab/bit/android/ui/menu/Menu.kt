@@ -216,15 +216,6 @@ private fun RenderSubMenuItem(
                     .autoMirror(),
             )
         })
-//    if (openedItem == menuItem) {
-//        SiblingDropDown(
-//            onDismissRequest = {
-//                onRequestOpenItem(null)
-//            }
-//        ) {
-//            SubMenu(menuItem, onRequestCLose)
-//        }
-//    }
 }
 
 @Composable

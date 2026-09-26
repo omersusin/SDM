@@ -6,9 +6,7 @@ import grab.bit.shared.util.div
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.FiniteAnimationSpec
-import androidx.compose.animation.core.Transition
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -169,68 +167,6 @@ private object AnimateMyColors {
         animationSpec: AnimationSpec<Color> = tween(500),
     ): State<Color> {
         return animateColorAsState(color, animationSpec = animationSpec)
-    }
-}
-
-// it seems this method is more laggy! even though it uses single transition!
-private object AnimateMyColorsWithSingleTransition {
-    @Composable
-    fun animatedColors(
-        toBeAnimated: MyColors,
-        spec: FiniteAnimationSpec<Color> = tween(500)
-    ): MyColors {
-        val spec: @Composable Transition.Segment<MyColors>.() -> FiniteAnimationSpec<Color> = { spec }
-        val transition = updateTransition(toBeAnimated, "animateMyColors")
-
-        val primary by transition.animateColor(spec, "primary") { it.primary }
-        val primaryVariant by transition.animateColor(spec, "primaryVariant") { it.primaryVariant }
-        val onPrimary by transition.animateColor(spec, "onPrimary") { it.onPrimary }
-
-        val secondary by transition.animateColor(spec, "secondary") { it.secondary }
-        val secondaryVariant by transition.animateColor(spec, "secondaryVariant") { it.secondaryVariant }
-        val onSecondary by transition.animateColor(spec, "onSecondary") { it.onSecondary }
-
-        val background by transition.animateColor(spec, "background") { it.background }
-        val onBackground by transition.animateColor(spec, "onBackground") { it.onBackground }
-
-        val surface by transition.animateColor(spec, "surface") { it.surface }
-        val onSurface by transition.animateColor(spec, "onSurface") { it.onSurface }
-
-        val success by transition.animateColor(spec, "success") { it.success }
-        val onSuccess by transition.animateColor(spec, "onSuccess") { it.onSuccess }
-
-        val error by transition.animateColor(spec, "error") { it.error }
-        val onError by transition.animateColor(spec, "onError") { it.onError }
-
-        val warning by transition.animateColor(spec, "warning") { it.warning }
-        val onWarning by transition.animateColor(spec, "onWarning") { it.onWarning }
-
-        val info by transition.animateColor(spec, "info") { it.info }
-        val onInfo by transition.animateColor(spec, "onInfo") { it.onInfo }
-
-        return MyColors(
-            primary = primary,
-            primaryVariant = primaryVariant,
-            onPrimary = onPrimary,
-            secondary = secondary,
-            secondaryVariant = secondaryVariant,
-            onSecondary = onSecondary,
-            background = background,
-            onBackground = onBackground,
-            onSurface = onSurface,
-            surface = surface,
-            error = error,
-            onError = onError,
-            success = success,
-            onSuccess = onSuccess,
-            warning = warning,
-            onWarning = onWarning,
-            info = info,
-            onInfo = onInfo,
-            isLight = toBeAnimated.isLight,
-            name = toBeAnimated.name,
-            id = toBeAnimated.id,
-        )
     }
 }
 

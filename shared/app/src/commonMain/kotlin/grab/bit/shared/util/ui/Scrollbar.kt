@@ -16,10 +16,6 @@ fun ScrollbarAdapter.needScroll(): Boolean {
     return contentSize > viewportSize
 }
 
-fun multiplatformDefaultScrollbarStyle(): ScrollbarStyle {
-    return defaultScrollbarStyle()
-}
-
 @Composable
 fun MultiplatformHorizontalScrollbar(
     adapter: ScrollbarAdapter,

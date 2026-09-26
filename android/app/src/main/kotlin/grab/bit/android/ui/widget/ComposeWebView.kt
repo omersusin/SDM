@@ -350,16 +350,6 @@ public sealed class WebContent {
         }
     }
 
-    @Deprecated("Use state.lastLoadedUrl instead")
-    public fun getCurrentUrl(): String? {
-        return when (this) {
-            is Url -> url
-            is Data -> baseUrl
-            is Post -> url
-            is NavigatorOnly -> throw IllegalStateException("Unsupported")
-        }
-    }
-
     public object NavigatorOnly : WebContent()
 
     companion object {
@@ -562,26 +552,6 @@ public class WebViewNavigator(private val coroutineScope: CoroutineScope) {
         }
     }
 
-    public fun loadHtml(
-        html: String,
-        baseUrl: String? = null,
-        mimeType: String? = null,
-        encoding: String? = "utf-8",
-        historyUrl: String? = null
-    ) {
-        coroutineScope.launch {
-            navigationEvents.emit(
-                NavigationEvent.LoadHtml(
-                    html,
-                    baseUrl,
-                    mimeType,
-                    encoding,
-                    historyUrl
-                )
-            )
-        }
-    }
-
     public fun postUrl(
         url: String,
         postData: ByteArray
@@ -680,27 +650,6 @@ public fun rememberWebViewState(
 /**
  * Creates a WebView state that is remembered across Compositions.
  *
- * @param data The uri to load in the WebView
- */
-@Composable
-public fun rememberWebViewStateWithHTMLData(
-    data: String,
-    baseUrl: String? = null,
-    encoding: String = "utf-8",
-    mimeType: String? = null,
-    historyUrl: String? = null
-): WebViewState =
-    remember {
-        WebViewState(WebContent.Data(data, baseUrl, encoding, mimeType, historyUrl))
-    }.apply {
-        this.content = WebContent.Data(
-            data, baseUrl, encoding, mimeType, historyUrl
-        )
-    }
-
-/**
- * Creates a WebView state that is remembered across Compositions.
- *
  * @param url The url to load in the WebView
  * @param postData The data to be posted to the WebView with the url
  */
@@ -725,40 +674,3 @@ public fun rememberWebViewState(
         )
     }
 
-/**
- * Creates a WebView state that is remembered across Compositions and saved
- * across activity recreation.
- * When using saved state, you cannot change the URL via recomposition. The only way to load
- * a URL is via a WebViewNavigator.
- *
- * @param data The uri to load in the WebView
- */
-@Composable
-public fun rememberSaveableWebViewState(): WebViewState =
-    rememberSaveable(saver = WebStateSaver) {
-        WebViewState(WebContent.NavigatorOnly)
-    }
-
-public val WebStateSaver: Saver<WebViewState, Any> = run {
-    val pageTitleKey = "pagetitle"
-    val lastLoadedUrlKey = "lastloaded"
-    val stateBundle = "bundle"
-
-    mapSaver(
-        save = {
-            val viewState = Bundle().apply { it.webView?.saveState(this) }
-            mapOf(
-                pageTitleKey to it.pageTitle,
-                lastLoadedUrlKey to it.lastLoadedUrl,
-                stateBundle to viewState
-            )
-        },
-        restore = {
-            WebViewState(WebContent.NavigatorOnly).apply {
-                this.pageTitle = it[pageTitleKey] as String?
-                this.lastLoadedUrl = it[lastLoadedUrlKey] as String?
-                this.viewState = it[stateBundle] as Bundle?
-            }
-        }
-    )
-}

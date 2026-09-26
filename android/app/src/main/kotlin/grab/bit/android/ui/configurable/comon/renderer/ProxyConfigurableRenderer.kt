@@ -189,12 +189,6 @@ object ProxyConfigurableRenderer : ConfigurableRenderer<ProxyConfigurable> {
     }
 
     @Composable
-    fun RenderChangeProxyConfig() {
-        NextIcon()
-    }
-
-
-    @Composable
     private fun ProxyEditDialog(
         state: ProxyEditState?,
         onDismiss: () -> Unit,
@@ -474,64 +468,6 @@ object ProxyConfigurableRenderer : ConfigurableRenderer<ProxyConfigurable> {
         )
     }
 
-    @Composable
-    private fun SettingsDialog(
-        headerTitle: String,
-        onDismiss: () -> Unit,
-        content: @Composable () -> Unit,
-        actions: (@Composable RowScope.() -> Unit)? = null,
-    ) {
-        val shape = myShapes.defaultRounded
-        Column(
-            modifier = Modifier
-                .clip(shape)
-                .border(2.dp, myColors.onBackground / 10, shape)
-                .background(
-                    Brush.linearGradient(
-                        listOf(
-                            myColors.surface,
-                            myColors.background,
-                        )
-                    )
-                )
-                .padding(16.dp)
-                .width(450.dp),
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text(
-                    headerTitle,
-                    fontSize = myTextSizes.lg,
-                    fontWeight = FontWeight.Bold,
-                )
-                MyIcon(
-                    MyIcons.windowClose,
-                    myStringResource(Res.string.close),
-                    Modifier
-                        .clip(CircleShape)
-                        .clickable { onDismiss() }
-                        .padding(12.dp)
-                        .size(12.dp),
-                )
-            }
-            Spacer(Modifier.height(8.dp))
-            Box(Modifier.weight(1f, false)) {
-                content()
-            }
-            actions?.let {
-                Spacer(Modifier.height(8.dp))
-                Row(
-                    Modifier.align(Alignment.End),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    actions()
-                }
-            }
-        }
-    }
 
     @Composable
     private fun ProxyConfigSpacer() {

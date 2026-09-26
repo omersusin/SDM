@@ -16,14 +16,6 @@ abstract class BaseMyColors : IMyIcons, IIconResolver {
             .asIconSource()
     }
 
-//    fun String.asIconSource(
-//        path: String,
-//        requiredTint: Boolean = true
-//    ): IconSource = apply {
-//        val uri = "$RESOURCE_PROTOCOL:$path?tint=${requiredTint}"
-//        return IconSource.ResourceIconSource(this, requiredTint, uri).asSource()
-//    }
-
     fun IconSource.asIconSource(): IconSource = apply {
         uri?.let {
             iconMap[it] = this

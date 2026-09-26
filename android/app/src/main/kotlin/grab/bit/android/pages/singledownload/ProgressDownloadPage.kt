@@ -252,16 +252,16 @@ private fun RenderProgressBar(itemState: IDownloadItemState) {
             .background(myColors.onBackground / 15)
     ) {
         progress?.let { progress ->
+            val animatedProgress by animateFloatAsState(
+                progress,
+                tween(300, easing = LinearEasing),
+                label = "downloadProgress",
+            )
             Box(
                 Modifier
                     .background(background)
                     .fillMaxHeight()
-                    .fillMaxWidth(
-                        animateFloatAsState(
-                            progress,
-                            tween(100, easing = LinearEasing)
-                        ).value
-                    )
+                    .fillMaxWidth(animatedProgress)
             ) {
                 if (progress == 1f) {
                     MyIcon(

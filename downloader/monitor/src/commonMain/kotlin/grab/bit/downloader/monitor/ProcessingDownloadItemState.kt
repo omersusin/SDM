@@ -90,19 +90,6 @@ data class DurationBasedProcessingDownloadItemState(
 
     override val hasProgress get() = progress > 0
     override val gotAnyProgress = progress > 0L
-//    override val percent: Int? = run {
-//        val length = getLengthOrOptimistic(contentLength, optimisticLength)
-//        if (length == IDownloadItem.LENGTH_UNKNOWN) {
-//            val partsSize = parts.size
-//            if (partsSize > 0) {
-//                calcPercent(finishedPartsCount, partsSize)
-//            } else {
-//                null
-//            }
-//        } else {
-//            calcPercent(progress, length)
-//        }
-//    }
 
     override val remainingTime: Long? = kotlin.run {
         val length = getLengthOrOptimistic(contentLength, optimisticLength)

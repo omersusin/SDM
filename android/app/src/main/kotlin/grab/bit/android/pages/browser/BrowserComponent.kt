@@ -513,10 +513,6 @@ class BrowserComponent(
         }
     }
 
-    fun clearBookmarks() {
-        browserBookmarksStorage.bookmarksFlow.value = emptyList()
-    }
-
     fun isBookmarked(url: String): Boolean {
         return browserBookmarksStorage.bookmarksFlow.value.find {
             it.url == url
@@ -704,13 +700,6 @@ data class ABDMBrowserTab(
     val tabState: WebViewState,
 ) {
     companion object {
-        fun createDefaultTab(
-            page: String = blankPage
-        ) = ABDMBrowserTab(
-            tabId = UUID.randomUUID().toString(),
-            tabState = WebViewState(WebContent.Url(page)),
-        )
-
         val blankPage = "about:blank"
     }
 }

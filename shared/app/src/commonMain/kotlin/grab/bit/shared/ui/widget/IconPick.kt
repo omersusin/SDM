@@ -103,28 +103,6 @@ private fun Content(
                         }
                     }
                 }
-//    LazyVerticalGrid(
-//        columns = GridCells.Fixed(6),
-//        content = {
-//            val shape = myShapes.defaultRounded
-//            items(icons) {
-//                MyIcon(
-//                    it,
-//                    null,
-//                    Modifier
-//                        .clip(shape)
-//                        .ifThen(selectedIcon == it) {
-//                            background(myColors.primary / 0.25f)
-//                        }
-//                        .clickable {
-//                            onSelected(it)
-//                        }
-//                        .padding(8.dp)
-//                        .size(24.dp),
-//                )
-//            }
-//        }
-//    )
             }
         )
         AnimatedVisibility(
