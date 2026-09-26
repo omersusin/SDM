@@ -332,6 +332,8 @@ fun MediaListDialog(
                         }
                     }) { item ->
                         val url = when (item) {
+                            is MediaCandidate.Direct -> item.url
+                            is MediaCandidate.Stream -> item.url
                             MediaCandidate.NotMedia -> return@items
                         }
                         val label = when (item) {
