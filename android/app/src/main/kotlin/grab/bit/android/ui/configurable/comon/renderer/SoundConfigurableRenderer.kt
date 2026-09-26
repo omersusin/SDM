@@ -102,7 +102,8 @@ object SoundConfigurableRenderer : ConfigurableRenderer<SoundConfigurable> {
                     modifier = params.modifier,
                 ) {
                     items(
-                        notifications
+                        notifications,
+                        key = { it.second?.toString().orEmpty() + it.first }
                     ) { (name, uri) ->
                         val isSelected = params.editingValue == uri?.toString().orEmpty()
                         Row(

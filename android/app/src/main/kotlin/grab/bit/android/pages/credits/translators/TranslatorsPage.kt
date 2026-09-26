@@ -222,7 +222,7 @@ private fun DearTranslators(
         state = state,
         contentPadding = contentPadding,
     ) {
-        itemsIndexed(list) { index, item ->
+        itemsIndexed(list, key = { _, item -> item.locale }) { index, item ->
             TranslatedLanguageItem(
                 item,
                 Modifier

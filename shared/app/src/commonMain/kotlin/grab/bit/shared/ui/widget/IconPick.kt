@@ -70,13 +70,14 @@ private fun Content(
 ) {
     val state = rememberLazyListState()
     val shape = myShapes.defaultRounded
+    val rows = remember(icons) { icons.chunked(6) }
     Box {
         LazyColumn(
             modifier = modifier,
             state = state,
             contentPadding = PaddingValues(vertical = 8.dp),
             content = {
-                items(icons.chunked(6)) { rowItems ->
+                items(rows, key = { index -> index }) { rowItems ->
                     Row {
                         for (iconSource in rowItems) {
                             val isSelected = selectedIcon == iconSource

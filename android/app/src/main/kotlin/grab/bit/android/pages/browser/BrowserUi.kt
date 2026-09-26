@@ -324,10 +324,14 @@ fun MediaListDialog(
                 )
             } else {
                 LazyColumn {
-                    items(items) { item ->
-                        val url = when (item) {
+                    items(items, key = { item ->
+                        when (item) {
                             is MediaCandidate.Direct -> item.url
                             is MediaCandidate.Stream -> item.url
+                            MediaCandidate.NotMedia -> "not-media"
+                        }
+                    }) { item ->
+                        val url = when (item) {
                             MediaCandidate.NotMedia -> return@items
                         }
                         val label = when (item) {
@@ -429,7 +433,7 @@ fun VideoFormatsDialog(
                                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
                             )
                             LazyColumn {
-                                items(langs) { lang ->
+                                items(langs, key = { it }) { lang ->
                                     LabeledCheckbox(
                                         value = lang in checked,
                                         onValueChange = { browserComponent.toggleSubtitle(lang) },
@@ -440,7 +444,7 @@ fun VideoFormatsDialog(
                             Spacer(Modifier.height(8.dp))
                         }
                         LazyColumn {
-                            items(s.formats) { format ->
+                            items(s.formats, key = { it.id }) { format ->
                                 val label = listOfNotNull(
                                     format.height?.let { "${it}p" },
                                     ".${format.ext}",
@@ -538,7 +542,7 @@ fun PlaylistDialog(
                         )
                     } else {
                         LazyColumn {
-                            items(s.entries) { entry ->
+                            items(s.entries, key = { it.id.ifBlank { it.url } }) { entry ->
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -622,7 +626,7 @@ fun PoolDialog(
                 )
             } else {
                 LazyColumn {
-                    items(items) { item ->
+                    items(items, key = { it.url }) { item ->
                         LabeledCheckbox(
                             value = item.url in checked,
                             onValueChange = {
@@ -694,7 +698,7 @@ fun TorrentDialog(
                 )
             } else {
                 LazyColumn {
-                    items(items) { item ->
+                    items(items, key = { it.infoHash }) { item ->
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -991,7 +995,7 @@ private fun TabList(
             }
         ) {
             LazyColumn {
-                items(tabs.tabs) { tabItem ->
+                items(tabs.tabs, key = { it.tabId }) { tabItem ->
                     val isSelected = tabItem.tabId == currentTabId
                     Row(
                         modifier = Modifier

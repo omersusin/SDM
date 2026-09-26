@@ -330,7 +330,7 @@ private fun RenderPartInfo(
                 val (onlyActiveParts, setOnlyActiveParts) = rememberSaveable {
                     mutableStateOf(true)
                 }
-                val listToShow = remember(itemState, onlyActiveParts) {
+                val listToShow = remember(itemState.parts, onlyActiveParts) {
                     itemState.parts
                         .let { parts ->
                             if (onlyActiveParts) {
@@ -393,10 +393,14 @@ private fun RenderSinglePart(
     part: UiPart,
     size: Int,
 ) {
-    val sizeStringLength = size.toString().length
+    // ponytail: precompute per-tick strings once per input change, not per recompose
+    val sizeStringLength = remember(size) { size.toString().length }
     Row {
+        val indexLabel = remember(index, sizeStringLength) {
+            index.toString().padStart(sizeStringLength, '0')
+        }
         Text(
-            index.toString().padStart(sizeStringLength, '0'),
+            indexLabel,
             color = LocalContentColor.current / 0.5f,
             modifier = Modifier,
         )
@@ -406,12 +410,13 @@ private fun RenderSinglePart(
             color = LocalContentColor.current / 0.75f,
             modifier = Modifier.weight(1f),
         )
+        val sizeUnit = LocalSizeUnit.current
         val progress = convertPositiveSizeToHumanReadable(
             part.howMuchProceed,
-            LocalSizeUnit.current
+            sizeUnit
         ).rememberString()
         val total = part.length?.let { length ->
-            convertPositiveSizeToHumanReadable(length, LocalSizeUnit.current).rememberString()
+            convertPositiveSizeToHumanReadable(length, sizeUnit).rememberString()
         } ?: myStringResource(Res.string.unknown)
 
         Text(
@@ -454,7 +459,7 @@ private fun RenderPropertyItem(propertyItem: SingleDownloadPagePropertyItem) {
                 text = value.rememberString(),
                 modifier = Modifier
                     .basicMarquee(
-                        iterations = Int.MAX_VALUE
+                        iterations = 5
                     )
                     .weight(0.7f),
                 maxLines = 1,

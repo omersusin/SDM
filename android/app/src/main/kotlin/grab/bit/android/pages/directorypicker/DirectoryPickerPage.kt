@@ -241,7 +241,7 @@ fun DirectoryPicker(
                                         )
                                     }
                                 }
-                                items(directoryList.directories) { directoryItem ->
+                                items(directoryList.directories, key = { it.path }) { directoryItem ->
                                     RenderDirectoryItem(
                                         modifier = Modifier
                                             .animateItem()
