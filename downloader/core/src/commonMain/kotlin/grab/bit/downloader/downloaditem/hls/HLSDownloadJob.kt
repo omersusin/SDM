@@ -242,8 +242,10 @@ class HLSDownloadJob(
     }
 
     fun getRequestedThreadCount(): Int {
-        return downloadItem.preferredConnectionCount
-            ?: downloadManager.settings.defaultThreadCount
+        return resolvePartCount(
+            downloadItem.preferredConnectionCount,
+            downloadManager.settings.defaultThreadCount,
+        )
     }
 
 
