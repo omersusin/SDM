@@ -210,9 +210,6 @@ class ABDMServiceNotificationManager(
             .setContentTitle(serviceIsRunningText)
             .setContentText(statusString)
             .setSmallIcon(R.drawable.ic_monochrome)
-            // group
-//            .setGroupSummary(true)
-//            .setGroup(DOWNLOAD_GROUP_NAME)
             .setOnlyAlertOnce(true)
             .setOngoing(true)
             .setShowWhen(false)
@@ -283,7 +280,6 @@ class ABDMServiceNotificationManager(
             .setProgress(100, downloadItemState.percent ?: 0, downloadItemState.percent == null)
             .setCategory(Notification.CATEGORY_PROGRESS)
             .setSmallIcon(R.drawable.ic_monochrome)
-//            .setGroup(DOWNLOAD_GROUP_NAME)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
             .setShowWhen(false)

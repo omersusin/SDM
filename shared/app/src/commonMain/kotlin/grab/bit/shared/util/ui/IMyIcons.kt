@@ -14,15 +14,9 @@ interface IMyIcons {
     val link: IconSource
     val download: IconSource
     val permission: IconSource
-    val windowMinimize: IconSource
-    val windowFloating: IconSource
-    val windowMaximize: IconSource
-    val windowClose: IconSource
     val exit: IconSource
     val edit: IconSource
     val undo: IconSource
-//    val menu: IconSource
-//    val menuClose: IconSource
 
     val openSource: IconSource
     val telegram: IconSource

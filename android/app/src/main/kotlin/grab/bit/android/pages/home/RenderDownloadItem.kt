@@ -399,37 +399,4 @@ private fun RenderProgressBar(
     }
 }
 
-@Composable
-private fun JetFade(modifier: Modifier) {
-    val color = myColors.onContrast / 0.80f
-    Box(
-        modifier,
-        contentAlignment = Alignment.CenterEnd,
-    ) {
-        Box(
-            Modifier
-                .blur(2.dp, edgeTreatment = Unbounded)
-                .aspectRatio(1f)
-                .clip(CircleShape)
-                .background(
-                    Brush.radialGradient(
-                        listOf(color, Color.Transparent)
-                    )
-                )
-        )
-        Box(
-            Modifier
-                .blur(1.dp, edgeTreatment = Unbounded)
-                .fillMaxHeight(0.6f)
-                .fillMaxWidth(0.4f)
-                .background(
-                    Brush.horizontalGradient(
-                        listOf(
-                            Color.Transparent,
-                            color,
-                        )
-                    )
-                )
-        )
-    }
-}
+

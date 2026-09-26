@@ -6,7 +6,11 @@ import grab.bit.shared.util.ui.myColors
 import grab.bit.shared.util.ui.theme.myTextSizes
 import grab.bit.shared.util.ui.WithContentAlpha
 import grab.bit.shared.util.div
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -105,7 +109,6 @@ fun NotificationArea(
     modifier: Modifier
 ) {
     val notificationManager = useNotification()
-//    val list = notificationManager.activeNotificationList
     val activeNotificationList by notificationManager.activeNotificationList.collectAsState()
     val notificationListToShow by remember {
         derivedStateOf {
@@ -214,7 +217,14 @@ fun NotificationIcon(
 ) {
     val notificationType = notificationModel.notificationType
     val modifier = modifier.size(24.dp)
-    when (notificationType) {
+    AnimatedContent(
+        notificationType,
+        transitionSpec = {
+            fadeIn() togetherWith fadeOut()
+        },
+        label = "notifIcon",
+    ) { type ->
+        when (type) {
         NotificationType.Error -> {
             InfoIcon(modifier, myColors.error)
         }
@@ -232,7 +242,8 @@ fun NotificationIcon(
         }
 
         is NotificationType.Loading -> {
-            LoadingIcon(modifier, notificationType.percent)
+            LoadingIcon(modifier, type.percent)
+        }
         }
     }
 }

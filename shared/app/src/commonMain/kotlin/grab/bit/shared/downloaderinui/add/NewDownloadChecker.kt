@@ -66,17 +66,12 @@ class NewDownloadChecker<
         val items = downloadSystem
             .getDownloadItemsBy(duplicateFilterByPath::isDuplicate)
 
-//        val fileExists = File(folder, name).exists()
-
         if (items.isNotEmpty()) {
             return CanAddResult.DownloadAlreadyExists(items.first().id)
         }
         if (!FileUtils.canWriteInThisFolder(folder)) {
             return CanAddResult.CantWriteInThisFolder
         }
-//        if((length?:0)>File(folder).length()){
-//            return  CanAddResult.NotEnoughMemory
-//        }
         return CanAddResult.CanAdd
     }
 

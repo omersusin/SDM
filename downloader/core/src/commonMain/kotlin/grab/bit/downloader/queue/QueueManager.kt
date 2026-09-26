@@ -163,9 +163,6 @@ class QueueManager(
 
     fun canDelete(queue: Long): Boolean {
         return queue != DefaultQueueInfo.ID
-        //        return if (queue in 0..RESERVED_UNTIL_QUEUE_ID) {
-//            false
-//        } else true
     }
 
     fun isItemInQueue(downloadId: Long): Boolean {

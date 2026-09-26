@@ -129,13 +129,6 @@ internal fun Translators(modifier: Modifier) {
                     )
                 }
             }
-//            AnimatedVisibility(
-//                headerAlpha == 0f,
-//                enter = expandVertically() + fadeIn(),
-//                exit = shrinkVertically() + fadeOut(),
-//            ) {
-//
-//            }
         },
     ) {
         contentPadding = it.paddingValues

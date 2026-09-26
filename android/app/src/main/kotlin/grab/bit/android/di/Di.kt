@@ -455,9 +455,6 @@ fun getAppModule(context: ABDMApp) = module {
     includes(jsonModule)
     includes(updaterModule)
     includes(startUpModule)
-//    single {
-//        NetworkChecker(get())
-//    }
     single {
         AppInfo.definedPaths
     }.apply {
@@ -481,9 +478,6 @@ fun getAppModule(context: ABDMApp) = module {
     single {
         ThemeManager(get(), get(), get())
     }
-//    single {
-//        FontManager(get())
-//    }
     single {
         LanguageManager(
             get(),

@@ -18,10 +18,6 @@ object MyIcons : BaseMyColors() {
     override val download = ABDMIcons.DownSpeed.asIconSource("download")
     override val permission = ABDMIcons.Permission.asIconSource("permission")
 
-    override val windowMinimize = ABDMIcons.WindowMinimize.asIconSource("windowMinimize")
-    override val windowFloating = ABDMIcons.WindowFloating.asIconSource("windowFloating")
-    override val windowMaximize = ABDMIcons.WindowMaximize.asIconSource("windowMaximize")
-    override val windowClose = ABDMIcons.WindowClose.asIconSource("windowClose")
 
     override val exit = ABDMIcons.Exit.asIconSource("exit")
     override val edit = ABDMIcons.Edit.asIconSource("edit")

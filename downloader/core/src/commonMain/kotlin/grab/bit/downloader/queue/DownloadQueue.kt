@@ -462,13 +462,6 @@ class DownloadQueue(
         persistedData.setModel(queue)
     }
 
-    //    suspend fun swapQueueItemToEnd(item: Long){
-//        val currentIndex = queue.indexOf(item).takeIf { it > 0 } ?: return
-//        queue.removeAt(currentIndex)
-//        queue.add(item)
-//        saveQueue()
-//    }
-
     fun getOrder(item: Long): Int {
         return getQueueModel().queueItems.indexOf(item)
     }

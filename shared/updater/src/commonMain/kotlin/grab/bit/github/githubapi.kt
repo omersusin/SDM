@@ -52,4 +52,22 @@ class GithubApi(
             return release
         }
     }
+
+    suspend fun downloadText(url: String): String? {
+        val response = client.newCall(
+            Request.Builder()
+                .url(url)
+                .build()
+        ).await()
+        response.use {
+            if (!response.isSuccessful) {
+                return null
+            }
+            return runCatching {
+                requireNotNull(response.body) {
+                    "response.body is null"
+                }.string()
+            }.getOrNull()
+        }
+    }
 }

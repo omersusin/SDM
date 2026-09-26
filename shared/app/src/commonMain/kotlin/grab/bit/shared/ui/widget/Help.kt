@@ -5,6 +5,11 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,7 +48,12 @@ fun Help(
                 .size(12.dp),
             tint = myColors.onSurface,
         )
-        if (showHelpContent) {
+        AnimatedVisibility(
+            showHelpContent,
+            enter = expandVertically() + fadeIn(),
+            exit = shrinkVertically() + fadeOut(),
+            label = "help",
+        ) {
             TooltipPopup(
                 onRequestCloseShowHelpContent = onRequestCloseShowHelpContent,
                 content = content,

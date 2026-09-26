@@ -34,9 +34,6 @@ object NavigatableConfigurableRenderer : ConfigurableRenderer<NavigatableConfigu
         configurableUiProps: ConfigurableUiProps,
         onRequestOpenConfigWindow: () -> Unit
     ) {
-//    val value by cfg.stateFlow.collectAsState()
-//    val setValue = cfg::set
-//    val enabled = isConfigEnabled()
 
         ConfigTemplate(
             modifier = configurableUiProps.modifier

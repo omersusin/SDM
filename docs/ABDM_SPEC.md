@@ -139,6 +139,11 @@ Swiss-army-knife, but nothing illogical.
   server-name sanitizer bypass (precedence bug) + HLS dead name flow.
 - 2026-09-26 round-2: resConfigs(en), dropped unused commons-compress
   keep,   crypto RNG for API keys (expect/actual).
+- 2026-09-26 cleanup-2 (12-agent audit): SSRF entry filter
+  (http/https only, LAN kept), cross-origin cookie/header stripping,
+  updater .md5 sidecar verify before install, 20+ dead code/strings/
+  gradle removals, 3 activities unexported, 15 animation upgrades
+  (labels, hoisted progress, widget transitions).
 - 2026-09-26 torrent-save-path: magnet downloads now land in the
   configured download folder instead of the engine default.
 - 2026-09-25 agent-audit-4: onboarding wording (welcome message, setup

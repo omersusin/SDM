@@ -38,19 +38,8 @@ object LongConfigurableRenderer : ConfigurableRenderer<LongConfigurable> {
     }
 
 
-    private operator fun LongRange.get(index: Int): Long {
-        return (start + index).also {
-            if (it > last) {
-                throw IndexOutOfBoundsException("$it bigger that $last")
-            }
-        }
-    }
-
     @Composable
     private fun RenderLongConfig(cfg: LongConfigurable, configurableUiProps: ConfigurableUiProps) {
-//        val value by cfg.stateFlow.collectAsState()
-//        val setValue = cfg::set
-//        val enabled = isConfigEnabled()
 
         var isOpened by remember { mutableStateOf(false) }
         val onDismiss = {

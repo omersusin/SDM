@@ -1,6 +1,7 @@
 package grab.bit.shared.util.extractors.linkextractor
 
 import grab.bit.downloader.downloaditem.IDownloadCredentials
+import grab.bit.util.HttpUrlUtils
 
 
 object DefaultDownloadCredentialsExtractor :
@@ -18,6 +19,8 @@ object DefaultDownloadCredentialsExtractor :
                     .takeIf { it.isNotEmpty() }
             }.getOrElse { null }
         }?.distinctBy { it.link } ?: emptyList()
-        return items
+        // Drop non-downloadable links (file://, javascript:, ...). Private
+        // LAN hosts stay allowed: NAS downloads are a legit use case.
+        return items.filter { HttpUrlUtils.isValidUrl(it.link) }
     }
 }
