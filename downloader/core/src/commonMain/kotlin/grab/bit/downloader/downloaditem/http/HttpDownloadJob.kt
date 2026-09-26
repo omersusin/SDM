@@ -249,9 +249,6 @@ class HttpDownloadJob(
         return getParts().sumOf {
             it.howMuchProceed()
         }
-//        return partDownloaderList.values.sumOf {
-//            it.progressFlow.value.value
-//        }
     }
 
 

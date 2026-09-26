@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
@@ -52,20 +53,26 @@ fun Switch(
             .padding(4.dp)
             .fillMaxSize()
     ) {
+        val thumbBias by animateFloatAsState(
+            if (checked) 1f else -1f,
+            label = "switchBias",
+        )
+        val thumbAlpha by animateFloatAsState(
+            if (checked) 1f else 0.5f,
+            label = "switchThumb",
+        )
         Box(
             Modifier
                 .fillMaxHeight()
                 .aspectRatio(1f, true)
                 .align(
                     BiasAlignment(
-                        animateFloatAsState(
-                            if (checked) 1f else -1f
-                        ).value,
+                        thumbBias,
                         0f,
                     )
                 )
                 .clip(CircleShape)
-                .background(myColors.onPrimaryGradient / animateFloatAsState(if (checked) 1f else 0.5f).value)
+                .background(myColors.onPrimaryGradient / thumbAlpha)
         )
     }
 }

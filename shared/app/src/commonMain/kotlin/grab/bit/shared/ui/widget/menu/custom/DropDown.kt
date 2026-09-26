@@ -5,6 +5,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import grab.bit.shared.ui.widget.rememberMyComponentRectPositionProvider
 
 @Composable
@@ -26,7 +31,14 @@ fun MyDropDown(
         onDismissRequest = onDismissRequest,
         properties = PopupProperties(focusable = focusable),
         content = {
-            content()
+            AnimatedVisibility(
+                true,
+                enter = fadeIn() + scaleIn(.95f),
+                exit = fadeOut() + scaleOut(),
+                label = "drop",
+            ) {
+                content()
+            }
         })
 }
 

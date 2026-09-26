@@ -239,12 +239,6 @@ abstract class PartDownloader<
         val canceled = PartDownloadStatus.Canceled(e)
         onNewStatus(canceled)
         e.printStackIfNOtUsual()
-//        if (!canceled.isNormalCancellation()) {
-//            e.printStackTrace()
-//        } else {
-//            println("part cancelled because of ${e.localizedMessage ?: e::class.simpleName}")
-//            e.printStackTrace()
-//        }
     }
 
     protected open fun onFinish() {

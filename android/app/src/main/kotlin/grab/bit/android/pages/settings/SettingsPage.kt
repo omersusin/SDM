@@ -43,8 +43,6 @@ import grab.bit.util.compose.resources.myStringResource
 fun SettingsPage(
     settingsComponent: AndroidSettingsComponent,
 ) {
-//    WindowIcon(MyIcons.settings)
-//    WindowIcon(MyIcons.appIcon)
     val scrollState = rememberScrollState()
     var pageContentPaddingValues by remember {
         mutableStateOf(PaddingValues())

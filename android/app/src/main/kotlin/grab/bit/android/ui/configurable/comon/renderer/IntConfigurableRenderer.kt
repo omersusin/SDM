@@ -48,20 +48,8 @@ object IntConfigurableRenderer : ConfigurableRenderer<IntConfigurable> {
     }
 
 
-    private operator fun IntRange.get(index: Int): Int {
-        return (start + index).also {
-            if (it > last) {
-                throw IndexOutOfBoundsException("$it bigger that $last")
-            }
-        }
-
-    }
-
     @Composable
     private fun RenderIntegerConfig(cfg: IntConfigurable, configurableUiProps: ConfigurableUiProps) {
-//        val value by cfg.stateFlow.collectAsState()
-//        val setValue = cfg::set
-//        val enabled = isConfigEnabled()
 
         var isOpened by remember { mutableStateOf(false) }
         val onDismiss = {

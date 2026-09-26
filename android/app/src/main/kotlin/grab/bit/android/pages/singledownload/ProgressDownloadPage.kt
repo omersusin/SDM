@@ -92,7 +92,6 @@ fun ProgressDownloadPage(
                 Box(
                     Modifier
                         .animateContentSize()
-//                        .height(150.dp)
                         .verticalScroll(scrollState)
                 ) {
                     when (selectedTab) {

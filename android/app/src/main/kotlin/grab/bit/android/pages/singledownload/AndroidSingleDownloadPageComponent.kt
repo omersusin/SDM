@@ -43,17 +43,6 @@ class AndroidSingleDownloadComponent(
     downloadErrorDialogManager = downloadErrorDialogManager,
 ) {
     override val defaultShowPartInfo: Boolean = false
-//    private val singleDownloadPageStateToPersist by lazy {
-//        get<PageStatesStorage>().singleDownloadPageState
-//    }
-//    override fun setShowPartInfo(value: Boolean) {
-//        super.setShowPartInfo(value)
-//        singleDownloadPageStateToPersist.update {
-//            it.copy {
-//                SingleDownloadPageStateToPersist.showPartInfo.set(value)
-//            }
-//        }
-//    }
 
     sealed interface Effects : BaseSingleDownloadComponent.Effects.Platform
 

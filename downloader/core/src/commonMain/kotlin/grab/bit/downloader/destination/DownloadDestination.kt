@@ -34,9 +34,6 @@ abstract class DownloadDestination(
         synchronized(this) {
             return fileParts.find {
                 val condition = it.id == partId
-//      if (condition) {
-//        logger.info("part id$partId already have an associated file")
-//      }
                 condition
             }
         }

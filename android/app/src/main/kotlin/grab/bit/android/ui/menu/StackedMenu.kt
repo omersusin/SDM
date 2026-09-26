@@ -2,6 +2,11 @@ package grab.bit.android.ui.menu
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -85,7 +90,12 @@ fun BaseStackedMenu(
     }
     val currentMenu = menuStack.currentMenu
     AnimatedContent(
-        currentMenu
+        currentMenu,
+        transitionSpec = {
+            slideInHorizontally { it / 8 } + fadeIn() togetherWith
+                slideOutHorizontally { -it / 8 } + fadeOut()
+        },
+        label = "menuPush",
     ) { currentMenu ->
         Column {
             menuWrapper(currentMenu) {

@@ -2,15 +2,6 @@ package grab.bit.downloader.part
 
 import kotlin.math.min
 
-//fun main() {
-//  split = PartSplitSupport(part=Part(from=9530669, to=10565655, current=9664288), safeZone=9694508, remainingSafe=30221 ,old = Part(from=9530669, to=11436801, current=9664288) ,changed = Part(from=9530669, to=10565655, current=9664288) ,newPart= Part(from=10565655, to=11436801, current=10565655) ,valid = false ,
-//  split = PartSplitSupport(part=Part(from=9530669, to=10565655, current=9664288), safeZone=9694508, remainingSafe=30221 ,old = Part(from=9530669, to=11436801, current=9664288) ,changed = Part(from=9530669, to=10565655, current=9664288) ,newPart= Part(from=10565655, to=11436801, current=10565655) ,valid = false ,
-//    val p1 =Part(from=0, to=0, current=0)
-//    val ps = PartSplitSupport(p1).apply {
-//        safeZone = 9694508
-//    }
-//    println(ps.splitPart())
-//}
 
 class PartSplitSupport(
     val part: RangedPart,

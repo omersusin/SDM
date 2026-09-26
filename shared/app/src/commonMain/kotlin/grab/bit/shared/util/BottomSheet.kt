@@ -144,7 +144,8 @@ private fun CustomSheet(
         transition.AnimatedVisibility(
             visible = { it },
             enter = fadeIn(),
-            exit = fadeOut()
+            exit = fadeOut(),
+            label = "scrim",
         ) {
             Box(
                 Modifier

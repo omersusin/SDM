@@ -7,7 +7,6 @@ import grab.bit.shared.util.ui.myColors
 import grab.bit.util.ifThen
 import grab.bit.shared.util.div
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -75,11 +74,11 @@ fun RadioButton(
             transitionSpec = {
                 val tween = tween<Float>(220)
                 fadeIn(tween) togetherWith fadeOut(tween)
-            }
+            },
+            label = "radio",
         ) {
             val m = Modifier
                 .fillMaxSize()
-                .alpha(animateFloatAsState(if (value) 1f else 0f).value)
                 .padding(4.dp)
                 .clip(shape)
                 .background(myColors.primaryGradient)

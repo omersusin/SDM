@@ -1,6 +1,11 @@
 package grab.bit.android.pages.singledownload
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.*
 import grab.bit.android.ui.SheetHeader
 import grab.bit.android.ui.SheetTitle
@@ -75,6 +80,10 @@ fun ShowDownloadDialog(
             }) {
                 AnimatedContent(
                     targetState = downloadItemState,
+                    transitionSpec = {
+                        fadeIn() + scaleIn(.98f) togetherWith fadeOut() + scaleOut()
+                    },
+                    label = "dlSwap",
                     contentKey = {
                         when (it) {
                             is CompletedDownloadItemState -> 0

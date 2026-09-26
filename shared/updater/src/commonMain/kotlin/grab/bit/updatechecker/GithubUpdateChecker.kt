@@ -21,6 +21,9 @@ class GithubUpdateChecker(
         val updateSources = mutableListOf<UpdateSource>()
         var foundVersion: Version? = null
         var initializedVersionFromAssetNames = false
+        val hashLinks = release.assets
+            .filter { it.name.endsWith(".md5") }
+            .associate { it.name.removeSuffix(".md5") to it.downloadLink }
         for (asset in release.assets) {
             val v = ArtifactUtil.getArtifactInfo(asset.name) ?: continue
             if (v.platform != currentPlatform) continue
@@ -31,14 +34,18 @@ class GithubUpdateChecker(
                 initializedVersionFromAssetNames = true
             }
             val isHashFile = asset.name.endsWith(".md5")
-            if (isHashFile) {
-                // nothing for now!
-            } else {
+            if (!isHashFile) {
                 updateSources.add(
                     UpdateSource.DirectDownloadLink(
                         link = asset.downloadLink,
                         name = asset.name,
-                        hash = null,
+                        hash = hashLinks[asset.name]?.let { hashLink ->
+                            githubApi.downloadText(hashLink)
+                                ?.split(Regex("\\s+"))
+                                ?.firstOrNull()
+                                ?.takeIf { it.isNotBlank() }
+                                ?.let { "md5:$it" }
+                        },
                         installableArch = v.arch,
                     )
                 )

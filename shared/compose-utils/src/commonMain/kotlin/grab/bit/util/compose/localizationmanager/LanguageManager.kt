@@ -32,9 +32,6 @@ class LanguageManager(
         it ?: systemLanguageOrDefault.toLocaleString()
     }
 
-    //    val selectedLanguageInfo = selectedLanguage.mapStateFlow {
-//        bestLanguageInfo(it)
-//    }
     val isRtl = selectedLanguage.mapStateFlow { selectedLanguage ->
         rtlLanguages.any { selectedLanguage.startsWith(it) }
     }
@@ -45,9 +42,6 @@ class LanguageManager(
     }
 
     fun selectLanguage(languageInfo: LanguageInfo?) {
-//        ensure that language info is in the list!
-//        val languageInfo = languageList.value.find { it == languageInfo }
-//        selectedLanguage.value = (languageInfo ?: DefaultLanguageInfo).toLocaleString()
         selectedLanguageInStorage.value = languageInfo?.toLocaleString()
     }
 

@@ -1,5 +1,6 @@
 package grab.bit.android.ui.menu
 
+import androidx.compose.animation.core.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.hoverable
@@ -100,22 +101,20 @@ private fun ReactableItem(
         ?.isEnabled
         ?.collectAsState()
         ?.value ?: true
+    val hoverBackground by animateColorAsState(
+        if ((isHovered && isEnabled) || isSelected) {
+            myColors.surface
+        } else {
+            Color.Transparent
+        },
+        label = "hoverBg",
+    )
     Row(
         modifier
             .ifThen(!isEnabled) { alpha(0.5f) }
             .heightIn(mySpacings.thumbSize)
             .hoverable(interactionSource)
-            .background(
-                when {
-                    (isHovered && isEnabled) || isSelected -> {
-                        myColors.surface
-                    }
-
-                    else -> {
-                        Color.Transparent
-                    }
-                }
-            )
+            .background(hoverBackground)
             .clickable(enabled = isEnabled) {
                 onClick()
             }

@@ -9,7 +9,12 @@ object HttpUrlUtils {
     }
 
     fun isValidUrl(link: String): Boolean {
-        return runCatching { createURL(link) }.isSuccess
+        return runCatching {
+            val url = createURL(link)
+            // okhttp already restricts to http/https; be explicit: the engine
+            // cannot fetch anything else (no ftp/file support), so refuse early.
+            url.scheme == "http" || url.scheme == "https"
+        }.getOrDefault(false)
     }
 
     fun extractNameFromLink(link: String): String? {

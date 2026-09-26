@@ -35,9 +35,6 @@ object FloatConfigurableRenderer : ConfigurableRenderer<FloatConfigurable> {
 
     @Composable
     private fun RenderFloatConfig(cfg: FloatConfigurable, configurableUiProps: ConfigurableUiProps) {
-//        val value by cfg.stateFlow.collectAsState()
-//        val setValue = cfg::set
-//        val enabled = isConfigEnabled()
 
         var isOpened by remember { mutableStateOf(false) }
         val onDismiss = {

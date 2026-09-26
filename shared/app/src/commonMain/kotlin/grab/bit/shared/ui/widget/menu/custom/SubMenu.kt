@@ -200,7 +200,6 @@ private fun RenderMenuItem(
     modifier: Modifier = Modifier,
     onRequestOpenItem: (MenuItem.SubMenu?) -> Unit,
 ) {
-//    val isEnabled by menuItem.isEnabled.collectAsState()
     LaunchedEffect(isHovered, menuItem) {
         if (isHovered) {
             if (menuItem is MenuItem.SubMenu) {

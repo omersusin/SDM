@@ -53,7 +53,6 @@ data class UiDurationBasedPart(
     override val percent: Int?,
     override val length: Long?,
     override val partSpace: Float,
-//    val duration: Double,
 ) : UiPart {
     companion object {
         fun fromPart(

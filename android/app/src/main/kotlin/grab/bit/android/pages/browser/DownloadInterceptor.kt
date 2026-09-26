@@ -132,8 +132,27 @@ class DownloadInterceptor(
             )
         }
         return request
+            .stripCrossOriginHeaders(url)
             .withUserAgent(userAgent)
             .withCookieManagerCookies()
+    }
+
+    // Page-captured headers (Cookie/Authorization/Referer) must not leak
+    // to third-party hosts (ads/trackers/CDNs). Same host keeps all.
+    private fun ABDMWebRequest.stripCrossOriginHeaders(downloadUrl: String): ABDMWebRequest {
+        val pageHost = page?.let { HttpUrlUtils.getHost(it) } ?: return this
+        val downloadHost = HttpUrlUtils.getHost(downloadUrl) ?: return this
+        if (pageHost.equals(downloadHost, ignoreCase = true)) {
+            return this
+        }
+        return copy(
+            headers = headers.filterKeys { key ->
+                key.equals("User-Agent", ignoreCase = true) ||
+                    key.equals("Range", ignoreCase = true) ||
+                    key.equals("Accept", ignoreCase = true) ||
+                    key.startsWith("Accept-", ignoreCase = true)
+            }
+        )
     }
 
     private fun ABDMWebRequest.withUserAgent(userAgent: String?): ABDMWebRequest {
