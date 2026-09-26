@@ -283,6 +283,22 @@ object CommonSettings {
         )
     }
 
+    fun captureBlockedExtensions(appSettingsStorage: BaseAppSettingsStorage): StringConfigurable {
+        return StringConfigurable(
+            title = Res.string.settings_capture_blocked_extensions.asStringSource(),
+            description = Res.string.settings_capture_blocked_extensions_description.asStringSource(),
+            backedBy = appSettingsStorage.captureBlockedExtensions,
+            placeholder = Res.string.settings_capture_blocked_extensions_placeholder.asStringSource(),
+            describe = {
+                if (it.isBlank()) {
+                    Res.string.disabled.asStringSource()
+                } else {
+                    it.asStringSource()
+                }
+            },
+        )
+    }
+
     fun deletePartialFileOnDownloadCancellation(appSettingsStorage: BaseAppSettingsStorage): BooleanConfigurable {
         return BooleanConfigurable(
             title = Res.string.settings_delete_partial_file_on_download_cancellation.asStringSource(),

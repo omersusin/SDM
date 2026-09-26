@@ -112,6 +112,11 @@ class BrowserComponent(
                 }
             }
         }
+        scope.launch {
+            appSettings.captureBlockedExtensions.collect {
+                downloadInterceptor.captureBlockedExtensions = it
+            }
+        }
     }
     val grabberUiMode: StateFlow<GrabberUiMode> = appSettings.grabberUiMode
     val activeMediaCount: StateFlow<Int> = combine(

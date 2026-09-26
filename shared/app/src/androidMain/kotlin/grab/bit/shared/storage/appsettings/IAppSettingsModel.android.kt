@@ -63,6 +63,7 @@ data class AppSettingsModel(
     override val useCategoryByDefault: Boolean,
     override val userAgent: String,
     override val speedProfile: SpeedProfile,
+    override val captureBlockedExtensions: String,
     val browserIconInLauncher: Boolean,
     val grabberUiMode: GrabberUiMode,
     val adBlockEnabled: Boolean,
@@ -139,6 +140,7 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             useCategoryByDefault = it[AppSettingsModel::useCategoryByDefault],
             userAgent = it[AppSettingsModel::userAgent],
             speedProfile = it[AppSettingsModel::speedProfile],
+            captureBlockedExtensions = it[AppSettingsModel::captureBlockedExtensions],
 
             browserIconInLauncher = it[AppSettingsModel::browserIconInLauncher],
             grabberUiMode = it[AppSettingsModel::grabberUiMode],

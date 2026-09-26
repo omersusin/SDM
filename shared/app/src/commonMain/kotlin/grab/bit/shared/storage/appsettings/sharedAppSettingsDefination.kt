@@ -89,6 +89,7 @@ object BaseAppSettingsDefinition {
         prop(IAppSettingsModel::useCategoryByDefault) bind S.boolean()
             .catch(PlatformDefaultSettings::useCategoryByDefault)
         prop(IAppSettingsModel::userAgent) bind S.string().catch(PlatformDefaultSettings::userAgent)
+        prop(IAppSettingsModel::captureBlockedExtensions) bind S.string().catch(PlatformDefaultSettings::captureBlockedExtensions)
         prop(IAppSettingsModel::speedProfile) bind S.enum<SpeedProfile>().catch(PlatformDefaultSettings::speedProfile)
     }
 }

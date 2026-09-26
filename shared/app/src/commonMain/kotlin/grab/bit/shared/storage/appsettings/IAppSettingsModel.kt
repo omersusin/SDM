@@ -52,4 +52,5 @@ interface IAppSettingsModel {
     val useCategoryByDefault: Boolean
     val userAgent: String
     val speedProfile: SpeedProfile
+    val captureBlockedExtensions: String
 }

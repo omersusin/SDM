@@ -55,4 +55,5 @@ interface BaseAppSettingsStorage :
     val useCategoryByDefault: MutableStateFlow<Boolean>
     val userAgent: MutableStateFlow<String>
     val speedProfile: MutableStateFlow<SpeedProfile>
+    val captureBlockedExtensions: MutableStateFlow<String>
 }
