@@ -268,6 +268,21 @@ object CommonSettings {
         )
     }
 
+    fun silentClipboardAdd(appSettingsStorage: BaseAppSettingsStorage): BooleanConfigurable {
+        return BooleanConfigurable(
+            title = Res.string.settings_silent_clipboard_add.asStringSource(),
+            description = Res.string.settings_silent_clipboard_add_description.asStringSource(),
+            backedBy = appSettingsStorage.silentClipboardAdd,
+            describe = {
+                if (it) {
+                    Res.string.enabled.asStringSource()
+                } else {
+                    Res.string.disabled.asStringSource()
+                }
+            },
+        )
+    }
+
     fun deletePartialFileOnDownloadCancellation(appSettingsStorage: BaseAppSettingsStorage): BooleanConfigurable {
         return BooleanConfigurable(
             title = Res.string.settings_delete_partial_file_on_download_cancellation.asStringSource(),

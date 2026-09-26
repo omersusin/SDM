@@ -96,6 +96,7 @@ class AndroidSettingsComponent(
                     CommonSettings.useCategoryByDefault(appSettings),
                     CommonSettings.clipboardMonitor(appSettings),
                     CommonSettings.clipboardAddPaused(appSettings),
+                    CommonSettings.silentClipboardAdd(appSettings),
                 )
             ),
             ConfigurableGroup(

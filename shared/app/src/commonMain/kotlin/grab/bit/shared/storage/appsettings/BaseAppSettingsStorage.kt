@@ -33,6 +33,7 @@ interface BaseAppSettingsStorage :
     val clipboardMonitor: MutableStateFlow<Boolean>
     val autoRemoveFinishedDownloads: MutableStateFlow<Boolean>
     val clipboardAddPaused: MutableStateFlow<Boolean>
+    val silentClipboardAdd: MutableStateFlow<Boolean>
     val showDownloadProgressDialog: MutableStateFlow<Boolean>
     val showDownloadCompletionDialog: MutableStateFlow<Boolean>
     val speedLimit: MutableStateFlow<Long>
