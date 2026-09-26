@@ -145,7 +145,6 @@ private fun CustomSheet(
             visible = { it },
             enter = fadeIn(),
             exit = fadeOut(),
-            label = "scrim",
         ) {
             Box(
                 Modifier

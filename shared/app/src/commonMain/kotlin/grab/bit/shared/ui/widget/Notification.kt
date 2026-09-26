@@ -242,7 +242,7 @@ fun NotificationIcon(
         }
 
         is NotificationType.Loading -> {
-            LoadingIcon(modifier, notificationType.percent)
+            LoadingIcon(modifier, type.percent)
         }
         }
     }
