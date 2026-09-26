@@ -205,6 +205,12 @@ Swiss-army-knife, but nothing illogical.
 - Every newly found repo will be added here.
 - Clones are deleted when the work is done.
 
+## Planned (Wave 5 onayları, 2026-09-26, kullanıcı tek tek onayladı)
+Onaylanan 40 GAP: 1,2,3,5,6,7,8,9(mobil),10,11,12,13,14,15,16,18,19,20,21,22,
+25,26,27,28,29,31,32,33,34,35,37,38,39,40,41,44,45,46,48,50.
+Atlanan 8: 4(mobil dışı),23(şimdilik),24,30,42,43,47(PC),49.
+Partiler halinde slice-branch + CI ile uygulanacak.
+
 ## Output
 - Working code (in the fork) + tests + current version of this document.
 - Report + questions to the user at every phase.
