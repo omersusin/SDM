@@ -288,23 +288,13 @@ class HLSDownloadJob(
 //                            println("it seems part is downloaded!")
                             continue
                         }
-//                        println("got new part downloader ${partDownloader.part}")
+
                         partDownloader.start()
                     }
                 }
                 if (howMuchCreate < 0) {
                     // as we restart the parts each time we don't pause the active ones
-//                    partDownloaderList.values
-//                        .toList()
-//                        .filter { it.active }
-//                        .sortedByDescending { it.part.getID() }
-//                        .take(-howMuchCreate)
-//                        .onEach {
-//                            it.stop()
-//                        }.onEach {
-//                            it.join()
-//                            it.awaitIdle()
-//                        }
+
                 }
             } catch (e: Exception) {
                 throw e

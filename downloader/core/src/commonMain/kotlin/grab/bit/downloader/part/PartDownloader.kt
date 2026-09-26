@@ -263,19 +263,6 @@ abstract class PartDownloader<
             }
             val howMuchICanReadAllowed = howMuchCanRead(bufferSize)
             val homMuchReadFromBuffer = min(bufferSize, howMuchICanReadAllowed)
-//            require(part.current + homMuchReadFromBuffer <= part.maxAllowedCurrent) {
-//                """$partSplitSupport
-//                canRead:${homMuchReadFromBuffer}"""
-//            }
-//            require(part.current + homMuchReadFromBuffer <= partSplitSupport.safeZone + 1) {
-//                """a
-//                    part=${part} isCompleted =${part.isCompleted}
-//                    split part $partSplitSupport
-//                    howMuch:${homMuchReadFromBuffer}
-//                    actual:${part.current + homMuchReadFromBuffer}
-//                    expected:${partSplitSupport.safeZone}
-//                """.trimIndent()
-//            }
             if (howMuchICanReadAllowed <= 0) {
                 if (part.isCompleted) {
                     onFinish()

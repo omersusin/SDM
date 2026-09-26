@@ -3,7 +3,6 @@ package grab.bit.util
 import okio.FileSystem
 import okio.Path
 import okio.Path.Companion.toPath
-import java.nio.file.FileAlreadyExistsException
 import java.nio.file.NotDirectoryException
 import kotlin.io.path.createDirectories
 import kotlin.io.path.isDirectory

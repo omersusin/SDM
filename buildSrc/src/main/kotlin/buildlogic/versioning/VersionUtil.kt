@@ -1,6 +1,5 @@
 package buildlogic.versioning
 
-import dev.nucleusframework.desktop.application.dsl.TargetFormat
 import io.github.z4kn4fein.semver.Version
 import org.gradle.api.Project
 
@@ -34,12 +33,4 @@ fun Project.getAppDataDirName(): String {
 
 fun Project.getApplicationPackageName(): String {
     return "grab.bit"
-}
-
-fun Project.getAppVersionStringForPackaging(targetFormat: TargetFormat? = null): String {
-    val v = getAppVersion()
-    val simple = { v.run { "$major.$minor.$patch" } }
-//    val semantic = { v.toString() }
-//    val forRpm = { semantic().replace("-", "_") }
-    return simple()
 }
