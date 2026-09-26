@@ -12,7 +12,6 @@ import grab.bit.util.HttpUrlUtils
 import grab.bit.util.guardedEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
@@ -49,7 +48,7 @@ data class ApiStatus(
 // optional Bearer token via apiAuthEnabled/apiAuthKey.
 class RestApiServer(
     private val downloadSystem: () -> DownloadSystem,
-    private val saveLocation: StateFlow<String>,
+    private val saveLocation: () -> String,
     private val appSettings: BaseAppSettingsStorage,
     private val scope: CoroutineScope,
 ) : RestApiBoot {
@@ -154,7 +153,7 @@ class RestApiServer(
 
     private suspend fun addUrl(url: String): Long {
         val system = downloadSystem()
-        val folder = saveLocation.value
+        val folder = saveLocation()
         val name = FilenameFixer.fix(HttpUrlUtils.extractNameFromLink(url) ?: url.substringAfterLast("/"))
         val item = HttpDownloadItem(
             link = url,
