@@ -50,14 +50,11 @@ class AndroidSettingsComponent(
             ConfigurableGroup(
                 nestedConfigurable = listOf(
                     CommonSettings.languageConfig(languageManager, scope),
-//                            DesktopSettings.fontConfig(fontManager, scope),
                     CommonSettings.uiScaleConfig(appSettings),
                 )
             ),
             ConfigurableGroup(
                 nestedConfigurable = listOfNotNull(
-//                            DesktopSettings.useNativeMenuBarConfig(appSettings),
-//                            DesktopSettings.mergeTopBarWithTitleBarConfig(appSettings),
 //                    CommonSettings.showIconLabels(appSettings),
                     CommonSettings.useRelativeDateTime(appSettings),
                 )
@@ -65,7 +62,6 @@ class AndroidSettingsComponent(
             ConfigurableGroup(
                 nestedConfigurable = listOf(
                     CommonSettings.autoStartConfig(appSettings),
-//                            DesktopSettings.useSystemTray(appSettings),
                 )
             ),
             ConfigurableGroup(

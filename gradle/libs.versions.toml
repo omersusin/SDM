@@ -26,7 +26,6 @@ kotlinFileWatcher = "1.4.0"
 markdownRenderer = "0.45.0"
 gradleVersions = "0.54.0"
 handlebars = "4.5.5"
-nucleus = "2.5.18"
 kermit = "2.2.0"
 agp = "9.1.1"
 androidx-core = "1.19.0"
@@ -59,7 +58,6 @@ decompose-jbCompose = { module = "com.arkivanov.decompose:extensions-compose", v
 essenty-lifecycleCoroutines = { module = "com.arkivanov.essenty:lifecycle-coroutines", version.ref = "essenty" }
 
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 
@@ -112,15 +110,6 @@ libtorrent4j-android-x86_x4 = { group = "org.libtorrent4j", name = "libtorrent4j
 
 youtubedl-android-library = { group = "io.github.junkfood02.youtubedl-android", name = "library", version.ref = "youtubedlAndroid" }
 
-nucleus-plugin = { module = "dev.nucleusframework:dev.nucleusframework.gradle.plugin", version.ref = "nucleus" }
-
 
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-
-buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
-changeLog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
 

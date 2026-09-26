@@ -16,7 +16,6 @@ dependencies {
     implementation(libs.pluginBuildConfig)
     implementation(libs.pluginAboutLibraries)
     implementation(libs.pluginGradleVersions)
-    implementation(libs.nucleus.plugin)
     implementation(libs.kotlinx.rpc.gradlePlugin)
     implementation(libs.semver)
     implementation("ir.amirab.util:platform:1")

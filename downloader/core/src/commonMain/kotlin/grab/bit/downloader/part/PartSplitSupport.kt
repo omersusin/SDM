@@ -74,16 +74,6 @@ class PartSplitSupport(
                 to = part.to!!
             )
             part.to = safeZoneToEnd
-//            val isValid = isSplitValid(oldPart, part, newPart)
-//            val safeZoneRespected = safeZone <= part.to!!
-//            println(
-//                "split = $this ," +
-//                        "safezone respected =$safeZoneRespected ,"+
-//                        "old = $oldPart ," +
-//                        "changed = ${part.copy()} ," +
-//                        "newPart= ${newPart.copy()} ," +
-//                        "valid = $isValid ,"
-//            )
             return newPart
         }
     }
