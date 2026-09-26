@@ -160,6 +160,15 @@ class ABDMServiceNotificationManager(
                             }.onFailure {
                                 it.printStackTrace()
                             }
+                            // ponytail: single fixed 30s timeout, no duration setting until users ask for one.
+                            if (appSettingsStorage.autoDismissFinishedNotification.value) {
+                                delay(30.seconds)
+                                runCatching {
+                                    dismissDownloadNotification(event.downloadItem.id)
+                                }.onFailure {
+                                    it.printStackTrace()
+                                }
+                            }
                         }
                     }
                 }
@@ -332,6 +341,7 @@ class ABDMServiceNotificationManager(
         val title = downloadItemState.name
 
         val statusString = Res.string.download_page_download_completed.asStringSource().getString()
+        val compact = appSettingsStorage.compactCompletionNotification.value
         val openSingleDownloadActivityIntent = PendingIntent.getActivity(
             context,
             AndroidConstants.SERVICE_NOTIFICATION_ID,
@@ -355,6 +365,11 @@ class ABDMServiceNotificationManager(
                 }
             }
             .setPriority(NotificationCompat.PRIORITY_LOW)
+            .apply {
+                if (!compact) {
+                    setStyle(NotificationCompat.BigTextStyle().bigText(statusString))
+                }
+            }
             .setContentIntent(openSingleDownloadActivityIntent)
             .setAutoCancel(true)
             .build()
@@ -372,18 +387,22 @@ class ABDMServiceNotificationManager(
         val notFinishedDownloads by activeDownloadListFlow.collectAsState(emptyList())
         val keepAliveServiceReason by _keepAliveServiceReason.collectAsState()
         val notifyUpdate by notificationUpdateSignal.collectAsState()
+        // #48: no SYSTEM_ALERT_WINDOW overlay (too invasive) — persistent aggregate
+        // progress lives in the existing foreground-service notification instead.
+        val activeDownloads = remember(notFinishedDownloads) {
+            notFinishedDownloads.filter {
+                it.status is DownloadJobStatus.IsActive
+            }
+        }
         CompositionLocalProvider(
             LocalNotificationUpdateSignal provides notifyUpdate
         ) {
             RenderMainNotification(
-                reason = keepAliveServiceReason
+                reason = keepAliveServiceReason,
+                activeDownloads = activeDownloads,
             )
             RenderDownloadItemNotifications(
-                remember(notFinishedDownloads) {
-                    notFinishedDownloads.filter {
-                        it.status is DownloadJobStatus.IsActive
-                    }
-                }
+                activeDownloads
             )
         }
     }
@@ -392,14 +411,26 @@ class ABDMServiceNotificationManager(
     @Composable
     fun RenderMainNotification(
         reason: KeepAliveServiceReason?,
+        activeDownloads: List<ProcessingDownloadItemState>,
     ) {
         val statusString = reason?.rememberReasonString()
-        LaunchedEffect(reason, statusString, LocalNotificationUpdateSignal.current) {
+        val aggregatePercent = remember(activeDownloads) {
+            val percents = activeDownloads.mapNotNull { it.percent }
+            if (percents.isEmpty()) null else percents.average().toInt()
+        }
+        val fullStatusString = remember(statusString, aggregatePercent) {
+            if (aggregatePercent != null) {
+                listOfNotNull(statusString, "$aggregatePercent%").joinToString(" - ")
+            } else {
+                statusString
+            }
+        }
+        LaunchedEffect(reason, fullStatusString, LocalNotificationUpdateSignal.current) {
             @SuppressLint("MissingPermission")
             runCatching {
                 notificationManagerCompat.notify(
                     AndroidConstants.SERVICE_NOTIFICATION_ID,
-                    createMainNotification(reason, statusString)
+                    createMainNotification(reason, fullStatusString)
                 )
             }.onFailure {
                 it.printStackTrace()

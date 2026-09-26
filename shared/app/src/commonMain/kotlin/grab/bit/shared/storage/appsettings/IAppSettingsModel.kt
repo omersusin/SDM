@@ -33,6 +33,8 @@ interface IAppSettingsModel {
     val useAverageSpeed: Boolean
     val showDownloadProgressDialog: Boolean
     val showDownloadCompletionDialog: Boolean
+    val autoDismissFinishedNotification: Boolean
+    val compactCompletionNotification: Boolean
     val speedLimit: Long
     val autoStartOnBoot: Boolean
     val notificationSound: Boolean

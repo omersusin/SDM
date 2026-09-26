@@ -425,6 +425,28 @@ object CommonSettings {
         )
     }
 
+    fun autoDismissFinishedNotification(settingsStorage: BaseAppSettingsStorage): BooleanConfigurable {
+        return BooleanConfigurable(
+            title = Res.string.settings_auto_dismiss_finished_notification.asStringSource(),
+            description = Res.string.settings_auto_dismiss_finished_notification_description.asStringSource(),
+            backedBy = settingsStorage.autoDismissFinishedNotification,
+            describe = {
+                (if (it) Res.string.enabled else Res.string.disabled).asStringSource()
+            },
+        )
+    }
+
+    fun compactCompletionNotification(settingsStorage: BaseAppSettingsStorage): BooleanConfigurable {
+        return BooleanConfigurable(
+            title = Res.string.settings_compact_completion_notification.asStringSource(),
+            description = Res.string.settings_compact_completion_notification_description.asStringSource(),
+            backedBy = settingsStorage.compactCompletionNotification,
+            describe = {
+                (if (it) Res.string.enabled else Res.string.disabled).asStringSource()
+            },
+        )
+    }
+
     fun autoShowDownloadProgressWindow(settingsStorage: BaseAppSettingsStorage): BooleanConfigurable {
         return BooleanConfigurable(
             title = Res.string.settings_show_download_progress_dialog.asStringSource(),
