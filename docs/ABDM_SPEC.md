@@ -146,6 +146,8 @@ Swiss-army-knife, but nothing illogical.
 - 2026-09-26 clipboard-monitor (1DM smart-download parity):
   returning to the app with a fresh link in the clipboard opens the
   add-download dialog (opt-in setting, default off, deduped).
+- 2026-09-26 torrent-finished: engine reports completion
+  (libtorrent isFinished || progress>=1); UI poll stops when all done.
 - 2026-09-26 cleanup-2 (12-agent audit): SSRF entry filter
   (http/https only, LAN kept), cross-origin cookie/header stripping,
   updater .md5 sidecar verify before install, 20+ dead code/strings/

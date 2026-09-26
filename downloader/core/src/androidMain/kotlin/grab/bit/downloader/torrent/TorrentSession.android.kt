@@ -29,7 +29,12 @@ class LibtorrentSession(private val saveDir: String) : TorrentSession {
 
     override fun progress(infoHashHex: String): TorrentProgress? {
         return runCatching {
-            manager.find(Sha1Hash.parseHex(infoHashHex))?.status()?.progress()?.let(::TorrentProgress)
+            val handle = manager.find(Sha1Hash.parseHex(infoHashHex)) ?: return null
+            val status = handle.status()
+            TorrentProgress(
+                progress = status.progress(),
+                isFinished = status.isFinished() || status.progress() >= 1f,
+            )
         }.getOrNull()
     }
 
