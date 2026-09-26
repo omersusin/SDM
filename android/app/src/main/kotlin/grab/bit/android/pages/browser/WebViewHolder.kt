@@ -192,9 +192,12 @@ class ABDMWebViewClient(
                 if (intent.resolveActivity(pm) != null) {
                     view.context.startActivity(intent)
                 } else {
-                    intent.getStringExtra("browser_fallback_url")?.let {
-                        view.loadUrl(it)
-                    }
+                    intent.getStringExtra("browser_fallback_url")
+                        ?.takeIf {
+                            it.startsWith("http://") || it.startsWith("https://")
+                        }?.let {
+                            view.loadUrl(it)
+                        }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -202,7 +205,12 @@ class ABDMWebViewClient(
             return true
         }
 
-        // Handle ALL other schemes (deep links)
+        // Handle other schemes (deep links). Dangerous schemes that could
+        // leak local data or run code are never delegated.
+        val scheme = runCatching { Uri.parse(url).scheme?.lowercase() }.getOrNull()
+        if (scheme == "javascript" || scheme == "file" || scheme == "data" || scheme == "content") {
+            return true
+        }
         try {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             val pm = view.context.packageManager

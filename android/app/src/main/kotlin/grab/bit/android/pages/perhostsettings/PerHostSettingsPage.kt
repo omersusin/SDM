@@ -30,6 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import grab.bit.android.ui.page.PageHeader
+import grab.bit.android.pages.home.ShowConfirmPrompt
+import grab.bit.shared.pages.home.ConfirmPromptState
 import grab.bit.android.ui.page.PageTitle
 import grab.bit.android.ui.page.PageUi
 import grab.bit.shared.ui.widget.*
@@ -54,6 +56,7 @@ fun PerHostSettingsPage(component: AndroidPerHostSettingsComponent) {
     val canSave by component.canSave.collectAsState()
     val scope = rememberCoroutineScope()
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current
+    var confirmDeleteHost by remember { mutableStateOf(false) }
     BackHandler(
         configurableList != null
     ) {
@@ -88,7 +91,7 @@ fun PerHostSettingsPage(component: AndroidPerHostSettingsComponent) {
                             icon = MyIcons.remove,
                             contentDescription = Res.string.remove.asStringSource(),
                             onClick = {
-                                component.onRequestDeleteConfig(configurableList.id)
+                                confirmDeleteHost = true
                             }
                         )
                         TransparentIconActionButton(
@@ -101,6 +104,22 @@ fun PerHostSettingsPage(component: AndroidPerHostSettingsComponent) {
                             },
                             contentDescription = Res.string.update.asStringSource()
                         )
+                    if (confirmDeleteHost && configurableList != null) {
+                        ShowConfirmPrompt(
+                            promptState = ConfirmPromptState(
+                                title = Res.string.per_host_settings_delete_title.asStringSource(),
+                                description = Res.string.per_host_settings_delete_description.asStringSource(),
+                                onConfirm = {},
+                            ),
+                            onConfirm = {
+                                confirmDeleteHost = false
+                                component.onRequestDeleteConfig(configurableList.id)
+                            },
+                            onCancel = {
+                                confirmDeleteHost = false
+                            },
+                        )
+                    }
                     }
                 }
             )

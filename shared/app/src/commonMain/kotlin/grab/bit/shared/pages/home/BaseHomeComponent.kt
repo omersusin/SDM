@@ -219,6 +219,13 @@ abstract class BaseHomeComponent(
         this.filterState.queueFilter = queueModel
     }
 
+    fun clearFilters() {
+        this.filterState.textToSearch = ""
+        this.filterState.typeCategoryFilter = null
+        this.filterState.queueFilter = null
+        this.filterState.statusFilter = DefinedStatusCategories.All
+    }
+
 
     val activeDownloadCountFlow = downloadSystem.downloadMonitor.activeDownloadCount
     val globalSpeedFlow = downloadSystem.downloadMonitor.activeDownloadListFlow.map {
