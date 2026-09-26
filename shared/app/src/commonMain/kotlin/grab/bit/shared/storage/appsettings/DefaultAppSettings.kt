@@ -41,6 +41,8 @@ abstract class DefaultAppSettings {
     open val useAverageSpeed: Boolean get() = true
     open val showDownloadProgressDialog: Boolean get() = true
     open val showDownloadCompletionDialog: Boolean get() = true
+    open val autoDismissFinishedNotification: Boolean get() = false
+    open val compactCompletionNotification: Boolean get() = false
     open val speedLimit: Long get() = 0
     open val autoStartOnBoot: Boolean get() = true
     open val notificationSound: Boolean get() = true

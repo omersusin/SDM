@@ -74,6 +74,8 @@ class AppSettingsStorage(
     override val silentClipboardAdd = from(AppSettingsModel.silentClipboardAdd)
     override val showDownloadProgressDialog = from(AppSettingsModel.showDownloadProgressDialog)
     override val showDownloadCompletionDialog = from(AppSettingsModel.showDownloadCompletionDialog)
+    override val autoDismissFinishedNotification = from(AppSettingsModel.autoDismissFinishedNotification)
+    override val compactCompletionNotification = from(AppSettingsModel.compactCompletionNotification)
     override val speedLimit = from(AppSettingsModel.speedLimit)
     override val autoStartOnBoot = from(AppSettingsModel.autoStartOnBoot)
     override val notificationSound = from(AppSettingsModel.notificationSound)
