@@ -309,8 +309,10 @@ class HttpDownloadJob(
     }
 
     fun getRequestedPartitionCount(): Int {
-        return downloadItem.preferredConnectionCount
-            ?: downloadManager.settings.defaultThreadCount
+        return resolvePartCount(
+            downloadItem.preferredConnectionCount,
+            downloadManager.settings.defaultThreadCount,
+        )
     }
 
     private suspend fun createPartsIfNotCreated() {

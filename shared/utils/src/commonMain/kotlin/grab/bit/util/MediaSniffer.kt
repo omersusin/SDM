@@ -17,7 +17,7 @@ sealed interface MediaCandidate {
 // content-sniffing come in later grabber steps if pages prove noisy.
 object MediaSniffer {
     private val directExtensions = setOf(
-        "mp4", "m4v", "mkv", "webm", "mov", "avi", "flv", "wmv", "ts",
+        "mp4", "m4v", "mkv", "webm", "mov", "avi", "flv", "wmv", "ts", "m4s",
         "mp3", "m4a", "aac", "ogg", "oga", "opus", "flac", "wav", "weba",
     )
 
@@ -55,7 +55,7 @@ object MediaSniffer {
             mime == "application/dash+xml" ->
                 MediaCandidate.Stream(url, StreamKind.DASH)
 
-            mime.startsWith("video/") || mime.startsWith("audio/") -> {
+            mime.startsWith("video/") || mime.startsWith("audio/") || mime == "application/mp4" -> {
                 val name = url.substringBefore('?').substringBefore('#')
                     .substringAfterLast('/').takeIf { it.isNotBlank() }
                 MediaCandidate.Direct(url, name)

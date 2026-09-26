@@ -59,4 +59,36 @@ class MediaSnifferTest {
     fun blankUrlIsNotMedia() {
         assertEquals(MediaCandidate.NotMedia, MediaSniffer.sniff("  "))
     }
+
+    @Test
+    fun m4sSegmentByExtensionWithQueryAndFragment() {
+        val result = MediaSniffer.sniff("https://cdn.example.com/vod/seg-12.m4s?token=abc#frag")
+        assertIs<MediaCandidate.Direct>(result)
+        assertEquals("seg-12.m4s", result.fileName)
+    }
+
+    @Test
+    fun commonAudioVideoExtensionsAreCaseInsensitive() {
+        assertIs<MediaCandidate.Direct>(MediaSniffer.sniff("https://cdn.example.com/a/TRACK.OPUS"))
+        assertIs<MediaCandidate.Direct>(MediaSniffer.sniff("https://cdn.example.com/v/clip.WEBM?x=1"))
+        assertIs<MediaCandidate.Direct>(MediaSniffer.sniff("https://cdn.example.com/v/clip.MKV"))
+        assertIs<MediaCandidate.Direct>(MediaSniffer.sniff("https://cdn.example.com/a/note.FLAC"))
+        assertIs<MediaCandidate.Direct>(MediaSniffer.sniff("https://cdn.example.com/a/note.WAV"))
+        assertIs<MediaCandidate.Direct>(MediaSniffer.sniff("https://cdn.example.com/a/song.M4A"))
+        assertIs<MediaCandidate.Direct>(MediaSniffer.sniff("https://cdn.example.com/v/clip.MOV"))
+        assertIs<MediaCandidate.Direct>(MediaSniffer.sniff("https://cdn.example.com/v/clip.AVI"))
+        assertIs<MediaCandidate.Direct>(MediaSniffer.sniff("https://cdn.example.com/v/seg.TS?k=2"))
+    }
+
+    @Test
+    fun applicationMp4MimeWhenUrlHasNoExtension() {
+        val result = MediaSniffer.sniff("https://example.com/dl/file?id=7", "application/mp4")
+        assertIs<MediaCandidate.Direct>(result)
+    }
+
+    @Test
+    fun audioMimeWhenUrlHasNoExtension() {
+        val result = MediaSniffer.sniff("https://example.com/stream/9", "audio/webm")
+        assertIs<MediaCandidate.Direct>(result)
+    }
 }
