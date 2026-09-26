@@ -74,6 +74,7 @@ import kotlinx.coroutines.*
 import kotlinx.serialization.json.Json
 import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
+import java.util.concurrent.TimeUnit
 import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
 import org.koin.dsl.bind
@@ -580,8 +581,14 @@ fun getAppModule(context: ABDMApp) = module {
     single<OkHttpClient>(BaseOKHttpClientQualifier) {
         val appSSLFactoryProvider: AppSSLFactoryProvider = get()
         val appHostNameVerifier: AppHostNameVerifier = get()
+        // Restart required to pick up httpTimeoutSeconds changes.
+        val timeoutSeconds = get<DownloadSettings>().httpTimeoutSeconds.toLong()
+            .coerceIn(5, 300)
         OkHttpClient
             .Builder()
+            .connectTimeout(timeoutSeconds, TimeUnit.SECONDS)
+            .readTimeout(timeoutSeconds, TimeUnit.SECONDS)
+            .writeTimeout(timeoutSeconds, TimeUnit.SECONDS)
             .dispatcher(Dispatcher().apply {
                 //bypass limit on concurrent connections!
                 maxRequests = Int.MAX_VALUE

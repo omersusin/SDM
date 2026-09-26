@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import grab.bit.downloader.utils.speedlimiter.SpeedLimiter
+import grab.bit.util.HttpUrlUtils
 import java.io.File
 
 class DownloadManager(
@@ -316,6 +317,22 @@ class DownloadManager(
         return status is DownloadJobStatus.CanBeResumed
     }
 
+    override fun isHostSlotAvailable(id: Long): Boolean {
+        val cap = settings.maxConnectionsPerHost
+        if (cap <= 0) return true
+        val host = downloadJobs.find { it.id == id }
+            ?.downloadItem?.link?.let(HttpUrlUtils::getHost)
+            ?: return true
+        val activeForHost = downloadJobs.count {
+            it.status.value is DownloadJobStatus.IsActive &&
+                it.downloadItem.link.let(HttpUrlUtils::getHost) == host
+        }
+        return activeForHost < cap
+    }
+
+    override val interDownloadDelayMs: Int
+        get() = settings.interDownloadDelayMs
+
     suspend fun stopAll(
         context: DownloadItemContext = EmptyContext,
     ) {
@@ -349,8 +366,13 @@ class DownloadManager(
 
     //global speed limiter
     internal val speedLimiter = SpeedLimiter()
-    fun limitGlobalSpeed(bytePerSecond: Long) {
+    override fun limitGlobalSpeed(bytePerSecond: Long) {
+        settings.globalSpeedLimit = bytePerSecond
         speedLimiter.bytesPerSecond(bytePerSecond)
+    }
+
+    override fun currentGlobalSpeedLimit(): Long {
+        return settings.globalSpeedLimit
     }
 
     fun reloadSetting() {

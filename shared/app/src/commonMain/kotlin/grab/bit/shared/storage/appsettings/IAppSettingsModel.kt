@@ -21,6 +21,10 @@ interface IAppSettingsModel {
     val maxConcurrentDownloads: Int
     val maxDownloadRetryCount: Int
     val retryDelaySeconds: Int
+    val maxConnectionsPerHost: Int
+    val interDownloadDelayMs: Int
+    val minSplitSizeKb: Int
+    val httpTimeoutSeconds: Int
     val autoUncompressArchives: Boolean
     val clipboardMonitor: Boolean
     val autoRemoveFinishedDownloads: Boolean

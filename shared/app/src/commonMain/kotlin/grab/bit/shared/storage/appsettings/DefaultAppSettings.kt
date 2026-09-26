@@ -24,6 +24,10 @@ abstract class DefaultAppSettings {
     open val maxConcurrentDownloads: Int get() = 3
     open val maxDownloadRetryCount: Int get() = 3
     open val retryDelaySeconds: Int get() = 3
+    open val maxConnectionsPerHost: Int get() = 0
+    open val interDownloadDelayMs: Int get() = 0
+    open val minSplitSizeKb: Int get() = 1024
+    open val httpTimeoutSeconds: Int get() = 10
     open val autoUncompressArchives: Boolean get() = false
     open val clipboardMonitor: Boolean get() = false
     open val autoRemoveFinishedDownloads: Boolean get() = false

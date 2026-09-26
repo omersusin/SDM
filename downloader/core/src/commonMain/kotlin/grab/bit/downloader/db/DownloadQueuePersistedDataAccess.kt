@@ -14,6 +14,11 @@ data class QueueModel(
     val queueItems: List<Long> = emptyList(),
     val scheduledTimes: ScheduleTimes = ScheduleTimes.default(),
     val stopQueueOnEmpty:Boolean=false,
+    // Low-speed mode during the scheduled window: while the schedule is active
+    // the global speed limit is overridden with scheduledLowSpeedBytesPerSec
+    // (0 = unlimited) and restored afterwards. Disabled by default.
+    val scheduledLowSpeedEnabled: Boolean = false,
+    val scheduledLowSpeedBytesPerSec: Long = 0L,
 )
 /**
  * CRUD all queues

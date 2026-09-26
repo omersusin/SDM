@@ -45,6 +45,10 @@ open class BaseAppRepository(
     val useSparseFileAllocation = appSettings.useSparseFileAllocation
     val maxDownloadRetryCount = appSettings.maxDownloadRetryCount
     val retryDelaySeconds = appSettings.retryDelaySeconds
+    val maxConnectionsPerHost = appSettings.maxConnectionsPerHost
+    val interDownloadDelayMs = appSettings.interDownloadDelayMs
+    val minSplitSizeKb = appSettings.minSplitSizeKb
+    val httpTimeoutSeconds = appSettings.httpTimeoutSeconds
     val useAverageSpeed = appSettings.useAverageSpeed
     val saveLocation = appSettings.defaultDownloadFolder
     val apiEnabled = appSettings.apiEnabled
@@ -99,6 +103,10 @@ open class BaseAppRepository(
         downloadSettings.useSparseFileAllocation = useSparseFileAllocation.value
         downloadSettings.maxDownloadRetryCount = maxDownloadRetryCount.value
         downloadSettings.retryDelayMillis = retryDelaySeconds.value * 1000L
+        downloadSettings.maxConnectionsPerHost = maxConnectionsPerHost.value
+        downloadSettings.interDownloadDelayMs = interDownloadDelayMs.value
+        downloadSettings.minPartSize = minSplitSizeKb.value * 1024L
+        downloadSettings.httpTimeoutSeconds = httpTimeoutSeconds.value
         downloadSettings.globalSpeedLimit = if (speedProfile.value == SpeedProfile.HIGH) {
             speedLimiter.value
         } else {
@@ -181,6 +189,30 @@ open class BaseAppRepository(
             .onEach {
                 downloadSettings.retryDelayMillis = it * 1000L
                 downloadManager.reloadSetting()
+            }.launchIn(scope)
+        maxConnectionsPerHost
+            .debounce(500.milliseconds)
+            .onEach {
+                // Read live at queue activation; no job reload needed.
+                downloadSettings.maxConnectionsPerHost = it
+            }.launchIn(scope)
+        interDownloadDelayMs
+            .debounce(500.milliseconds)
+            .onEach {
+                // Read live at queue activation; no job reload needed.
+                downloadSettings.interDownloadDelayMs = it
+            }.launchIn(scope)
+        minSplitSizeKb
+            .debounce(500.milliseconds)
+            .onEach {
+                downloadSettings.minPartSize = it * 1024L
+                downloadManager.reloadSetting()
+            }.launchIn(scope)
+        httpTimeoutSeconds
+            .debounce(500.milliseconds)
+            .onEach {
+                // Applied to the OkHttp client at build time; restart to take effect.
+                downloadSettings.httpTimeoutSeconds = it
             }.launchIn(scope)
         trackDeletedFilesOnDisk
             .debounce(500.milliseconds)

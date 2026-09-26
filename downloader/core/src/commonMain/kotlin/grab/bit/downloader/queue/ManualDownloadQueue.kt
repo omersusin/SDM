@@ -266,6 +266,14 @@ class ManualDownloadQueue(
         return downloadableItemFromQueue?.let {
             addAnActiveItem(it)
             scope.launch {
+                // Same randomized stagger as DownloadQueue; slot held waiting.
+                val maxDelay = downloadEvents.interDownloadDelayMs.coerceIn(0, 60_000)
+                if (maxDelay > 0) {
+                    delay(kotlin.random.Random.nextLong(maxDelay + 1L))
+                }
+                if (it !in activeItems) {
+                    return@launch
+                }
                 downloadEvents.startJob(it, ResumedBy(me))
             }
             true
@@ -273,13 +281,10 @@ class ManualDownloadQueue(
     }
 
     private fun getAnInactiveITemFromTheQueue(): Long? {
-        while (true) {
-            val activeItems = activeItems
-            val item = totalItemsFlow.value
-                .firstOrNull { it !in activeItems }
-            if (item == null) {
-                // no item returning now!
-                return null
+        // Snapshot: removing dead items below mutates the backing flow.
+        for (item in totalItemsFlow.value) {
+            if (item in activeItems) {
+                continue
             }
             if (!downloadEvents.canActivateJob(item)) {
                 // finished or in status that we can't use it anymore
@@ -287,8 +292,13 @@ class ManualDownloadQueue(
                 removeFromQueue(item)
                 continue
             }
+            if (!downloadEvents.isHostSlotAvailable(item)) {
+                // host saturated: skip for now, keep it queued.
+                continue
+            }
             return item
         }
+        return null
     }
 
 

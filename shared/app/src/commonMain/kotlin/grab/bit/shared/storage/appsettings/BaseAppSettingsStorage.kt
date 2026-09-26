@@ -29,6 +29,10 @@ interface BaseAppSettingsStorage :
     val useAverageSpeed: MutableStateFlow<Boolean>
     val maxDownloadRetryCount: MutableStateFlow<Int>
     val retryDelaySeconds: MutableStateFlow<Int>
+    val maxConnectionsPerHost: MutableStateFlow<Int>
+    val interDownloadDelayMs: MutableStateFlow<Int>
+    val minSplitSizeKb: MutableStateFlow<Int>
+    val httpTimeoutSeconds: MutableStateFlow<Int>
     val autoUncompressArchives: MutableStateFlow<Boolean>
     val clipboardMonitor: MutableStateFlow<Boolean>
     val autoRemoveFinishedDownloads: MutableStateFlow<Boolean>
