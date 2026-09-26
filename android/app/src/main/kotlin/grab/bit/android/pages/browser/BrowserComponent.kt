@@ -261,14 +261,21 @@ class BrowserComponent(
             while (true) {
                 delay(2000)
                 val session = torrentSession ?: break
+                var keepPolling = false
                 _torrents.update { items ->
                     items.map { item ->
-                        item.copy(
-                            progress = session.progress(item.infoHash)?.progress
-                        )
+                        val progress = session.progress(item.infoHash)
+                        if (progress?.isFinished != true) {
+                            keepPolling = true
+                        }
+                        item.copy(progress = progress?.progress)
                     }
                 }
+                if (!keepPolling) {
+                    break
+                }
             }
+            torrentPolling = false
         }
     }
 

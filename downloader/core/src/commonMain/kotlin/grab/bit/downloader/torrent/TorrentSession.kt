@@ -13,6 +13,7 @@ interface TorrentSession {
 
 data class TorrentProgress(
     val progress: Float,
+    val isFinished: Boolean,
 )
 
 expect fun createTorrentSession(saveDir: String): TorrentSession
