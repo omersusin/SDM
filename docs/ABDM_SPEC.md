@@ -276,6 +276,18 @@ Partiler halinde slice-branch + CI ile uygulanacak.
   one-liners may go straight to main; verify status/branch before push.
 
 ## Learnings (the agent writes here every phase)
+- 2026-09-26 f11-queue (#22/#29/#32, minimal): no embedded API server exists
+  (REST-API.yml is spec-only, browser-integration settings "disabled for now",
+  no Ktor in catalog) → #29 shipped as outbound webhook only (webhookUrl full
+  settings slice + WebhookNotifier on OnJobCompleted/OnJobCanceled via OkHttp,
+  booted from DownloadSystem; REST endpoints stay a documented follow-up in
+  REST-API.yml). #22: true add-as-discovered impossible — youtubedl-android
+  execute() returns whole stdout at once — so flat-playlist fetch in
+  background scope + Ready/Enqueuing progress states + per-item sequential
+  dispatch instead. #32: capture-all now closes media dialog and opens pool
+  dialog when pool non-empty (pool→multi-download path already wired).
+  shared/app had no commonTest source set; added with kotlin("test") mirroring
+  downloader/core. No Android SDK on device → verify by reading + CI gate.
 - 2026-09-23 fork-base: ABDM (shallow clone, 1 commit) could not be fetched
   via git (shallow roots rejected) → imported via worktree copy excl. .git,
   upstream added as remote for future pulls. Apache-2.0 kept in

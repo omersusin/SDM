@@ -100,6 +100,7 @@ object BaseAppSettingsDefinition {
         prop(IAppSettingsModel::apiPort) bind S.int().range(0, 65000).catch(PlatformDefaultSettings::apiPort)
         prop(IAppSettingsModel::apiAuthKey) bind S.string().catch(PlatformDefaultSettings::apiAuthKey)
         prop(IAppSettingsModel::apiAuthEnabled) bind S.boolean().catch(PlatformDefaultSettings::apiAuthEnabled)
+        prop(IAppSettingsModel::webhookUrl) bind S.string().catch(PlatformDefaultSettings::webhookUrl)
         prop(IAppSettingsModel::trackDeletedFilesOnDisk) bind S.boolean()
             .catch(PlatformDefaultSettings::trackDeletedFilesOnDisk)
         prop(IAppSettingsModel::deletePartialFileOnDownloadCancellation) bind S.boolean()

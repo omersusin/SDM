@@ -31,6 +31,7 @@ import grab.bit.downloader.video.VideoFormat
 import grab.bit.downloader.video.VideoFormatPicker
 import grab.bit.downloader.video.YtDlpDownloadRequest
 import grab.bit.downloader.video.YtDlpInfoParser
+import grab.bit.downloader.video.YtDlpPlaylistEntry
 import grab.bit.downloader.video.YtDlpRunner
 import grab.bit.downloader.video.YtDlpSubtitle
 import grab.bit.util.HttpUrlUtils
@@ -187,6 +188,85 @@ class BrowserComponent(
 
     fun closeVideoFormats() {
         _videoFormats.value = VideoFormatsState.Closed
+    }
+
+    sealed interface PlaylistState {
+        data object Closed : PlaylistState
+        data object Loading : PlaylistState
+        data class Ready(
+            val entries: List<YtDlpPlaylistEntry>,
+        ) : PlaylistState
+
+        data class Enqueuing(
+            val done: Int,
+            val total: Int,
+        ) : PlaylistState
+    }
+
+    private val _playlist: MutableStateFlow<PlaylistState> =
+        MutableStateFlow(PlaylistState.Closed)
+    val playlist = _playlist.asStateFlow()
+
+    // Playlist-as-queue (basic): flat-playlist fetch runs in a background
+    // scope (UI never blocks). True add-as-discovered is not possible here —
+    // youtubedl-android execute() returns the whole stdout at once — so items
+    // are dispatched one by one without waiting for per-item info instead.
+    fun openPlaylist() {
+        val page = tabs.value.activeTab?.tabState?.lastLoadedUrl ?: return
+        _playlist.value = PlaylistState.Loading
+        scope.launch(Dispatchers.IO) {
+            val entries = YtDlpRunner.dumpPlaylist(page)
+                ?.let { runCatching { YtDlpInfoParser.parsePlaylist(it) }.getOrNull() }
+                ?.entries.orEmpty()
+                .filter { it.url.isNotBlank() }
+            _playlist.value = PlaylistState.Ready(entries)
+        }
+    }
+
+    fun closePlaylist() {
+        _playlist.value = PlaylistState.Closed
+    }
+
+    fun downloadPlaylistEntry(entry: YtDlpPlaylistEntry) {
+        val saveDir = appSettings.defaultDownloadFolder.value
+        val langs = _selectedSubs.value.toList()
+        scope.launch(Dispatchers.IO) {
+            runCatching {
+                YtDlpRunner.download(
+                    YtDlpDownloadRequest(
+                        url = entry.url,
+                        formatId = null,
+                        subtitleLangs = langs,
+                        outputTemplate = "%(title)s.%(ext)s",
+                    ),
+                    saveDir,
+                )
+            }
+        }
+    }
+
+    fun downloadAllPlaylist() {
+        val entries = (_playlist.value as? PlaylistState.Ready)?.entries ?: return
+        if (entries.isEmpty()) return
+        val saveDir = appSettings.defaultDownloadFolder.value
+        val langs = _selectedSubs.value.toList()
+        scope.launch(Dispatchers.IO) {
+            entries.forEachIndexed { index, entry ->
+                _playlist.value = PlaylistState.Enqueuing(index, entries.size)
+                runCatching {
+                    YtDlpRunner.download(
+                        YtDlpDownloadRequest(
+                            url = entry.url,
+                            formatId = null,
+                            subtitleLangs = langs,
+                            outputTemplate = "%(title)s.%(ext)s",
+                        ),
+                        saveDir,
+                    )
+                }
+            }
+            _playlist.value = PlaylistState.Closed
+        }
     }
 
     private val _selectedSubs: MutableStateFlow<Set<String>> = MutableStateFlow(emptySet())
@@ -390,6 +470,12 @@ class BrowserComponent(
                         MyIcons.videoFile,
                     ) {
                         openVideoFormats()
+                    }
+                    +simpleAction(
+                        Res.string.browser_playlist.asStringSource(),
+                        MyIcons.videoFile,
+                    ) {
+                        openPlaylist()
                     }
                 }
                 if (clipboardHasMagnet()) {

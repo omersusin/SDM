@@ -55,6 +55,7 @@ open class BaseAppRepository(
     val apiPort = appSettings.apiPort
     val apiAuthEnabled = appSettings.apiAuthEnabled
     val apiAuthKey = appSettings.apiAuthKey
+    val webhookUrl = appSettings.webhookUrl
     val trackDeletedFilesOnDisk = appSettings.trackDeletedFilesOnDisk
 
     override val sizeUnit = appSettings.sizeUnit.mapStateFlow {

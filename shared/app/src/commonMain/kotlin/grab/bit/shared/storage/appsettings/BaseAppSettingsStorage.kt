@@ -54,6 +54,7 @@ interface BaseAppSettingsStorage :
     val apiPort: MutableStateFlow<Int>
     val apiAuthEnabled: MutableStateFlow<Boolean>
     val apiAuthKey: MutableStateFlow<String>
+    val webhookUrl: MutableStateFlow<String>
     val trackDeletedFilesOnDisk: MutableStateFlow<Boolean>
     val deletePartialFileOnDownloadCancellation: MutableStateFlow<Boolean>
     val sizeUnit: MutableStateFlow<SupportedSizeUnits>
