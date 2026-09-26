@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ponytail: only credential-bearing files excluded; queues/lists stay backed up -->
+<full-backup-content>
+    <exclude domain="file" path=".abdm/config/options/perHostSettings.json"/>
+    <exclude domain="file" path=".abdm/config/options/proxySettings.json"/>
+    <exclude domain="file" path=".abdm/config/appSettings.json"/>
+</full-backup-content>

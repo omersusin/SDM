@@ -13,8 +13,29 @@ object HttpUrlUtils {
             val url = createURL(link)
             // okhttp already restricts to http/https; be explicit: the engine
             // cannot fetch anything else (no ftp/file support), so refuse early.
-            url.scheme == "http" || url.scheme == "https"
+            if (url.scheme != "http" && url.scheme != "https") {
+                return false
+            }
+            // Refuse cloud metadata endpoints (169.254.0.0/16): SSRF via a
+            // crafted link must not reach instance credentials. LAN ranges
+            // (192.168/10/172.16) stay allowed for NAS use.
+            !isLinkLocalMetadataHost(url.host)
         }.getOrDefault(false)
+    }
+
+    fun isLinkLocalMetadataHost(host: String): Boolean {
+        val h = host.trimEnd('.').lowercase()
+        if (h == "metadata.google.internal" || h.endsWith(".metadata.google.internal")) {
+            return true
+        }
+        val parts = h.split(".")
+        if (parts.size == 4) {
+            val nums = parts.map { it.toIntOrNull() }
+            if (nums.all { it != null }) {
+                return nums[0] == 169 && nums[1] == 254
+            }
+        }
+        return false
     }
 
     fun extractNameFromLink(link: String): String? {

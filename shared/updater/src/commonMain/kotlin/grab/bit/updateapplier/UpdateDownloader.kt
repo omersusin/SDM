@@ -55,14 +55,20 @@ abstract class UpdateDownloader : UpdatePreparer {
     abstract suspend fun removeAllUpdateFiles()
 
     companion object {
-        // Supports "md5:<hex>" hashes published as release sidecar files.
+        // Supports "sha256:<hex>" (preferred) and legacy "md5:<hex>" hashes
+        // published as release sidecar files.
         fun verifyFileHash(file: File, expected: String): Boolean {
             val parts = expected.split(":", limit = 2)
-            if (parts.size != 2 || !parts[0].equals("md5", ignoreCase = true)) {
+            if (parts.size != 2) {
                 return false
             }
+            val algorithm = when {
+                parts[0].equals("sha256", ignoreCase = true) -> "SHA-256"
+                parts[0].equals("md5", ignoreCase = true) -> "MD5"
+                else -> return false
+            }
             return runCatching {
-                val digest = java.security.MessageDigest.getInstance("MD5")
+                val digest = java.security.MessageDigest.getInstance(algorithm)
                 file.inputStream().use { input ->
                     val buffer = ByteArray(8192)
                     var read: Int
