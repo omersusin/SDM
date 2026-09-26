@@ -81,7 +81,7 @@ fun ShowDownloadDialog(
                 AnimatedContent(
                     targetState = downloadItemState,
                     transitionSpec = {
-                        fadeIn() + scaleIn(.98f) togetherWith fadeOut() + scaleOut()
+                        fadeIn() + scaleIn(initialScale = .98f) togetherWith fadeOut() + scaleOut()
                     },
                     label = "dlSwap",
                     contentKey = {
