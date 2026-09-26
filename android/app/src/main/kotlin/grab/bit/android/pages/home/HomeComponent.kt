@@ -43,6 +43,7 @@ import grab.bit.shared.pagemanager.SettingsPageManager
 import grab.bit.shared.pagemanager.TranslatorsPageManager
 import grab.bit.shared.pages.adddownload.AddDownloadCredentialsInUiProps
 import grab.bit.shared.pages.adddownload.ImportOptions
+import grab.bit.shared.pages.adddownload.SilentImportOptions
 import grab.bit.shared.pages.home.BaseHomeComponent
 import grab.bit.shared.storage.appsettings.BaseAppSettingsStorage
 import grab.bit.shared.util.ClipboardUtil
@@ -195,11 +196,19 @@ class HomeComponent(
             return
         }
         lastClipboardPrompt = link
+        val silent = if (appSettings.silentClipboardAdd.value) {
+            SilentImportOptions(silentDownload = true)
+        } else {
+            null
+        }
         addDownloadDialogManager.openAddDownloadDialog(
             links = listOf(
                 AddDownloadCredentialsInUiProps(HttpDownloadCredentials(link))
             ),
-            importOptions = ImportOptions(startPaused = appSettings.clipboardAddPaused.value),
+            importOptions = ImportOptions(
+                silentImport = silent,
+                startPaused = appSettings.clipboardAddPaused.value,
+            ),
         )
     }
 

@@ -25,6 +25,7 @@ interface IAppSettingsModel {
     val clipboardMonitor: Boolean
     val autoRemoveFinishedDownloads: Boolean
     val clipboardAddPaused: Boolean
+    val silentClipboardAdd: Boolean
     val dynamicPartCreation: Boolean
     val useServerLastModifiedTime: Boolean
     val appendExtensionToIncompleteDownloads: Boolean
