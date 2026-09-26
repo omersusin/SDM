@@ -290,6 +290,7 @@ class BrowserComponent(
                         formatId = format.id,
                         subtitleLangs = langs,
                         outputTemplate = "%(title)s.%(ext)s",
+                        extraArgs = appSettings.ytdlpExtraArgs.value,
                     ),
                     saveDir,
                 )

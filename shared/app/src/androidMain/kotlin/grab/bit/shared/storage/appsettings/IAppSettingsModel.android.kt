@@ -50,6 +50,7 @@ data class AppSettingsModel(
     override val useAverageSpeed: Boolean,
     override val showDownloadProgressDialog: Boolean,
     override val showDownloadCompletionDialog: Boolean,
+    override val completionDialogOnErrorOnly: Boolean,
     override val autoDismissFinishedNotification: Boolean,
     override val compactCompletionNotification: Boolean,
     override val speedLimit: Long,
@@ -83,6 +84,7 @@ data class AppSettingsModel(
     val videoMaxHeight: Int,
     val videoQuality: VideoQuality,
     val videoQualityMigrated: Boolean,
+    val ytdlpExtraArgs: String,
 ) : IAppSettingsModel {
     companion object {
     }
@@ -110,6 +112,8 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             .catch(PlatformDefaultSettings::videoQuality)
         prop(AppSettingsModel::videoQualityMigrated) bind S.boolean()
             .catch(PlatformDefaultSettings::videoQualityMigrated)
+        prop(AppSettingsModel::ytdlpExtraArgs) bind S.string()
+            .catch(PlatformDefaultSettings::ytdlpExtraArgs)
     },
     factory = {
         PlatformAppSettingsModel(
@@ -142,6 +146,7 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             useAverageSpeed = it[AppSettingsModel::useAverageSpeed],
             showDownloadProgressDialog = it[AppSettingsModel::showDownloadProgressDialog],
             showDownloadCompletionDialog = it[AppSettingsModel::showDownloadCompletionDialog],
+            completionDialogOnErrorOnly = it[AppSettingsModel::completionDialogOnErrorOnly],
             autoDismissFinishedNotification = it[AppSettingsModel::autoDismissFinishedNotification],
             compactCompletionNotification = it[AppSettingsModel::compactCompletionNotification],
             speedLimit = it[AppSettingsModel::speedLimit],
@@ -176,6 +181,7 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             videoMaxHeight = it[AppSettingsModel::videoMaxHeight],
             videoQuality = it[AppSettingsModel::videoQuality],
             videoQualityMigrated = it[AppSettingsModel::videoQualityMigrated],
+            ytdlpExtraArgs = it[AppSettingsModel::ytdlpExtraArgs],
         )
     }
 ).asSettingsSchema()

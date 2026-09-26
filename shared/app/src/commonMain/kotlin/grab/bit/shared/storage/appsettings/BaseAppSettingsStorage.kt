@@ -41,6 +41,7 @@ interface BaseAppSettingsStorage :
     val silentClipboardAdd: MutableStateFlow<Boolean>
     val showDownloadProgressDialog: MutableStateFlow<Boolean>
     val showDownloadCompletionDialog: MutableStateFlow<Boolean>
+    val completionDialogOnErrorOnly: MutableStateFlow<Boolean>
     val autoDismissFinishedNotification: MutableStateFlow<Boolean>
     val compactCompletionNotification: MutableStateFlow<Boolean>
     val speedLimit: MutableStateFlow<Long>

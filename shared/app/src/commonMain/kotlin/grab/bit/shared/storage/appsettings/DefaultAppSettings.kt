@@ -41,6 +41,7 @@ abstract class DefaultAppSettings {
     open val useAverageSpeed: Boolean get() = true
     open val showDownloadProgressDialog: Boolean get() = true
     open val showDownloadCompletionDialog: Boolean get() = true
+    open val completionDialogOnErrorOnly: Boolean get() = false
     open val autoDismissFinishedNotification: Boolean get() = false
     open val compactCompletionNotification: Boolean get() = false
     open val speedLimit: Long get() = 0
@@ -75,4 +76,5 @@ abstract class DefaultAppSettings {
     open val videoMaxHeight: Int get() = 720
     open val videoQuality: VideoQuality get() = VideoQualities.default
     open val videoQualityMigrated: Boolean get() = false
+    open val ytdlpExtraArgs: String get() = ""
 }

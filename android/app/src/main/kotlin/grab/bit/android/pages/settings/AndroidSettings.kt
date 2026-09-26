@@ -161,4 +161,22 @@ object AndroidSettings {
             }
         )
     }
+
+    fun ytdlpExtraArgs(
+        appSettingsStorage: AppSettingsStorage
+    ): StringConfigurable {
+        return StringConfigurable(
+            title = Res.string.settings_ytdlp_extra_args.asStringSource(),
+            description = Res.string.settings_ytdlp_extra_args_description.asStringSource(),
+            backedBy = appSettingsStorage.ytdlpExtraArgs,
+            placeholder = Res.string.settings_ytdlp_extra_args_placeholder.asStringSource(),
+            describe = {
+                if (it.isBlank()) {
+                    Res.string.disabled.asStringSource()
+                } else {
+                    it.take(80).asStringSource()
+                }
+            },
+        )
+    }
 }

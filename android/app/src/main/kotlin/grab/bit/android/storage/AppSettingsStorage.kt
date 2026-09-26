@@ -74,6 +74,7 @@ class AppSettingsStorage(
     override val silentClipboardAdd = from(AppSettingsModel.silentClipboardAdd)
     override val showDownloadProgressDialog = from(AppSettingsModel.showDownloadProgressDialog)
     override val showDownloadCompletionDialog = from(AppSettingsModel.showDownloadCompletionDialog)
+    override val completionDialogOnErrorOnly = from(AppSettingsModel.completionDialogOnErrorOnly)
     override val autoDismissFinishedNotification = from(AppSettingsModel.autoDismissFinishedNotification)
     override val compactCompletionNotification = from(AppSettingsModel.compactCompletionNotification)
     override val speedLimit = from(AppSettingsModel.speedLimit)
@@ -108,6 +109,7 @@ class AppSettingsStorage(
     val bindInterface = from(AppSettingsModel.bindInterface)
     val videoMaxHeight = from(AppSettingsModel.videoMaxHeight)
     val videoQuality = from(AppSettingsModel.videoQuality)
+    val ytdlpExtraArgs = from(AppSettingsModel.ytdlpExtraArgs)
     private val videoQualityMigrated = from(AppSettingsModel.videoQualityMigrated)
 
     fun ensureVideoQualityMigrated() {
