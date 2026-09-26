@@ -22,6 +22,7 @@ interface IAppSettingsModel {
     val maxDownloadRetryCount: Int
     val retryDelaySeconds: Int
     val autoUncompressArchives: Boolean
+    val clipboardMonitor: Boolean
     val dynamicPartCreation: Boolean
     val useServerLastModifiedTime: Boolean
     val appendExtensionToIncompleteDownloads: Boolean

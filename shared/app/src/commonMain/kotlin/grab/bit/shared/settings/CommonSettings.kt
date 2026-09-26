@@ -222,6 +222,22 @@ object CommonSettings {
         )
     }
 
+    fun clipboardMonitor(appSettingsStorage: BaseAppSettingsStorage): BooleanConfigurable {
+        return BooleanConfigurable(
+            title = Res.string.settings_clipboard_monitor.asStringSource(),
+            description = Res.string.settings_clipboard_monitor_description.asStringSource(),
+            backedBy = appSettingsStorage.clipboardMonitor,
+            renderMode = BooleanConfigurable.RenderMode.Switch,
+            describe = {
+                if (it) {
+                    Res.string.enabled.asStringSource()
+                } else {
+                    Res.string.disabled.asStringSource()
+                }
+            },
+        )
+    }
+
     fun deletePartialFileOnDownloadCancellation(appSettingsStorage: BaseAppSettingsStorage): BooleanConfigurable {
         return BooleanConfigurable(
             title = Res.string.settings_delete_partial_file_on_download_cancellation.asStringSource(),

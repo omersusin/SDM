@@ -43,6 +43,14 @@ import grab.bit.shared.pagemanager.SettingsPageManager
 import grab.bit.shared.pagemanager.TranslatorsPageManager
 import grab.bit.shared.pages.adddownload.AddDownloadCredentialsInUiProps
 import grab.bit.shared.pages.home.BaseHomeComponent
+import grab.bit.shared.storage.appsettings.BaseAppSettingsStorage
+import grab.bit.shared.util.ClipboardUtil
+import grab.bit.shared.util.extractors.linkextractor.StringUrlExtractor
+import grab.bit.android.util.ApplicationBackgroundTracker
+import grab.bit.downloader.downloaditem.http.HttpDownloadCredentials
+import kotlinx.coroutines.flow.collect
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import grab.bit.shared.pages.home.category.DefinedStatusCategories
 import grab.bit.shared.pages.home.category.DownloadStatusCategoryFilter
 import grab.bit.shared.pages.updater.UpdateComponent
@@ -122,7 +130,7 @@ class HomeComponent(
     queueManager,
     defaultCategories,
     fileIconProvider,
-), EnterNewURLDialogManager {
+), EnterNewURLDialogManager, KoinComponent {
     private val enterNewLinkNavigation = SlotNavigation<AndroidEnterNewURLComponent.Config>()
     val enterNewLinkSlot = childSlot(
         source = enterNewLinkNavigation,
@@ -155,6 +163,42 @@ class HomeComponent(
         scope.launch {
             enterNewLinkNavigation.activate(AndroidEnterNewURLComponent.Config)
         }
+    }
+
+    private val appSettings by inject<BaseAppSettingsStorage>()
+    private var lastClipboardPrompt: String? = null
+
+    init {
+        // Smart download: when returning to the app with a fresh link
+        // in the clipboard, offer to download it (1DM-style).
+        scope.launch {
+            var wasBackground = true
+            ApplicationBackgroundTracker.isInBackgroundFlow.collect { inBackground ->
+                if (!inBackground && wasBackground) {
+                    checkClipboardForDownload()
+                }
+                wasBackground = inBackground
+            }
+        }
+    }
+
+    private fun checkClipboardForDownload() {
+        if (!appSettings.clipboardMonitor.value) {
+            return
+        }
+        val link = ClipboardUtil.read()
+            ?.let(StringUrlExtractor::extract)
+            ?.singleOrNull()
+            ?: return
+        if (link == lastClipboardPrompt) {
+            return
+        }
+        lastClipboardPrompt = link
+        addDownloadDialogManager.openAddDownloadDialog(
+            links = listOf(
+                AddDownloadCredentialsInUiProps(HttpDownloadCredentials(link))
+            )
+        )
     }
 
     val downloadActions = AndroidDownloadActions(

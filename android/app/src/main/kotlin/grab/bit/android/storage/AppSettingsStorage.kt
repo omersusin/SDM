@@ -63,6 +63,7 @@ class AppSettingsStorage(
     override val maxDownloadRetryCount = from(AppSettingsModel.maxDownloadRetryCount)
     override val retryDelaySeconds = from(AppSettingsModel.retryDelaySeconds)
     override val autoUncompressArchives = from(AppSettingsModel.autoUncompressArchives)
+    override val clipboardMonitor = from(AppSettingsModel.clipboardMonitor)
     override val showDownloadProgressDialog = from(AppSettingsModel.showDownloadProgressDialog)
     override val showDownloadCompletionDialog = from(AppSettingsModel.showDownloadCompletionDialog)
     override val speedLimit = from(AppSettingsModel.speedLimit)
