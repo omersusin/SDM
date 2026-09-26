@@ -253,6 +253,22 @@ object CommonSettings {
         )
     }
 
+    fun copyFinishedTo(appSettingsStorage: BaseAppSettingsStorage): FolderConfigurable {
+        return FolderConfigurable(
+            title = Res.string.settings_copy_finished_to.asStringSource(),
+            description = Res.string.settings_copy_finished_to_description.asStringSource(),
+            backedBy = appSettingsStorage.copyFinishedTo,
+            validate = { it.isBlank() || FileUtils.Companion.canWriteInThisFolder(it) },
+            describe = {
+                if (it.isBlank()) {
+                    Res.string.disabled.asStringSource()
+                } else {
+                    it.take(80).asStringSource()
+                }
+            },
+        )
+    }
+
     fun clipboardAddPaused(appSettingsStorage: BaseAppSettingsStorage): BooleanConfigurable {
         return BooleanConfigurable(
             title = Res.string.settings_clipboard_add_paused.asStringSource(),

@@ -46,6 +46,8 @@ object BaseAppSettingsDefinition {
             .catch(PlatformDefaultSettings::clipboardMonitor)
         prop(IAppSettingsModel::autoRemoveFinishedDownloads) bind S.boolean()
             .catch(PlatformDefaultSettings::autoRemoveFinishedDownloads)
+        prop(IAppSettingsModel::copyFinishedTo) bind S.string()
+            .catch(PlatformDefaultSettings::copyFinishedTo)
         prop(IAppSettingsModel::clipboardAddPaused) bind S.boolean()
             .catch(PlatformDefaultSettings::clipboardAddPaused)
         prop(IAppSettingsModel::silentClipboardAdd) bind S.boolean()
