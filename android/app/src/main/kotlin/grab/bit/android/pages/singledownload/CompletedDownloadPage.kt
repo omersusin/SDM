@@ -115,7 +115,7 @@ private fun RenderName(
             text = name,
             maxLines = 1,
             modifier = Modifier.basicMarquee(
-                iterations = Int.MAX_VALUE
+                iterations = 5
             )
         )
     }

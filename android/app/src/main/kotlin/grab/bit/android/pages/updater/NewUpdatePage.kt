@@ -10,15 +10,11 @@ import grab.bit.shared.ui.widget.ActionButton
 import grab.bit.shared.util.ui.WithContentAlpha
 import grab.bit.shared.util.div
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import grab.bit.shared.ui.widget.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.BlurredEdgeTreatment
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -122,19 +118,18 @@ fun ResponsiveDialogScope.NewUpdatePage(
 
 @Composable
 private fun BoxScope.BackgroundEffects() {
+    // ponytail: radial gradients instead of blur() — same glow, no per-frame cost
     Box(
         Modifier
             .align(Alignment.TopCenter)
             .offset(y = (-148).dp)
             .fillMaxWidth(0.5f)
             .height(200.dp)
-            .blur(
-                56.dp,
-                edgeTreatment = BlurredEdgeTreatment.Unbounded
-            )
-            .clip(CircleShape)
             .background(
-                myColors.primary / 0.15f
+                Brush.radialGradient(
+                    0.0f to (myColors.primary / 0.15f),
+                    1.0f to (myColors.primary / 0.0f),
+                )
             )
     )
     Box(
@@ -142,13 +137,11 @@ private fun BoxScope.BackgroundEffects() {
             .align(Alignment.BottomEnd)
             .size(180.dp)
             .offset(x = 32.dp, y = (-32).dp)
-            .blur(
-                56.dp,
-                edgeTreatment = BlurredEdgeTreatment.Unbounded
-            )
-            .clip(CircleShape)
             .background(
-                myColors.secondary / 0.15f
+                Brush.radialGradient(
+                    0.0f to (myColors.secondary / 0.15f),
+                    1.0f to (myColors.secondary / 0.0f),
+                )
             )
     )
 }

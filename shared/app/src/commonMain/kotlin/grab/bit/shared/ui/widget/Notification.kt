@@ -116,7 +116,7 @@ fun NotificationArea(
         }
     }
     LazyColumn (modifier) {
-        itemsIndexed(notificationListToShow) { index, item ->
+            itemsIndexed(notificationListToShow, key = { _, item -> item.tag }) { index, item ->
             Spacer(Modifier.size(12.dp))
             RenderNotification(
                 Modifier.animateItem(),

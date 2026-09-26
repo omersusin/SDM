@@ -116,7 +116,7 @@ private fun OpenSourceLibraries(
             state = state,
             contentPadding = contentPadding,
         ) {
-            itemsIndexed(libs.libraries) { index, item ->
+            itemsIndexed(libs.libraries, key = { _, item -> item.uniqueId }) { index, item ->
                 val isFirstItem = index == 0
                 RenderLibraryItemInList(
                     item,

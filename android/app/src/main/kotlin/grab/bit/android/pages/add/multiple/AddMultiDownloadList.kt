@@ -43,6 +43,7 @@ fun AddMultiDownloadList(
     LazyColumn(modifier) {
         itemsIndexed(
             items = listState,
+            key = { _, item -> item.id },
         ) { index, item ->
             val isSelected = remember(item, component.selectionList) {
                 component.isSelected(item.id)
@@ -125,7 +126,7 @@ private fun RenderAddDownloadItem(
             Text(
                 text = name.takeIf { it.isNotEmpty() } ?: "...",
                 maxLines = 1,
-                modifier = Modifier.basicMarquee(),
+                modifier = Modifier.basicMarquee(iterations = 5),
             )
             Spacer(Modifier.height(mySpacings.mediumSpace))
             Row(

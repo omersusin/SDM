@@ -138,7 +138,7 @@ fun PageTitle(
         modifier = Modifier
             .padding(start = mySpacings.largeSpace)
             .padding(vertical = mySpacings.largeSpace)
-            .basicMarquee()
+            .basicMarquee(iterations = 5)
     )
 }
 

@@ -41,7 +41,7 @@ internal fun RenderOptions(
                 Modifier
                     .then(itemPadding)
                     .basicMarquee(
-                        iterations = Int.MAX_VALUE,
+                        iterations = 5,
                         initialDelayMillis = 0
                     ),
                 fontSize = myTextSizes.base,

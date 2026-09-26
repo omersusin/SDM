@@ -108,7 +108,7 @@ fun ItemsToBeChecked(
     LazyColumn(
         modifier = modifier
     ) {
-        itemsIndexed(collectAsState.items) { index, item ->
+        itemsIndexed(collectAsState.items, key = { _, item -> item.downloadItem.id }) { index, item ->
             val isFirstItem = index == 0
             RenderDownloadItemWithChecksum(
                 item = item,

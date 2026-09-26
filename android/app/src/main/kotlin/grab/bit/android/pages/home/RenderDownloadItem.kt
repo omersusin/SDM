@@ -199,7 +199,8 @@ private fun RenderAddedTime(itemState: IDownloadItemState, modifier: Modifier) {
                 val period = now.periodUntil(instant, TimeZone.UTC)
                 val relativeTime = prettifyRelativeTime(period)
                 dateAddedString = relativeTime
-                delay(1.seconds)
+                // ponytail: 30s tick; minute-level labels don't need 1s refresh x N rows
+                delay(30.seconds)
             }
         } else {
             val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())

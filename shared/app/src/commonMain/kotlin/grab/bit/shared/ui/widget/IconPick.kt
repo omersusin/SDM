@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -70,13 +71,14 @@ private fun Content(
 ) {
     val state = rememberLazyListState()
     val shape = myShapes.defaultRounded
+    val rows = remember(icons) { icons.chunked(6) }
     Box {
         LazyColumn(
             modifier = modifier,
             state = state,
             contentPadding = PaddingValues(vertical = 8.dp),
             content = {
-                items(icons.chunked(6)) { rowItems ->
+                items(rows, key = { row -> row.hashCode() }) { rowItems ->
                     Row {
                         for (iconSource in rowItems) {
                             val isSelected = selectedIcon == iconSource

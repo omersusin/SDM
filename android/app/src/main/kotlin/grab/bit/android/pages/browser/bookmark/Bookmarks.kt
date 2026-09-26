@@ -83,7 +83,7 @@ fun BookmarkList(
             }
         ) {
             LazyColumn {
-                items(bookmarks) { bookmark ->
+                items(bookmarks, key = { it.url }) { bookmark ->
                     Row(
                         modifier = Modifier
                             .heightIn(mySpacings.thumbSize)
