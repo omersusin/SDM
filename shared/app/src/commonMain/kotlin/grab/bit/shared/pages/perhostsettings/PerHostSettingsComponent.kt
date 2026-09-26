@@ -2,6 +2,7 @@ package grab.bit.shared.pages.perhostsettings
 
 import arrow.core.prependTo
 import grab.bit.shared.util.ThreadCountLimitation
+import grab.bit.shared.ui.configurable.item.BooleanConfigurable
 import grab.bit.shared.ui.configurable.item.IntConfigurable
 import grab.bit.shared.ui.configurable.item.SpeedLimitConfigurable
 import grab.bit.shared.ui.configurable.item.StringConfigurable
@@ -157,6 +158,29 @@ abstract class BasePerHostSettingsComponent(
                                 Res.string.settings_per_host_settings_host_empty.asStringSource()
                             } else {
                                 it.asStringSource()
+                            }
+                        }
+                    ),
+                )
+            ),
+            ConfigurableGroup(
+                nestedConfigurable = listOf(
+                    BooleanConfigurable(
+                        title = Res.string.settings_per_host_settings_disable_capture.asStringSource(),
+                        description = Res.string.settings_per_host_settings_disable_capture_description.asStringSource(),
+                        backedBy = state.mapTwoWayStateFlow(
+                            map = {
+                                it.disableCapture
+                            },
+                            unMap = {
+                                copy(disableCapture = it)
+                            }
+                        ),
+                        describe = {
+                            if (it) {
+                                Res.string.enabled.asStringSource()
+                            } else {
+                                Res.string.disabled.asStringSource()
                             }
                         }
                     ),

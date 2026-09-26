@@ -66,6 +66,7 @@ fun SelectionMenuBox(
     modifier: Modifier,
     options: List<MenuItem>,
     queueItemsMenu: QueueSelectedItemsMenuProps?,
+    manualOrderMenu: ManualOrderMenuProps?,
     onRequestSelectAll: () -> Unit,
     onRequestSelectInside: () -> Unit,
     onRequestInvertSelection: () -> Unit,
@@ -118,6 +119,15 @@ fun SelectionMenuBox(
                     .background(myColors.onBackground / 0.1f)
             )
             RenderSelectedQueueItemsOption(queueItemsMenu)
+        }
+        if (manualOrderMenu != null) {
+            Spacer(
+                Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(myColors.onBackground / 0.1f)
+            )
+            RenderManualOrderMenu(manualOrderMenu)
         }
     }
     renderSubMenu(submenuToOpen, dismissExtraMenu)

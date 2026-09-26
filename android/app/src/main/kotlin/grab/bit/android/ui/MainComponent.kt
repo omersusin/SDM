@@ -19,6 +19,7 @@ import grab.bit.android.pages.settings.AndroidSettingsComponent
 import grab.bit.android.pages.singledownload.SingleDownloadPageActivity
 import grab.bit.android.storage.AndroidOnBoardingStorage
 import grab.bit.android.storage.HomePageStorage
+import grab.bit.android.storage.ManualOrderStorage
 import grab.bit.android.ui.Screen.*
 import grab.bit.android.util.ABDMAppManager
 import grab.bit.android.util.pagemanager.IBrowserPageManager
@@ -157,6 +158,7 @@ class MainComponent(
     val abdmAppManager: ABDMAppManager,
     val onBoardingStorage: AndroidOnBoardingStorage,
     val homePageStorage: HomePageStorage,
+    private val manualOrderStorage: ManualOrderStorage,
     private val json: Json,
     private val downloadErrorDialogManager: DownloadErrorDialogManager,
 ) : BaseComponent(ctx),
@@ -329,6 +331,7 @@ class MainComponent(
                             downloaderInUiRegistry = downloaderInUiRegistry,
                             updateComponent = updaterComponent,
                             homePageStorage = homePageStorage,
+                            manualOrderStorage = manualOrderStorage,
                             browserPageManager = this,
                         )
                     )

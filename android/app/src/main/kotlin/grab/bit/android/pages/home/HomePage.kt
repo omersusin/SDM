@@ -48,6 +48,7 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import grab.bit.android.pages.enterurl.EnterNewURLPage
 import grab.bit.android.pages.home.sections.sort.RenderSortMenu
+import grab.bit.android.pages.home.sections.sort.DownloadSortBy
 import grab.bit.android.ui.menu.RenderMenuInSinglePage
 import grab.bit.android.ui.page.PageFooter
 import grab.bit.android.ui.page.PageUi
@@ -378,6 +379,7 @@ private fun RenderDownloadOptions(
     val selection by component.selectionList.collectAsState()
     val downloadList by component.sortedDownloadList.collectAsState()
     val filterMode by component.filterMode
+    val selectedSort by component.selectedSort.collectAsState()
     val selectedQueue = (filterMode as? HomeComponent.FilterMode.Queue)?.queue
     SelectionMenuBox(
         modifier = modifier,
@@ -432,6 +434,14 @@ private fun RenderDownloadOptions(
                 onRequestQueueItemsDown = component::reorderQueueItemsDown,
                 onRequestRemoveItemsFromQueue = component::removeQueueItems,
             )
-        }
+        },
+        manualOrderMenu = if (selectedQueue == null && selectedSort.cell is DownloadSortBy.Manual) {
+            ManualOrderMenuProps(
+                onRequestMoveUp = component::moveManualOrderUp,
+                onRequestMoveDown = component::moveManualOrderDown,
+            )
+        } else {
+            null
+        },
     )
 }

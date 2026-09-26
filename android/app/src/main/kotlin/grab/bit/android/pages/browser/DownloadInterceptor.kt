@@ -72,6 +72,9 @@ class DownloadInterceptor(
         if (!HttpUrlUtils.isValidUrl(url)) {
             return
         }
+        if (perHostSettingsManager?.getSettingsForURL(url)?.disableCapture == true) {
+            return
+        }
         val webRequest = getWebRequestOrDefault(
             url = url,
             userAgent = userAgent,
@@ -103,6 +106,9 @@ class DownloadInterceptor(
     ) {
         addToHeaders(request)
         request.page?.let { page ->
+            if (perHostSettingsManager?.getSettingsForURL(page)?.disableCapture == true) {
+                return
+            }
             val collector = mediaByPage.getOrPut(page) { PageMediaCollector() }
             collector.observe(request.url)
             _mediaCounts.update { it + (page to collector.count) }

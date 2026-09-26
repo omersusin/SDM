@@ -55,6 +55,14 @@ sealed class DownloadSortBy(
     )
 
     @Serializable
+    @SerialName("manual")
+    data object Manual : DownloadSortBy(
+        selector = { it.dateAdded },
+        icon = MyIcons.dragAndDrop,
+        name = Res.string.sort_manual.asStringSource(),
+    )
+
+    @Serializable
     @SerialName("activeFirst")
     data object ActiveFirst : DownloadSortBy(
         selector = { it.statusOrFinished().order },

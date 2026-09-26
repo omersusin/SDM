@@ -61,6 +61,7 @@ class MainActivity : ABDMActivity() {
                 abdmAppManager = abdmAppManager,
                 onBoardingStorage = onBoardingStorage,
                 homePageStorage = homePageStorage,
+                manualOrderStorage = manualOrderStorage,
                 downloadErrorDialogManager = downloadErrorPageManager,
             )
         }

@@ -7,6 +7,7 @@ import grab.bit.android.action.createOpenBrowserAction
 import grab.bit.android.pages.enterurl.AndroidEnterNewURLComponent
 import grab.bit.android.pages.home.sections.sort.DownloadSortBy
 import grab.bit.android.storage.HomePageStorage
+import grab.bit.android.storage.ManualOrderStorage
 import grab.bit.android.util.AppInfo
 import grab.bit.android.util.pagemanager.IBrowserPageManager
 import grab.bit.resources.Res
@@ -117,6 +118,7 @@ class HomeComponent(
     downloaderInUiRegistry: DownloaderInUiRegistry,
     private val updateComponent: UpdateComponent,
     private val homePageStorage: HomePageStorage,
+    private val manualOrderStorage: ManualOrderStorage,
 ) : BaseHomeComponent(
     componentContext,
     downloadItemOpener,
@@ -284,7 +286,11 @@ class HomeComponent(
     ) { downloadList, sortBy, filterMode ->
         when (filterMode) {
             is FilterMode.Status -> {
-                sortBy.sorted(downloadList)
+                if (sortBy.cell is DownloadSortBy.Manual) {
+                    manualSorted(downloadList, sortBy.isDescending())
+                } else {
+                    sortBy.sorted(downloadList)
+                }
             }
 
             is FilterMode.Queue -> {
@@ -443,11 +449,65 @@ class HomeComponent(
 
     val possibleSorts = listOf(
         DownloadSortBy.ActiveFirst,
+        DownloadSortBy.Manual,
         DownloadSortBy.DataAdded,
         DownloadSortBy.Name,
         DownloadSortBy.Size,
         DownloadSortBy.Status,
     )
+
+    private val manualOrder = manualOrderStorage.manualOrder
+
+    init {
+        scope.launch {
+            downloadList.collect { list ->
+                val ids = list.map { it.id }
+                val current = manualOrder.value
+                if (current.toSet() != ids.toSet()) {
+                    manualOrder.value = current.filter { it in ids } + ids.filter { it !in current }
+                }
+            }
+        }
+    }
+
+    private fun manualSorted(
+        list: List<IDownloadItemState>,
+        descending: Boolean,
+    ): List<IDownloadItemState> {
+        val order = manualOrder.value
+        val indexOf = order.withIndex().associate { it.value to it.index }
+        val sorted = list.sortedWith(
+            compareBy<IDownloadItemState> { indexOf[it.id] ?: Int.MAX_VALUE }
+                .thenBy { it.dateAdded }
+        )
+        return if (descending) sorted.reversed() else sorted
+    }
+
+    private fun shiftManualOrder(delta: Int) {
+        val order = manualOrder.value.toMutableList()
+        val selected = selectionList.value.toSet()
+        val indices = order.mapIndexedNotNull { i, id -> if (id in selected) i else null }
+        var movedId: Long? = null
+        for (i in if (delta < 0) indices else indices.reversed()) {
+            val j = i + delta
+            if (j in order.indices) {
+                val tmp = order[i]
+                order[i] = order[j]
+                order[j] = tmp
+                movedId = order[j]
+            }
+        }
+        manualOrder.value = order
+        movedId?.let {
+            scope.launch {
+                sendEffect(BaseHomeComponent.Effects.Common.ScrollToDownloadItem(it, true))
+            }
+        }
+    }
+
+    fun moveManualOrderUp() = shiftManualOrder(-1)
+
+    fun moveManualOrderDown() = shiftManualOrder(1)
 
     fun startQueue(id: Long) {
         scope.launch {
