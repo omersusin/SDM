@@ -44,6 +44,8 @@ object BaseAppSettingsDefinition {
             .catch(PlatformDefaultSettings::autoUncompressArchives)
         prop(IAppSettingsModel::clipboardMonitor) bind S.boolean()
             .catch(PlatformDefaultSettings::clipboardMonitor)
+        prop(IAppSettingsModel::autoRemoveFinishedDownloads) bind S.boolean()
+            .catch(PlatformDefaultSettings::autoRemoveFinishedDownloads)
         prop(IAppSettingsModel::dynamicPartCreation) bind S.boolean()
             .catch(PlatformDefaultSettings::dynamicPartCreation)
         prop(IAppSettingsModel::useServerLastModifiedTime) bind S.boolean()
