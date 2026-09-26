@@ -10,7 +10,9 @@ object ApiKeyUtil {
     private const val CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
     fun generateKey(length: Int = DEFAULT_KEY_LENGTH): String {
         return (1..length)
-            .map { CHARS.random() }
+            .map { CHARS[secureRandomNextInt(CHARS.length)] }
             .joinToString("")
     }
 }
+
+expect fun secureRandomNextInt(bound: Int): Int
