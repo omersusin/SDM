@@ -15,6 +15,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.content.ContextCompat
 import grab.bit.android.pages.onboarding.permissions.PermissionManager
+import grab.bit.android.pages.onboarding.permissions.isBatteryOptimizationDisabled
+import grab.bit.android.pages.onboarding.permissions.requestIgnoreBatteryOptimizationPermission
 import grab.bit.android.service.DownloadSystemService
 import grab.bit.android.service.KeepAliveServiceReason
 import grab.bit.android.storage.AppSettingsStorage
@@ -307,6 +309,7 @@ class ABDMAppManager(
         item: NewDownloadItemProps,
         categoryId: Long?,
     ): Deferred<Long> {
+        promptBatteryOptimizationOnce()
         return scope.launchWithDeferred {
             downloadSystem.addDownload(
                 newDownload = item,
@@ -322,6 +325,7 @@ class ABDMAppManager(
         items: List<NewDownloadItemProps>,
         categorySelectionMode: CategorySelectionMode?,
     ): Deferred<List<Long>> {
+        promptBatteryOptimizationOnce()
         return scope.launchWithDeferred {
             downloadSystem.addDownload(
                 newItemsToAdd = items,
@@ -396,6 +400,42 @@ class ABDMAppManager(
         }
     }
 
+    /**
+     * Feature #16: on the first user-initiated download start, if the app is
+     * still battery-optimized, explain why background downloads may stall and
+     * open the system exemption prompt. Once-only; never blocks the download.
+     */
+    fun promptBatteryOptimizationOnce() {
+        if (isBatteryOptPrompted()) return
+        markBatteryOptPrompted()
+        if (runCatching { isBatteryOptimizationDisabled(context) }.getOrDefault(true)) return
+        sendNotification(
+            tag = "battery-opt-nudge",
+            title = Res.string.permissions_ignore_battery_optimization_title.asStringSource(),
+            description = Res.string.permissions_ignore_battery_optimization_reason.asStringSource(),
+            type = NotificationType.Warning,
+        )
+        runCatching {
+            requestIgnoreBatteryOptimizationPermission(context, startNewTask = true)
+        }
+    }
+
+    private fun isBatteryOptPrompted(): Boolean {
+        return runCatching {
+            context.getSharedPreferences(BATTERY_PROMPT_PREFS, Context.MODE_PRIVATE)
+                .getBoolean(KEY_BATTERY_PROMPTED, false)
+        }.getOrDefault(false)
+    }
+
+    private fun markBatteryOptPrompted() {
+        runCatching {
+            context.getSharedPreferences(BATTERY_PROMPT_PREFS, Context.MODE_PRIVATE)
+                .edit()
+                .putBoolean(KEY_BATTERY_PROMPTED, true)
+                .apply()
+        }
+    }
+
     fun bootDownloadSystemAndService(): Boolean {
         if (isDownloadSystemBooted() && isBackgroundServiceRunning()) {
             return true
@@ -435,6 +475,11 @@ class ABDMAppManager(
     }
 
     private var autoStopServiceJob: Job? = null
+
+    companion object {
+        private const val BATTERY_PROMPT_PREFS = "abdm_prompts"
+        private const val KEY_BATTERY_PROMPTED = "battery_opt_prompted"
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun autoStopService() {

@@ -112,6 +112,32 @@ fun DirectoryPicker(
         }
 
         val storagePermissionState = rememberAppPermissionState(ABDMPermissions.StoragePermission)
+        val context = LocalContext.current
+        // Feature #15: allowlist removable SD-card volumes (from
+        // getExternalFilesDirs) in addition to Downloads. The primary shared
+        // root stays gated behind full storage access, as before.
+        val primaryRoot = remember {
+            runCatching { Environment.getExternalStorageDirectory().canonicalPath }.getOrNull()
+        }
+        val removableRoots = remember {
+            runCatching { getRootPaths(context) }
+                .getOrDefault(emptyList())
+                .filter { it.toString() != primaryRoot }
+        }
+        val selectableRoots = remember {
+            (alwaysAllowedPaths + removableRoots).distinct()
+        }
+        val hasRemovableVolume = remember(removableRoots) { removableRoots.isNotEmpty() }
+        val safPickerLauncher = rememberSafDirectoryPickerLauncher { treeUri ->
+            if (treeUri == null) return@rememberSafDirectoryPickerLauncher
+            runCatching {
+                SafFolderStorage.persistTreePermission(context, treeUri)
+                SafFolderStorage.treeUriToFilePath(context, treeUri)
+                    ?.toPath()
+                    ?.takeIf { java.io.File(it.toString()).exists() }
+                    ?.let { currentDirectory = it }
+            }
+        }
         val directoryList = remember(
             currentDirectory,
             updateDirectories,
@@ -139,7 +165,7 @@ fun DirectoryPicker(
                 currentDirectoryCanWrite = if (weHaveFullAccess) {
                     true
                 } else {
-                    alwaysAllowedPaths.any { allowedPath ->
+                    selectableRoots.any { allowedPath ->
                         currentDirectory.startsWith(allowedPath)
                     }
                 }
@@ -258,6 +284,31 @@ fun DirectoryPicker(
                             start = {
                                 MyIcon(
                                     icon = storagePermissionState.appPermission.icon,
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(24.dp)
+                                        .padding(end = mySpacings.mediumSpace)
+                                )
+                            }
+                        )
+                    }
+                    // Feature #15: removable-volume shortcut. Opens the system
+                    // folder picker (SAF), persists the tree-URI grant, and
+                    // jumps the in-app browser to the resolved path when possible.
+                    AnimatedVisibility(hasRemovableVolume && !storagePermissionState.isGranted) {
+                        ActionButton(
+                            text = myStringResource(Res.string.storage_saf_picker),
+                            onClick = {
+                                safPickerLauncher.launch()
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = mySpacings.mediumSpace),
+                            borderColor = myColors.warningGradient,
+                            contentColor = myColors.warning,
+                            start = {
+                                MyIcon(
+                                    icon = MyIcons.folder,
                                     contentDescription = null,
                                     modifier = Modifier
                                         .size(24.dp)
