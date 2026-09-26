@@ -236,7 +236,9 @@ class BrowserComponent(
         val magnet = ClipboardUtil.read()?.let { MagnetParser.parse(it) } ?: return false
         scope.launch(Dispatchers.IO) {
             runCatching {
-                val session = torrentSession ?: createTorrentSession().also {
+                val session = torrentSession ?: createTorrentSession(
+                    appSettings.defaultDownloadFolder.value
+                ).also {
                     it.start()
                     torrentSession = it
                 }
