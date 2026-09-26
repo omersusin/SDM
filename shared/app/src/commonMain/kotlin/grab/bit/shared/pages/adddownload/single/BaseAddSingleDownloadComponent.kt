@@ -60,7 +60,7 @@ abstract class BaseAddSingleDownloadComponent(
     protected val appSettings: BaseAppSettingsStorage,
     appRepository: BaseAppRepository,
     protected val perHostSettingsManager: PerHostSettingsManager,
-    private val categoryManager: CategoryManager,
+    categoryManager: CategoryManager,
     val downloadSystem: DownloadSystem,
     val iconProvider: FileIconProvider,
     selectQueueStorage: ISelectQueueStorage,
