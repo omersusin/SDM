@@ -90,6 +90,7 @@ class AppSettingsStorage(
     override val organizeByType = from(AppSettingsModel.organizeByType)
     override val userAgent = from(AppSettingsModel.userAgent)
     override val speedProfile = from(AppSettingsModel.speedProfile)
+    override val captureBlockedExtensions = from(AppSettingsModel.captureBlockedExtensions)
 
     val browserIconInLauncher = from(AppSettingsModel.browserIconInLauncher)
     val grabberUiMode = from(AppSettingsModel.grabberUiMode)

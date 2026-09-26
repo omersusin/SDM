@@ -53,4 +53,5 @@ interface IAppSettingsModel {
     val organizeByType: Boolean
     val userAgent: String
     val speedProfile: SpeedProfile
+    val captureBlockedExtensions: String
 }

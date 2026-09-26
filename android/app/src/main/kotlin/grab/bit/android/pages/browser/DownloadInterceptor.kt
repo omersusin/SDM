@@ -7,6 +7,7 @@ import grab.bit.shared.pages.adddownload.AddDownloadCredentialsInUiProps
 import grab.bit.shared.util.perhostsettings.PerHostSettingsManager
 import grab.bit.shared.util.perhostsettings.getSettingsForURL
 import grab.bit.downloader.downloaditem.http.HttpDownloadCredentials
+import grab.bit.downloader.utils.FileNameUtil
 import grab.bit.util.HttpUrlUtils
 import grab.bit.util.AdBlockMatcher
 import grab.bit.util.MediaCandidate
@@ -51,9 +52,20 @@ class DownloadInterceptor(
     @Volatile
     var adBlockEnabled: Boolean = true
 
+    @Volatile
+    var captureBlockedExtensions: String = ""
+
     fun isAdBlocked(url: String): Boolean {
         if (!adBlockEnabled) return false
         return adBlock?.isBlocked(url) ?: false
+    }
+
+    private fun isExtensionBlocked(url: String): Boolean {
+        val blocked = parseBlockedExtensions(captureBlockedExtensions)
+        if (blocked.isEmpty()) return false
+        val name = HttpUrlUtils.extractNameFromLink(url) ?: return false
+        val ext = FileNameUtil.getExtensionOrNull(name)?.lowercase() ?: return false
+        return ext in blocked
     }
 
     fun mediaForPage(page: String): List<MediaCandidate> {
@@ -73,6 +85,9 @@ class DownloadInterceptor(
             return
         }
         if (perHostSettingsManager?.getSettingsForURL(url)?.disableCapture == true) {
+            return
+        }
+        if (isExtensionBlocked(url)) {
             return
         }
         val webRequest = getWebRequestOrDefault(
@@ -107,6 +122,9 @@ class DownloadInterceptor(
         addToHeaders(request)
         request.page?.let { page ->
             if (perHostSettingsManager?.getSettingsForURL(page)?.disableCapture == true) {
+                return
+            }
+            if (isExtensionBlocked(request.url)) {
                 return
             }
             val collector = mediaByPage.getOrPut(page) { PageMediaCollector() }
@@ -200,5 +218,12 @@ class DownloadInterceptor(
 
     companion object {
         private const val REMOVE_REQUESTS_DELAY = 20_000L
+
+        private fun parseBlockedExtensions(raw: String): Set<String> {
+            return raw.split(",")
+                .map { it.trim().trimStart('.').lowercase() }
+                .filter { it.isNotEmpty() }
+                .toSet()
+        }
     }
 }

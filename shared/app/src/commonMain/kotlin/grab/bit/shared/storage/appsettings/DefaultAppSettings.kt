@@ -57,6 +57,7 @@ abstract class DefaultAppSettings {
     open val useCategoryByDefault: Boolean get() = true
     open val organizeByType: Boolean get() = false
     open val userAgent: String get() = ""
+    open val captureBlockedExtensions: String get() = ""
     open val grabberUiMode: GrabberUiMode get() = GrabberUiModes.default
     open val speedProfile: SpeedProfile get() = SpeedProfile.HIGH
     open val adBlockEnabled: Boolean get() = true

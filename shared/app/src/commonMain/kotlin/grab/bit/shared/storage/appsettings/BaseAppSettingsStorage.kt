@@ -56,4 +56,5 @@ interface BaseAppSettingsStorage :
     val organizeByType: MutableStateFlow<Boolean>
     val userAgent: MutableStateFlow<String>
     val speedProfile: MutableStateFlow<SpeedProfile>
+    val captureBlockedExtensions: MutableStateFlow<String>
 }
