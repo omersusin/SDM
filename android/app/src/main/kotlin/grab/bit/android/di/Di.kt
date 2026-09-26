@@ -113,6 +113,7 @@ import grab.bit.shared.util.ui.IMyIcons
 import grab.bit.shared.util.proxy.IProxyStorage
 import grab.bit.shared.util.proxy.ProxyData
 import grab.bit.shared.util.proxy.ProxyManager
+import grab.bit.shared.api.RestApiServer
 import grab.bit.shared.util.webhook.WebhookNotifier
 import grab.bit.downloader.DownloaderRegistry
 import grab.bit.downloader.connection.UserAgentProvider
@@ -314,6 +315,7 @@ val downloadSystemModule = module {
 
     single {
         DownloadSystem(
+            get(),
             get(),
             get(),
             get(),
@@ -687,6 +689,14 @@ fun getAppModule(context: ABDMApp) = module {
             downloadManager = get(),
             scope = get(),
             webhookUrl = get<BaseAppSettingsStorage>().webhookUrl,
+        )
+    }
+    single {
+        RestApiServer(
+            downloadSystem = { get() },
+            saveLocation = get<BaseAppRepository>().saveLocation,
+            appSettings = get(),
+            scope = get(),
         )
     }
     single { context }.apply {
