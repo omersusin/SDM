@@ -70,7 +70,7 @@ dependencies {
     implementation(libs.decompose.jbCompose)
     implementation(libs.aboutLibraries.core)
     implementation(project(":shared:app"))
-    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit"))
     ksp(libs.arrow.opticKsp)
 }
 
