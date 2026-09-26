@@ -90,6 +90,9 @@ class HttpNewDownloadInputs(
             setThreadCount = { threadCount.value = it },
             setSpeedLimit = { speedLimit.value = it }
         )
+        extraConfig.folder?.takeIf { it.isNotBlank() }?.let {
+            folder.value = it
+        }
     }
 
     override val configurableList = listOf(

@@ -3,6 +3,7 @@ package grab.bit.shared.pages.perhostsettings
 import arrow.core.prependTo
 import grab.bit.shared.util.ThreadCountLimitation
 import grab.bit.shared.ui.configurable.item.BooleanConfigurable
+import grab.bit.shared.ui.configurable.item.FolderConfigurable
 import grab.bit.shared.ui.configurable.item.IntConfigurable
 import grab.bit.shared.ui.configurable.item.SpeedLimitConfigurable
 import grab.bit.shared.ui.configurable.item.StringConfigurable
@@ -156,6 +157,32 @@ abstract class BasePerHostSettingsComponent(
                         describe = {
                             if (it.isBlank()) {
                                 Res.string.settings_per_host_settings_host_empty.asStringSource()
+                            } else {
+                                it.asStringSource()
+                            }
+                        }
+                    ),
+                )
+            ),
+            ConfigurableGroup(
+                nestedConfigurable = listOf(
+                    FolderConfigurable(
+                        title = Res.string.settings_per_host_settings_folder.asStringSource(),
+                        description = Res.string.settings_per_host_settings_folder_description.asStringSource(),
+                        backedBy = state.mapTwoWayStateFlow(
+                            map = {
+                                it.folder.orEmpty()
+                            },
+                            unMap = {
+                                copy(folder = it.takeIf { it.isNotBlank() })
+                            }
+                        ),
+                        validate = {
+                            true
+                        },
+                        describe = {
+                            if (it.isBlank()) {
+                                Res.string.use_global_settings.asStringSource()
                             } else {
                                 it.asStringSource()
                             }

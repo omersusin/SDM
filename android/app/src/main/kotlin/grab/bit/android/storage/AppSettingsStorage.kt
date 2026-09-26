@@ -87,6 +87,7 @@ class AppSettingsStorage(
     override val speedUnit = from(AppSettingsModel.speedUnit)
     override val ignoreSSLCertificates = from(AppSettingsModel.ignoreSSLCertificates)
     override val useCategoryByDefault = from(AppSettingsModel.useCategoryByDefault)
+    override val organizeByType = from(AppSettingsModel.organizeByType)
     override val userAgent = from(AppSettingsModel.userAgent)
     override val speedProfile = from(AppSettingsModel.speedProfile)
 

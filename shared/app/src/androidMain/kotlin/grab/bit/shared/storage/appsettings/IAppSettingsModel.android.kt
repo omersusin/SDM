@@ -61,6 +61,7 @@ data class AppSettingsModel(
     override val speedUnit: SupportedSizeUnits,
     override val ignoreSSLCertificates: Boolean,
     override val useCategoryByDefault: Boolean,
+    override val organizeByType: Boolean,
     override val userAgent: String,
     override val speedProfile: SpeedProfile,
     val browserIconInLauncher: Boolean,
@@ -137,6 +138,7 @@ private val AndroidSettingsSchema = S.typeSafeObject(
             speedUnit = it[AppSettingsModel::speedUnit],
             ignoreSSLCertificates = it[AppSettingsModel::ignoreSSLCertificates],
             useCategoryByDefault = it[AppSettingsModel::useCategoryByDefault],
+            organizeByType = it[AppSettingsModel::organizeByType],
             userAgent = it[AppSettingsModel::userAgent],
             speedProfile = it[AppSettingsModel::speedProfile],
 

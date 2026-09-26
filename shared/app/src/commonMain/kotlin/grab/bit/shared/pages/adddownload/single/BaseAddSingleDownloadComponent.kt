@@ -44,6 +44,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.selects.select
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
+import java.io.File
 
 abstract class BaseAddSingleDownloadComponent(
     ctx: ComponentContext,
@@ -82,7 +83,10 @@ abstract class BaseAddSingleDownloadComponent(
     private val _shouldShowWindow = MutableStateFlow(importOptions.silentImport == null)
     override val shouldShowWindow: StateFlow<Boolean> = _shouldShowWindow.asStateFlow()
     val downloadInputsComponent = downloaderInUi.createNewDownloadInputs(
-        initialFolder = appRepository.saveLocation.value,
+        initialFolder = resolveDefaultFolder(
+            fileName = initialCredentials.extraConfig.getAndFixSuggestedName().orEmpty(),
+            link = initialCredentials.credentials.link,
+        ),
         initialName = initialCredentials.extraConfig.getAndFixSuggestedName().orEmpty(),
         downloadSystem = downloadSystem,
         scope = scope,
@@ -132,7 +136,29 @@ abstract class BaseAddSingleDownloadComponent(
     }
 
     private fun useDefaultFolder() {
-        setFolder(appRepository.saveLocation.value)
+        setFolder(resolveDefaultFolder(name.value, credentials.value.link))
+    }
+
+    private fun resolveDefaultFolder(fileName: String, link: String): String {
+        val base = appRepository.saveLocation.value
+        perHostSettingsManager.getSettingsForURL(link)
+            ?.folder?.takeIf { it.isNotBlank() }
+            ?.let { return it }
+        if (appSettings.organizeByType.value) {
+            organizedTypeSubfolder(fileName)?.let { sub ->
+                // ponytail: guard against double-nesting if base was persisted with subfolder
+                if (!File(base).name.equals(sub, ignoreCase = true)) {
+                    return File(base, sub).path
+                }
+            }
+        }
+        return base
+    }
+
+    private fun organizedTypeSubfolder(fileName: String): String? {
+        return categoryManager.getCategoryOfFileName(fileName)
+            ?.takeIf { it.id in organizedTypeCategoryIds }
+            ?.name?.takeIf { it.isNotBlank() }
     }
 
 
@@ -499,6 +525,12 @@ abstract class BaseAddSingleDownloadComponent(
         }
 
         interface Platform : Effects
+    }
+
+    companion object {
+        // default category ids used for type-based subfolders:
+        // Compressed(0), Videos(2), Music(3), Documents(5)
+        private val organizedTypeCategoryIds = setOf(0L, 2L, 3L, 5L)
     }
 }
 

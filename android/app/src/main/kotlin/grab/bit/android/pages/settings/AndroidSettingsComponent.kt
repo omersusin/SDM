@@ -94,6 +94,7 @@ class AndroidSettingsComponent(
                 nestedConfigurable = listOf(
                     CommonSettings.defaultDownloadFolderConfig(appSettings),
                     CommonSettings.useCategoryByDefault(appSettings),
+                    CommonSettings.organizeByType(appSettings),
                     CommonSettings.clipboardMonitor(appSettings),
                     CommonSettings.clipboardAddPaused(appSettings),
                     CommonSettings.silentClipboardAdd(appSettings),
