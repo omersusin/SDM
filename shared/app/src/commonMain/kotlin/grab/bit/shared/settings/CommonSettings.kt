@@ -998,6 +998,29 @@ object CommonSettings {
             }
         )
     }
+    fun forceProxyKillSwitch(
+        proxyManager: ProxyManager,
+        scope: CoroutineScope,
+    ): BooleanConfigurable {
+        return BooleanConfigurable(
+            title = Res.string.settings_force_proxy.asStringSource(),
+            description = Res.string.settings_force_proxy_description.asStringSource(),
+            backedBy = createMutableStateFlowFromStateFlow(
+                flow = proxyManager.proxyData.mapStateFlow { it.forceProxy },
+                updater = {
+                    proxyManager.proxyData.value = proxyManager.proxyData.value.copy(forceProxy = it)
+                },
+                scope = scope,
+            ),
+            describe = {
+                if (it) {
+                    Res.string.enabled.asStringSource()
+                } else {
+                    Res.string.disabled.asStringSource()
+                }
+            },
+        )
+    }
     fun dnsConfig(dnsStorage: IDNSSettingsStorage): DnsConfigurable {
         return DnsConfigurable(
             title = Res.string.settings_dns.asStringSource(),

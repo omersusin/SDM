@@ -8,6 +8,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import android.net.wifi.WifiInfo
 import android.widget.Toast
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -101,6 +102,17 @@ class ABDMAppManager(
         connectivity.registerNetworkCallback(
             request,
             object : ConnectivityManager.NetworkCallback() {
+                override fun onAvailable(network: Network) {
+                    applySsidSpeedLimit(connectivity, network)
+                }
+
+                override fun onCapabilitiesChanged(
+                    network: Network,
+                    networkCapabilities: NetworkCapabilities,
+                ) {
+                    applySsidSpeedLimit(connectivity, network)
+                }
+
                 override fun onLost(network: Network) {
                     if (appSettingsStorage.wifiOnlyDownloads.value) {
                         scope.launch {
@@ -112,6 +124,19 @@ class ABDMAppManager(
                 }
             }
         )
+    }
+
+    private fun applySsidSpeedLimit(
+        connectivity: ConnectivityManager,
+        network: Network?,
+    ) {
+        val raw = appSettingsStorage.ssidProfiles.value
+        if (raw.isBlank()) return
+        val ssid = currentWifiSsid(connectivity, network) ?: return
+        val limit = parseSsidSpeedLimits(raw)[ssid] ?: return
+        runCatching {
+            downloadSystem.downloadManager.limitGlobalSpeed(limit)
+        }
     }
 
     private var shouldShowToastsNotifications = MutableStateFlow(true)
@@ -504,4 +529,23 @@ class ABDMAppManager(
         }
     }
 }
+
+// "SSID=bytesPerSec,..." (0 = unlimited). Unknown/unparseable entries are ignored.
+internal fun parseSsidSpeedLimits(raw: String): Map<String, Long> =
+    raw.split(",").mapNotNull { entry ->
+        val ssid = entry.substringBeforeLast("=").trim().trim('"').trim()
+        val limit = entry.substringAfterLast("=", "").trim().toLongOrNull()
+        if (ssid.isEmpty() || limit == null || limit < 0) null else ssid to limit
+    }.toMap()
+
+// Best-effort SSID read. Returns null without location permission or off-WiFi,
+// in which case the caller keeps the current limit (no-op).
+internal fun currentWifiSsid(
+    connectivity: ConnectivityManager,
+    network: Network?,
+): String? = runCatching {
+    val capabilities = network?.let { connectivity.getNetworkCapabilities(it) } ?: return null
+    val info = capabilities.transportInfo as? WifiInfo ?: return null
+    info.ssid?.trim('"')?.takeIf { it.isNotEmpty() && it != "<unknown ssid>" }
+}.getOrNull()
 

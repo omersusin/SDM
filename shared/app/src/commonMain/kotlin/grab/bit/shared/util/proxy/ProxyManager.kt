@@ -57,7 +57,11 @@ class ProxyManager(
     }
 
     override fun getProxyStrategyFor(url: String): ProxyStrategy {
-        return getProxyModeForThisURL(url)
+        val strategy = getProxyModeForThisURL(url)
+        if (proxyData.value.forceProxy && strategy == ProxyStrategy.Direct) {
+            error("Proxy kill-switch is ON but no proxy applies to this URL. Configure a proxy or turn the kill-switch off.")
+        }
+        return strategy
     }
 }
 

@@ -67,6 +67,8 @@ abstract class DefaultAppSettings {
     open val speedProfile: SpeedProfile get() = SpeedProfile.HIGH
     open val adBlockEnabled: Boolean get() = true
     open val wifiOnlyDownloads: Boolean get() = false
+    open val ssidProfiles: String get() = ""
+    open val bindInterface: String get() = ""
     open val videoMaxHeight: Int get() = 720
     open val videoQuality: VideoQuality get() = VideoQualities.default
     open val videoQualityMigrated: Boolean get() = false

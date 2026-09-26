@@ -101,6 +101,8 @@ class AppSettingsStorage(
     val grabberUiMode = from(AppSettingsModel.grabberUiMode)
     val adBlockEnabled = from(AppSettingsModel.adBlockEnabled)
     val wifiOnlyDownloads = from(AppSettingsModel.wifiOnlyDownloads)
+    val ssidProfiles = from(AppSettingsModel.ssidProfiles)
+    val bindInterface = from(AppSettingsModel.bindInterface)
     val videoMaxHeight = from(AppSettingsModel.videoMaxHeight)
     val videoQuality = from(AppSettingsModel.videoQuality)
     private val videoQualityMigrated = from(AppSettingsModel.videoQualityMigrated)
