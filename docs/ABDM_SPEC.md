@@ -347,6 +347,14 @@ Partiler halinde slice-branch + CI ile uygulanacak.
 - 2026-09-26 batch-B: 0-progress watchdog in DownloadMonitor speed loop
   (60s fixed, auto-pause, per-id reset); #1 re-download + #44 error
   distinction verified pre-existing (reDownloadAction, HttpStatus mapper).
+- 2026-09-26 wave5/f5 (#15 SD-card, #16 battery): #15 minimal — picker
+  allowlists removable roots (getExternalFilesDirs minus primary) +
+  OpenDocumentTree launcher persisting tree-URI grant (SafFolderStorage) with
+  best-effort treeUriToFilePath jump; engine still writes via File paths
+  (DocumentFile stream path is the documented gap). #16 — once-only battery
+  nudge (in-app Warning + ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS intent,
+  NEW_TASK) wired into ABDMAppManager.startNewDownload(s); service already
+  START_STICKY/specialUse + WAKE_LOCK so no manifest change needed.
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets

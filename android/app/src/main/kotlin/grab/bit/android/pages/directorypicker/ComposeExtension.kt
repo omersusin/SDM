@@ -1,6 +1,8 @@
 package grab.bit.android.pages.directorypicker
 
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -38,6 +40,37 @@ fun rememberAndroidDirectoryPickerLauncher(
                     initialDirectory = initialDirectory?.toPath(),
                 )
             )
+        }
+    }
+}
+
+class SafDirectoryPickerLauncher(
+    private val onLaunch: () -> Unit,
+) {
+    fun launch() {
+        onLaunch()
+    }
+}
+
+/**
+ * Feature #15: system folder picker (Storage Access Framework,
+ * [ActivityResultContracts.OpenDocumentTree]) for removable/SD-card volumes
+ * the in-app browser cannot write to directly. The caller is responsible for
+ * persisting the returned tree URI (see [SafFolderStorage]).
+ */
+@Composable
+fun rememberSafDirectoryPickerLauncher(
+    onTreePicked: (Uri?) -> Unit,
+): SafDirectoryPickerLauncher {
+    val currentHandler by rememberUpdatedState(onTreePicked)
+    val safLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocumentTree(),
+    ) { uri ->
+        currentHandler(uri)
+    }
+    return remember {
+        SafDirectoryPickerLauncher {
+            safLauncher.launch(null)
         }
     }
 }
