@@ -324,7 +324,7 @@ fun MediaListDialog(
                 )
             } else {
                 LazyColumn {
-                    items(items, key = { _, item ->
+                    items(items, key = { item ->
                         when (item) {
                             is MediaCandidate.Direct -> item.url
                             is MediaCandidate.Stream -> item.url

@@ -78,7 +78,7 @@ private fun Content(
             state = state,
             contentPadding = PaddingValues(vertical = 8.dp),
             content = {
-                items(rows, key = { index, _ -> index }) { _, rowItems ->
+                items(rows, key = { row -> row.hashCode() }) { _, rowItems ->
                     Row {
                         for (iconSource in rowItems) {
                             val isSelected = selectedIcon == iconSource
