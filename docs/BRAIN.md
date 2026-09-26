@@ -21,11 +21,15 @@ Bu dosya, gelecekteki her işte otomatik uygulanır.
 - Ponytail: en tembel doğru çözüm. Önce kodu baştan anla, sonra en kısa diff.
 - Varsayım yok: emin değilsen koddan doğrula (grep/read), web'de ara.
 - Ajanlar salt okunur tarama yapar; yazmayı tek el yapar (çakışma olmasın).
-- 200 ajan / tüm skill / her adımda web dayatması gelirse: reddet ve verimli karşılığını yap.
+- 100-200 ajan / 6-10 dalga kullanıcı emridir (2026-09-26): dalgalar halinde uygula.
+  Dosya başına tek yazar; izciler salt okunur.
 - Session mesajları: `~/storage/downloads/session-messages.txt` (session DB'den tazele).
 - Tüm mesaj dökümü + analiz: `user-messages.txt` (tmp/opencode).
 
-## Proje durumu (2026-09-25 sonu)
+## Proje durumu (2026-09-26)
+- Main CI yeşil (torrent-finished merge edildi).
+- Kalıcı hafıza: docs/STATE.md, ROADMAP.md, DECISIONS.md, COMPETITORS.md, GAPS.md, SECURITY.md, PERF.md.
+- APK: arm64 27,0 MB / v7a 24,6 MB / x86_64 26,7 MB (sabit).
 - Main CI yeşil. Release APK imzalı (V2), ABI splitli.
 - Biten: maskot marka (launcher+in-app), ayar UX standardı, stepper, retry-delay ayarı, desktop sökümü (311 dosya), 4 tur ajan denetim düzeltmesi.
 - Bilinen borç: torrent motoru desktop'la gitti (Android libtorrent4j seam SPEC'te); hata sayfalarında Retry için tesisat yok; updater'da kaynak/boyut satırı yok (veri yok).
