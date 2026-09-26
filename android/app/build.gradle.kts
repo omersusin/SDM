@@ -29,6 +29,8 @@ android {
         applicationId = "grab.bit"
         versionCode = getAppVersion().convertToVersionCode()
         versionName = getAppVersionString()
+        // only English is supported for now
+        resConfigs("en")
     }
     compileSdk = compileSdkVersion
     namespace = "grab.bit"

@@ -135,8 +135,10 @@ Swiss-army-knife, but nothing illogical.
 - 2026-09-26 cleanup-1 (12-agent audit): removed ~30 dead
   functions/files/comment blocks, 49 orphan strings, 44 orphan gradle
   aliases; 3 exported activities closed; progress-bar animation hoists;
-  FilenameFixer traversal/control/length hardening; fixed HLS+HTTP
+  FilenameFixer traversal/control/length hardening;   fixed HLS+HTTP
   server-name sanitizer bypass (precedence bug) + HLS dead name flow.
+- 2026-09-26 round-2: resConfigs(en), dropped unused commons-compress
+  keep, crypto RNG for API keys (expect/actual).
 - 2026-09-25 agent-audit-4: onboarding wording (welcome message, setup
   description names language+theme, Continue button), permission flow
   step indicator, required-denied warning always shown, blocked-advance
