@@ -68,6 +68,8 @@ import grab.bit.shared.ui.widget.LabeledCheckbox
 import grab.bit.shared.ui.widget.MyTextField
 import grab.bit.shared.ui.widget.Text
 import grab.bit.shared.ui.widget.TransparentIconActionButton
+import grab.bit.shared.util.LocalSizeUnit
+import grab.bit.shared.util.convertPositiveSizeToHumanReadable
 import grab.bit.shared.util.ClipboardUtil
 import grab.bit.shared.util.ResponsiveDialog
 import grab.bit.shared.util.div
@@ -407,6 +409,7 @@ fun VideoFormatsDialog(
                 }
 
                 is BrowserComponent.VideoFormatsState.Ready -> {
+                    val sizeUnit = LocalSizeUnit.current
                     if (s.formats.isEmpty()) {
                         Text(
                             text = myStringResource(Res.string.browser_formats_empty),
@@ -437,8 +440,7 @@ fun VideoFormatsDialog(
                                     format.height?.let { "${it}p" },
                                     ".${format.ext}",
                                     format.filesize?.let { bytes ->
-                                        val mb = bytes / 1024 / 1024
-                                        if (mb >= 1024) "${mb / 1024} GB" else "$mb MB"
+                                        convertPositiveSizeToHumanReadable(bytes, sizeUnit, true).rememberString()
                                     },
                                 ).joinToString(" ")
                                 Row(

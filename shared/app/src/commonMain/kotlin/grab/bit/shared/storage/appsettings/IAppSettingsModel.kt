@@ -23,6 +23,7 @@ interface IAppSettingsModel {
     val retryDelaySeconds: Int
     val autoUncompressArchives: Boolean
     val clipboardMonitor: Boolean
+    val autoRemoveFinishedDownloads: Boolean
     val dynamicPartCreation: Boolean
     val useServerLastModifiedTime: Boolean
     val appendExtensionToIncompleteDownloads: Boolean
