@@ -56,6 +56,7 @@ fun PerHostSettingsPage(component: AndroidPerHostSettingsComponent) {
     val canSave by component.canSave.collectAsState()
     val scope = rememberCoroutineScope()
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current
+    var confirmDeleteHost by remember { mutableStateOf(false) }
     BackHandler(
         configurableList != null
     ) {
@@ -217,7 +218,6 @@ private fun HostList(
     val shape = myShapes.defaultRounded
     val borderColor = myColors.surface / 0.5f
     var search by remember { mutableStateOf("") }
-    var confirmDeleteHost by remember { mutableStateOf(false) }
     val defaultEmptyName = myStringResource(Res.string.settings_per_host_settings_new_host)
     val filteredHosts = remember(hosts, search) {
         hosts.ifThen(search.isNotEmpty()) {
