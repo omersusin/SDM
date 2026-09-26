@@ -56,6 +56,7 @@ abstract class DefaultAppSettings {
     open val apiPort: Int get() = 15151
     open val apiAuthEnabled: Boolean get() = false
     open val apiAuthKey: String get() = ApiKeyUtil.generateKey()
+    open val webhookUrl: String get() = ""
     open val trackDeletedFilesOnDisk: Boolean get() = false
     open val deletePartialFileOnDownloadCancellation: Boolean get() = false
     open val sizeUnit: SupportedSizeUnits get() = SupportedSizeUnits.BinaryBytes

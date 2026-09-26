@@ -265,6 +265,7 @@ fun BrowserPage(
     )
     MediaListDialog(browserComponent)
     VideoFormatsDialog(browserComponent)
+    PlaylistDialog(browserComponent)
     PoolDialog(browserComponent)
     TorrentDialog(browserComponent)
 }
@@ -301,6 +302,10 @@ fun MediaListDialog(
                             Res.string.browser_media_capture_all.asStringSource(),
                         ) {
                             browserComponent.capturePageMedia()
+                            if (browserComponent.linkPool.size > 0) {
+                                browserComponent.setShowMediaList(false)
+                                browserComponent.setShowPool(true)
+                            }
                         }
                         TransparentIconActionButton(
                             MyIcons.close,
@@ -464,6 +469,105 @@ fun VideoFormatsDialog(
                                 }
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun PlaylistDialog(
+    browserComponent: BrowserComponent,
+) {
+    val state by browserComponent.playlist.collectAsState()
+    val visible = state !is BrowserComponent.PlaylistState.Closed
+    val responsiveState = rememberResponsiveDialogState(visible)
+    LaunchedEffect(visible) {
+        if (visible) {
+            responsiveState.show()
+        } else {
+            responsiveState.hide()
+        }
+    }
+    ResponsiveDialog(
+        state = responsiveState,
+        onDismiss = { browserComponent.closePlaylist() }
+    ) {
+        SheetUI(
+            header = {
+                SheetHeader(
+                    headerTitle = {
+                        SheetTitle(
+                            myStringResource(Res.string.browser_playlist),
+                        )
+                    },
+                    headerActions = {
+                        TransparentIconActionButton(
+                            MyIcons.close,
+                            Res.string.close.asStringSource(),
+                        ) {
+                            browserComponent.closePlaylist()
+                        }
+                    }
+                )
+            }
+        ) {
+            when (val s = state) {
+                is BrowserComponent.PlaylistState.Closed -> Unit
+                is BrowserComponent.PlaylistState.Loading -> {
+                    Text(
+                        text = myStringResource(Res.string.browser_playlist_loading),
+                        modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                    )
+                }
+
+                is BrowserComponent.PlaylistState.Enqueuing -> {
+                    Text(
+                        text = myStringResource(Res.string.browser_playlist_adding) +
+                            " ${s.done + 1}/${s.total}",
+                        modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                    )
+                }
+
+                is BrowserComponent.PlaylistState.Ready -> {
+                    if (s.entries.isEmpty()) {
+                        Text(
+                            text = myStringResource(Res.string.browser_playlist_empty),
+                            modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                        )
+                    } else {
+                        LazyColumn {
+                            items(s.entries) { entry ->
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp, horizontal = 16.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    Text(
+                                        text = entry.title ?: entry.url,
+                                        modifier = Modifier.weight(1f),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                    )
+                                    TransparentIconActionButton(
+                                        MyIcons.download,
+                                        Res.string.download.asStringSource(),
+                                    ) {
+                                        browserComponent.downloadPlaylistEntry(entry)
+                                    }
+                                }
+                            }
+                        }
+                        Spacer(Modifier.height(8.dp))
+                        ActionButton(
+                            text = myStringResource(Res.string.browser_playlist_download_all),
+                            onClick = {
+                                browserComponent.downloadAllPlaylist()
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
                     }
                 }
             }

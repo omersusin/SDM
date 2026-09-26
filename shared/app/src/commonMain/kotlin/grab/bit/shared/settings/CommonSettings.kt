@@ -988,6 +988,22 @@ object CommonSettings {
     }
 
 
+    fun webhookUrl(appRepository: BaseAppRepository): StringConfigurable {
+        return StringConfigurable(
+            title = Res.string.settings_webhook_url.asStringSource(),
+            description = Res.string.settings_webhook_url_description.asStringSource(),
+            backedBy = appRepository.webhookUrl,
+            describe = {
+                if (it.isBlank()) {
+                    Res.string.disabled.asStringSource()
+                } else {
+                    it.asStringSource()
+                }
+            },
+        )
+    }
+
+
     fun proxyConfig(proxyManager: ProxyManager): ProxyConfigurable {
         return ProxyConfigurable(
             title = Res.string.settings_use_proxy.asStringSource(),

@@ -87,6 +87,7 @@ class AppSettingsStorage(
     override val apiPort = from(AppSettingsModel.apiPort)
     override val apiAuthEnabled = from(AppSettingsModel.apiAuthEnabled)
     override val apiAuthKey = from(AppSettingsModel.apiAuthKey)
+    override val webhookUrl = from(AppSettingsModel.webhookUrl)
     override val trackDeletedFilesOnDisk = from(AppSettingsModel.trackDeletedFilesOnDisk)
     override val deletePartialFileOnDownloadCancellation =
         from(AppSettingsModel.deletePartialFileOnDownloadCancellation)

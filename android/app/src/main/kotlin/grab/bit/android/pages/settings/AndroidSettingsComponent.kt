@@ -139,6 +139,7 @@ class AndroidSettingsComponent(
                     AndroidSettings.bindInterface(appSettings),
                     CommonSettings.dnsConfig(dnsStorage),
                     CommonSettings.userAgent(appSettings),
+                    CommonSettings.webhookUrl(appRepository),
                     CommonSettings.ignoreSSLCertificates(appSettings),
                     CommonSettings.useServerLastModified(appRepository),
                 )

@@ -1,4 +1,12 @@
 openapi: 3.0.0
+# NOTE (f11-queue, #29 basic): no embedded API server exists yet — browser
+# integration is disabled in settings ("disabled for now") and there is no
+# Ktor dependency in the catalog. The basic slice shipped instead is an
+# outbound webhook: settings `webhookUrl` POSTs {"event":...,"id":...,
+# "name":...,"link":...,"error":...} on job completed/failed
+# (see WebhookNotifier). Implementing this spec (GET /downloads,
+# POST /downloads, GET /downloads/{id}/status) needs a Ktor/CIO server +
+# lifecycle wiring and stays a follow-up.
 info:
   title: Download Service API
   version: 1.0.0

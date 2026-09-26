@@ -51,6 +51,7 @@ interface IAppSettingsModel {
     val apiPort: Int
     val apiAuthKey: String
     val apiAuthEnabled: Boolean
+    val webhookUrl: String
     val trackDeletedFilesOnDisk: Boolean
     val deletePartialFileOnDownloadCancellation: Boolean
     val sizeUnit: SupportedSizeUnits

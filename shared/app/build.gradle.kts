@@ -45,6 +45,7 @@ kotlin {
             api(libs.androidx.datastore)
 
             implementation(libs.okhttp.dnsoverhttps)
+            api(libs.okhttp.okhttp)
 
             implementation(libs.kotlinFileWatcher)
 
@@ -57,6 +58,9 @@ kotlin {
             api(libs.fastscroller.core)
             api(libs.markdownRenderer.core)
             api(libs.compose.reorderable)
+        }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
         androidMain {
             dependencies {
