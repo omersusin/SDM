@@ -30,6 +30,7 @@ interface BaseAppSettingsStorage :
     val maxDownloadRetryCount: MutableStateFlow<Int>
     val retryDelaySeconds: MutableStateFlow<Int>
     val autoUncompressArchives: MutableStateFlow<Boolean>
+    val clipboardMonitor: MutableStateFlow<Boolean>
     val showDownloadProgressDialog: MutableStateFlow<Boolean>
     val showDownloadCompletionDialog: MutableStateFlow<Boolean>
     val speedLimit: MutableStateFlow<Long>

@@ -94,6 +94,7 @@ class AndroidSettingsComponent(
                 nestedConfigurable = listOf(
                     CommonSettings.defaultDownloadFolderConfig(appSettings),
                     CommonSettings.useCategoryByDefault(appSettings),
+                    CommonSettings.clipboardMonitor(appSettings),
                 )
             ),
             ConfigurableGroup(

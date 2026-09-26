@@ -142,7 +142,10 @@ Swiss-army-knife, but nothing illogical.
 - 2026-09-26 auto-uncompress (Download Navi parity, forum-wanted):
   finished .zip downloads auto-extract into a sibling folder when the
   new setting is on (default off); Zip-Slip guarded androidMain
-  java.util.zip backend; wired via completion-action provider.
+  java.util.zip backend;   wired via completion-action provider.
+- 2026-09-26 clipboard-monitor (1DM smart-download parity):
+  returning to the app with a fresh link in the clipboard opens the
+  add-download dialog (opt-in setting, default off, deduped).
 - 2026-09-26 cleanup-2 (12-agent audit): SSRF entry filter
   (http/https only, LAN kept), cross-origin cookie/header stripping,
   updater .md5 sidecar verify before install, 20+ dead code/strings/

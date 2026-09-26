@@ -25,6 +25,7 @@ abstract class DefaultAppSettings {
     open val maxDownloadRetryCount: Int get() = 3
     open val retryDelaySeconds: Int get() = 3
     open val autoUncompressArchives: Boolean get() = false
+    open val clipboardMonitor: Boolean get() = false
     open val dynamicPartCreation: Boolean get() = true
     open val useServerLastModifiedTime: Boolean get() = false
     open val appendExtensionToIncompleteDownloads: Boolean get() = false
