@@ -19,6 +19,7 @@ import grab.bit.downloader.downloaditem.contexts.ResumedBy
 import grab.bit.downloader.downloaditem.contexts.StoppedBy
 import grab.bit.downloader.downloaditem.contexts.User
 import grab.bit.downloader.downloaditem.DownloadStatus
+import grab.bit.downloader.downloaditem.http.HttpDownloadItem
 import grab.bit.downloader.monitor.IDownloadItemState
 import grab.bit.downloader.monitor.IDownloadMonitor
 import grab.bit.downloader.monitor.ProcessingDownloadItemState
@@ -301,6 +302,37 @@ class DownloadSystem(
         }.map {
             File(it.folder, it.name)
         }
+    }
+
+    suspend fun scanAndImportExisting(folder: String): Int {
+        val files = File(folder).listFiles()?.filter { it.isFile } ?: return 0
+        if (files.isEmpty()) return 0
+        val tracked = downloadListDB.getAll()
+            .map { File(it.folder, it.name).path }
+            .toSet()
+        var imported = 0
+        val now = System.currentTimeMillis()
+        for (f in files) {
+            if (f.path in tracked) continue
+            // ponytail: skip partial files; import when finished file appears
+            if (f.name.endsWith(".part")) continue
+            val id = downloadListDB.getLastId() + 1
+            val item = HttpDownloadItem(
+                link = "",
+                folder = folder,
+                name = f.name,
+                contentLength = f.length(),
+                id = id,
+                dateAdded = now,
+                startTime = now,
+                completeTime = now,
+                status = DownloadStatus.Completed,
+            )
+            downloadListDB.add(item)
+            downloadManager.onDownloadItemChange(item)
+            imported++
+        }
+        return imported
     }
 
     suspend fun isDownloadActive(id: Long): Boolean {
