@@ -58,6 +58,7 @@ import com.arkivanov.decompose.router.stack.navigate
 import com.arkivanov.decompose.router.stack.pushToFront
 import grab.bit.downloader.monitor.isDownloadActiveFlow
 import grab.bit.downloader.queue.DefaultQueueInfo
+import grab.bit.util.NameTemplate
 import grab.bit.downloader.queue.QueueManager
 import grab.bit.util.compose.StringSource
 import grab.bit.util.compose.localizationmanager.LanguageManager
@@ -229,13 +230,16 @@ class MainComponent(
                 onClose = ::closeBatchDownload,
                 importLinks = { links ->
                     openAddDownloadDialog(
-                        links.mapNotNull { link ->
+                        links.mapIndexedNotNull { index, link ->
                             downloaderInUiRegistry
                                 .bestMatchForThisLink(link)
                                 ?.createMinimumCredentials(link)
                                 ?.let { credentials ->
                                     AddDownloadCredentialsInUiProps(
                                         credentials = credentials,
+                                        extraConfig = AddDownloadCredentialsInUiProps.Configs(
+                                            suggestedName = NameTemplate.batchDisplayName(link, index + 1),
+                                        ),
                                     )
                                 }
                         }

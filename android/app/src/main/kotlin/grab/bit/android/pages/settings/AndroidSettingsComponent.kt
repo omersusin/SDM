@@ -134,6 +134,7 @@ class AndroidSettingsComponent(
                     CommonSettings.deletePartialFileOnDownloadCancellation(appSettings),
                     CommonSettings.autoUncompressArchives(appSettings),
                     CommonSettings.autoRemoveFinishedDownloads(appSettings),
+                    CommonSettings.copyFinishedTo(appSettings),
                     CommonSettings.useSparseFileAllocation(appRepository),
                 )
             ),

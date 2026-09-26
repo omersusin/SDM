@@ -96,6 +96,7 @@ import grab.bit.shared.util.keepawake.platformKeepAwake
 import grab.bit.shared.util.notification.INotificationSettingsStorage
 import grab.bit.shared.util.ondownloadcompletion.AutoRemoveOnCompletionProvider
 import grab.bit.shared.util.ondownloadcompletion.CompositeOnDownloadCompletionProvider
+import grab.bit.shared.util.ondownloadcompletion.CopyOnCompletionProvider
 import grab.bit.shared.util.ondownloadcompletion.HashVerifyOnCompletionProvider
 import grab.bit.shared.util.ondownloadcompletion.OnDownloadCompletionActionProvider
 import grab.bit.shared.util.ondownloadcompletion.OnDownloadCompletionActionRunner
@@ -353,6 +354,7 @@ val downloadSystemModule = module {
             listOf(
                 UncompressOnCompletionProvider(settings.autoUncompressArchives),
                 AutoRemoveOnCompletionProvider(settings.autoRemoveFinishedDownloads, { get() }),
+                CopyOnCompletionProvider(settings.copyFinishedTo, { get() }),
                 HashVerifyOnCompletionProvider({ get() }),
             )
         )

@@ -24,6 +24,7 @@ interface IAppSettingsModel {
     val autoUncompressArchives: Boolean
     val clipboardMonitor: Boolean
     val autoRemoveFinishedDownloads: Boolean
+    val copyFinishedTo: String
     val clipboardAddPaused: Boolean
     val silentClipboardAdd: Boolean
     val dynamicPartCreation: Boolean
