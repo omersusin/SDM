@@ -3,12 +3,13 @@ package grab.bit.downloader.torrent
 import org.libtorrent4j.SessionManager
 import org.libtorrent4j.Sha1Hash
 import org.libtorrent4j.swig.torrent_flags_t
+import java.io.File
 
-actual fun createTorrentSession(): TorrentSession = LibtorrentSession()
+actual fun createTorrentSession(saveDir: String): TorrentSession = LibtorrentSession(saveDir)
 
-// ponytail: thin seam over SessionManager; settings/DHT tuning and alert
+// ponytail: thin seam over SessionManager; DHT tuning and alert
 // loop arrive in later steps once a device can run it.
-class LibtorrentSession : TorrentSession {
+class LibtorrentSession(private val saveDir: String) : TorrentSession {
     private val manager = SessionManager()
 
     override fun start() {
@@ -21,7 +22,7 @@ class LibtorrentSession : TorrentSession {
 
     override fun addMagnet(magnet: MagnetLink): Boolean {
         return runCatching {
-            manager.download(magnet.toUri(), null, torrent_flags_t())
+            manager.download(magnet.toUri(), File(saveDir), torrent_flags_t())
             true
         }.getOrDefault(false)
     }

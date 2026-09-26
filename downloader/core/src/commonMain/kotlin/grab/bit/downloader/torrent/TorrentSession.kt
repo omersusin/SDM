@@ -15,4 +15,4 @@ data class TorrentProgress(
     val progress: Float,
 )
 
-expect fun createTorrentSession(): TorrentSession
+expect fun createTorrentSession(saveDir: String): TorrentSession
