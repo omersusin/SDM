@@ -81,6 +81,8 @@ object BaseAppSettingsDefinition {
             .catch(PlatformDefaultSettings::showDownloadProgressDialog)
         prop(IAppSettingsModel::showDownloadCompletionDialog) bind S.boolean()
             .catch(PlatformDefaultSettings::showDownloadCompletionDialog)
+        prop(IAppSettingsModel::completionDialogOnErrorOnly) bind S.boolean()
+            .catch(PlatformDefaultSettings::completionDialogOnErrorOnly)
         prop(IAppSettingsModel::autoDismissFinishedNotification) bind S.boolean()
             .catch(PlatformDefaultSettings::autoDismissFinishedNotification)
         prop(IAppSettingsModel::compactCompletionNotification) bind S.boolean()

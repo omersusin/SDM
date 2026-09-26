@@ -55,6 +55,7 @@ abstract class BaseSingleDownloadComponent<
 
     val itemStateFlow = MutableStateFlow<IDownloadItemState?>(null)
     protected val globalShowCompletionDialog: StateFlow<Boolean> = appSettings.showDownloadCompletionDialog
+    protected val completionDialogOnErrorOnly: StateFlow<Boolean> = appSettings.completionDialogOnErrorOnly
     protected val itemShouldShowCompletionDialog: MutableStateFlow<Boolean?> = MutableStateFlow(null as Boolean?)
     private val shouldShowCompletionDialog = combineStateFlows(
         globalShowCompletionDialog,
@@ -117,8 +118,11 @@ abstract class BaseSingleDownloadComponent<
                 val item = it
                 val previous = itemStateFlow.value
                 if (previous is ProcessingDownloadItemState && item is CompletedDownloadItemState) {
-                    // if It was opened to show progress
-                    if (shouldShowCompletionDialog()) {
+                    // This branch is success-only: failures stay Processing with a
+                    // Canceled status + error, shown in the already-open progress
+                    // dialog. With completionDialogOnErrorOnly, successes close
+                    // the dialog instead of showing the completion view.
+                    if (shouldShowCompletionDialog() && !completionDialogOnErrorOnly.value) {
                         itemStateFlow.value = item
                     } else {
                         itemStateFlow.value = null

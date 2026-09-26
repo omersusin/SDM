@@ -88,6 +88,7 @@ class AndroidSettingsComponent(
                 nestedConfigurable = listOf(
                     CommonSettings.autoShowDownloadProgressWindow(appSettings),
                     CommonSettings.showDownloadFinishWindow(appSettings),
+                    CommonSettings.completionDialogOnErrorOnly(appSettings),
                     CommonSettings.autoDismissFinishedNotification(appSettings),
                     CommonSettings.compactCompletionNotification(appSettings),
                 )
@@ -160,6 +161,7 @@ class AndroidSettingsComponent(
                     AndroidSettings.grabberUiMode(appSettings),
                     AndroidSettings.adBlockEnabled(appSettings),
                     AndroidSettings.videoQuality(appSettings),
+                    AndroidSettings.ytdlpExtraArgs(appSettings),
                 )
             ),
             ConfigurableGroup(
