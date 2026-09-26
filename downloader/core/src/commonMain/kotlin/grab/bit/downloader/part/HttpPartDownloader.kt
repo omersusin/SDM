@@ -84,8 +84,8 @@ class HttpPartDownloader(
         )
     }
 
-    fun canBeSplit(): Boolean {
-        return partSplitSupport.canSplit()
+    fun canBeSplit(minSplitSize: Long = PartSplitSupport.SAFE_ZONE_SIZE): Boolean {
+        return partSplitSupport.canSplit(minSplitSize)
     }
 
     override suspend fun connectAndVerify(): Connection<HttpResponseInfo> {
@@ -142,8 +142,8 @@ class HttpPartDownloader(
 
 
     //should be sync with part split lock
-    fun splitPart(): RangedPart? {
-        return partSplitSupport.splitPart()
+    fun splitPart(minSplitSize: Long = PartSplitSupport.SAFE_ZONE_SIZE): RangedPart? {
+        return partSplitSupport.splitPart(minSplitSize)
     }
 
 }

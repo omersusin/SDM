@@ -53,6 +53,10 @@ class HttpDownloadJob(
     var supportsConcurrent: Boolean? = null
         private set
 
+    @Volatile
+    var sequentialMode: Boolean = false
+        private set
+
     var serverLastModified: Long? = null
         private set
 
@@ -309,10 +313,16 @@ class HttpDownloadJob(
     }
 
     fun getRequestedPartitionCount(): Int {
-        return resolvePartCount(
-            downloadItem.preferredConnectionCount,
-            downloadManager.settings.defaultThreadCount,
-        )
+        val requested = downloadItem.preferredConnectionCount
+            ?: downloadManager.settings.defaultThreadCount
+        val clamped = resolvePartCount(requested, downloadManager.settings.defaultThreadCount)
+        return SequentialSchedule.effectivePartitionCount(clamped, sequentialMode)
+    }
+
+    // Dynamic splits must respect settings.minPartSize (creation path already
+    // does via splitToRange); SAFE_ZONE_SIZE stays as the anti-swarm floor.
+    fun getMinSplitSize(): Long {
+        return maxOf(PartSplitSupport.SAFE_ZONE_SIZE, downloadManager.settings.minPartSize)
     }
 
     private suspend fun createPartsIfNotCreated() {
@@ -375,10 +385,15 @@ class HttpDownloadJob(
                         val inactivePart =
                             runCatching { mutableInactivePartDownloaderList.removeAt(0) }.getOrNull()
                         if (inactivePart != null) return inactivePart
-                        if (supportsConcurrent == true && downloadManager.settings.dynamicPartCreationMode) {
+                        if (supportsConcurrent == true && SequentialSchedule.allowDynamicSplit(
+                                sequentialMode,
+                                downloadManager.settings.dynamicPartCreationMode
+                            )
+                        ) {
                             synchronized(partSplitLock) {
+                                val minSplitSize = getMinSplitSize()
                                 val splittable = getPartDownloaderList().toList()
-                                    .filter { it.canBeSplit() }
+                                    .filter { it.canBeSplit(minSplitSize) }
                                 val pick = StragglerPicker.pick(
                                     splittable.mapNotNull { downloader ->
                                         val remaining = downloader.part.remainingLength
@@ -388,13 +403,14 @@ class HttpDownloadJob(
                                             remaining = remaining,
                                             bytesPerSec = downloader.currentSpeedBytesPerSec(),
                                         )
-                                    }
+                                    },
+                                    minRemaining = minSplitSize,
                                 )
                                 val target = pick?.let { id ->
                                     splittable.find { it.part.getID() == id.id }
                                 }
                                 if (target != null) {
-                                    val newPart = target.splitPart()
+                                    val newPart = target.splitPart(minSplitSize)
                                     if (newPart != null) {
 //                                        println("a part split")
                                         parts.add(newPart)
@@ -824,6 +840,8 @@ class HttpDownloadJob(
     }
 
     override suspend fun extraConfigsReceived(config: DownloadJobExtraConfig) {
-        // we don't have extra configs
+        if (config is HttpDownloadJobExtraConfig) {
+            sequentialMode = config.sequentialMode
+        }
     }
 }

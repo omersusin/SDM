@@ -371,7 +371,7 @@ fun RenderResumeSupport(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .height(16.dp)
+            .heightIn(min = 16.dp)
             .padding(horizontal = 8.dp)
     ) {
         val lineModifier = Modifier
@@ -384,7 +384,7 @@ fun RenderResumeSupport(
             visible = canAddToDownloads && fileInfo != null,
         ) {
             fileInfo?.let { fileInfo ->
-                if (fileInfo.resumeSupport) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     val iconModifier = Modifier
                         .padding(horizontal = 8.dp)
                         .size(16.dp)
@@ -403,6 +403,11 @@ fun RenderResumeSupport(
                             tint = myColors.error,
                         )
                     }
+                    Text(
+                        myStringResource(Res.string.resume_support) + ": " +
+                            myStringResource(if (fileInfo.resumeSupport) Res.string.yes else Res.string.no),
+                        fontSize = myTextSizes.sm,
+                    )
                 }
             }
         }
