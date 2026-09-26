@@ -5,7 +5,7 @@ import grab.bit.shared.util.ui.widget.MyIcon
 import grab.bit.shared.util.ui.myColors
 import grab.bit.shared.util.ui.theme.myTextSizes
 import grab.bit.shared.util.ui.WithContentAlpha
-import androidx.compose.animation.core.animateColorAsState
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
