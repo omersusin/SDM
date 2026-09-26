@@ -110,10 +110,32 @@ class DownloadMonitor(
         updateUseAverageSpeedFlow(useAverageSpeed)
         speedMeterJob = scope.launch {
             var lastWrites = mapOf<Long, Long>()
+            var lastProgressAt = mapOf<Long, Long>()
+            val stallPaused = mutableSetOf<Long>()
             while (isActive) {
-                val newWrites = downloadManager.downloadJobs.associate {
+                val now = System.currentTimeMillis()
+                val jobs = downloadManager.downloadJobs
+                val newWrites = jobs.associate {
                     it.id to it.getDownloadedSize()
                 }
+                val newProgressAt = lastProgressAt.toMutableMap()
+                newWrites.forEach { (id, newWrite) ->
+                    val lastWrittenData = lastWrites[id]
+                    if (lastWrittenData == null || newWrite != lastWrittenData) {
+                        newProgressAt[id] = now
+                        stallPaused.remove(id)
+                    }
+                }
+                jobs.forEach { job ->
+                    val lastAt = newProgressAt[job.id]
+                    // ponytail: fixed 60s stall timeout; expose as setting if users ask
+                    if (lastAt != null && job.status.value is DownloadJobStatus.IsActive &&
+                        now - lastAt > 60_000L && stallPaused.add(job.id)
+                    ) {
+                        runCatching { downloadManager.pause(job.id) }
+                    }
+                }
+                lastProgressAt = newProgressAt
                 downloadSpeedFlow.value = SpeedAtTime(
                     newWrites.mapValues { (id, newWrite) ->
                         val lastWrittenData = lastWrites.getOrElse(id) { null }

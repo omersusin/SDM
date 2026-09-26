@@ -340,6 +340,13 @@ Partiler halinde slice-branch + CI ile uygulanacak.
   existing tokens, no new deps. One red: duplicated brace (fixed).
 - 2026-09-24 video-4: browser menu → VideoFormatsDialog (loading/ready/empty,
   per-format download via engine). Subtitles/playlist still open.
+- 2026-09-26 batch-A: auto-remove-finished setting (full settings slice +
+  completion-action provider + composite provider in Di, lazy ()->get to
+  dodge Provider→DownloadSystem→Runner→Provider cycle); BrowserUi lossy
+  MB-math replaced with shared formatter; first SizeConverter tests.
+- 2026-09-26 batch-B: 0-progress watchdog in DownloadMonitor speed loop
+  (60s fixed, auto-pause, per-id reset); #1 re-download + #44 error
+  distinction verified pre-existing (reDownloadAction, HttpStatus mapper).
 
 ## Build, signing, CI (mandatory)
 - App MUST be signed (release keystore). Maintainer provides signing secrets
