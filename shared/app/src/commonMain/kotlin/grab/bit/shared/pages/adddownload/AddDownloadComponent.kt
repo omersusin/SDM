@@ -80,6 +80,7 @@ abstract class AddDownloadComponent(
     protected val appRepository: BaseAppRepository,
     protected val categoryManager: CategoryManager,
 ) : BaseComponent(ctx) {
+    protected open val initialStartQueue: Boolean? = null
     companion object {
         const val lastLocationsCacheSize = 4
     }
@@ -148,6 +149,7 @@ abstract class AddDownloadComponent(
         ctx = childContext("showAddToQueueComponent"),
         queueManager = queueManager,
         selectQueueStorage = selectQueueStorage,
+        initialStartQueue = initialStartQueue,
         onRequestAddToQueue = {
             onRequestAddToQueue(it.queue, it.startQueue)
         }

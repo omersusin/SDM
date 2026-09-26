@@ -78,6 +78,7 @@ abstract class BaseAddSingleDownloadComponent(
     categoryManager = categoryManager,
 ),
     ContainsEffects<BaseAddSingleDownloadComponent.Effects> by supportEffects() {
+    override val initialStartQueue = if (importOptions.startPaused) false else null
     private val _shouldShowWindow = MutableStateFlow(importOptions.silentImport == null)
     override val shouldShowWindow: StateFlow<Boolean> = _shouldShowWindow.asStateFlow()
     val downloadInputsComponent = downloaderInUi.createNewDownloadInputs(
