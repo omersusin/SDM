@@ -21,6 +21,7 @@ interface IAppSettingsModel {
     val maxConcurrentDownloads: Int
     val maxDownloadRetryCount: Int
     val retryDelaySeconds: Int
+    val autoUncompressArchives: Boolean
     val dynamicPartCreation: Boolean
     val useServerLastModifiedTime: Boolean
     val appendExtensionToIncompleteDownloads: Boolean

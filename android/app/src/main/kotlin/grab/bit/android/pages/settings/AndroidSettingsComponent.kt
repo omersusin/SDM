@@ -127,6 +127,7 @@ class AndroidSettingsComponent(
                     CommonSettings.trackDeletedFilesOnDisk(appRepository),
                     CommonSettings.appendExtensionToIncompleteDownloads(appRepository),
                     CommonSettings.deletePartialFileOnDownloadCancellation(appSettings),
+                    CommonSettings.autoUncompressArchives(appSettings),
                     CommonSettings.useSparseFileAllocation(appRepository),
                 )
             ),

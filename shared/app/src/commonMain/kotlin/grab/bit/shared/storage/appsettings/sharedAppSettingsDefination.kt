@@ -40,6 +40,8 @@ object BaseAppSettingsDefinition {
             .range(0, 3600).catch(
                 PlatformDefaultSettings::retryDelaySeconds
             )
+        prop(IAppSettingsModel::autoUncompressArchives) bind S.boolean()
+            .catch(PlatformDefaultSettings::autoUncompressArchives)
         prop(IAppSettingsModel::dynamicPartCreation) bind S.boolean()
             .catch(PlatformDefaultSettings::dynamicPartCreation)
         prop(IAppSettingsModel::useServerLastModifiedTime) bind S.boolean()
