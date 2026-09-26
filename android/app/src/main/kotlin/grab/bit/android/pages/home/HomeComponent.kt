@@ -441,6 +441,13 @@ class HomeComponent(
         +createDownloadFromClipboardAction(addDownloadDialogManager = addDownloadDialogManager)
         +createNewDownloadAction(enterNewURLDialogManager = enterNewURLDialogManager)
         +createOpenBatchDownloadAction(batchDownloadPageManager = batchDownloadPageManager)
+        item(Res.string.import_existing_files.asStringSource(), MyIcons.folderFinished) {
+            scope.launch {
+                runCatching {
+                    downloadSystem.scanAndImportExisting(appSettings.defaultDownloadFolder.value)
+                }
+            }
+        }
     }
 
     val isOverlayVisible = currentActivePopup.mapStateFlow {
