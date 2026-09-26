@@ -58,9 +58,9 @@ class PartSplitSupport(
         }
     }
 
-    fun splitPart(): RangedPart? {
+    fun splitPart(minSplitSize: Long = SAFE_ZONE_SIZE): RangedPart? {
         synchronized(partEndLock) {
-            if (!canSplit()) return null
+            if (!canSplit(minSplitSize)) return null
 
             val delta = part.to!! - safeZone
             val safeZoneToEnd = safeZone + (delta / 2) + delta % 2
@@ -88,13 +88,15 @@ class PartSplitSupport(
         }
     }
 
-    fun canSplit(): Boolean {
+    fun canSplit(minSplitSize: Long = SAFE_ZONE_SIZE): Boolean {
         if (part.to == null) {
             return false
         }
         val delta = part.to!! - safeZone
         //We only want split a part that worth it!
-        return delta >= SAFE_ZONE_SIZE
+        //minSplitSize honors settings.minPartSize so dynamic splits never
+        //create parts smaller than the user asked for (SAFE_ZONE_SIZE floor kept).
+        return delta >= minSplitSize.coerceAtLeast(SAFE_ZONE_SIZE)
     }
 
     override fun toString(): String {

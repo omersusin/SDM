@@ -15,6 +15,7 @@ import grab.bit.shared.util.perhostsettings.PerHostSettingsItem
 import grab.bit.shared.downloaderinui.http.applyToHttpDownload
 import grab.bit.downloader.connection.response.HttpResponseInfo
 import grab.bit.downloader.downloaditem.DownloadJobExtraConfig
+import grab.bit.downloader.downloaditem.http.HttpDownloadJobExtraConfig
 import grab.bit.downloader.downloaditem.DownloadStatus
 import grab.bit.downloader.downloaditem.IDownloadItem
 import grab.bit.downloader.downloaditem.http.HttpDownloadCredentials
@@ -29,6 +30,7 @@ import grab.bit.util.flow.mapTwoWayStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
 class HttpNewDownloadInputs(
     downloadUiChecker: HttpNewDownloadUiChecker,
@@ -47,6 +49,10 @@ class HttpNewDownloadInputs(
     private var threadCount = MutableStateFlow(null as Int?)
     private var speedLimit = MutableStateFlow(0L)
     private var fileChecksum = MutableStateFlow(null as FileChecksum?)
+    private val sequentialMode = MutableStateFlow(false)
+    fun setSequentialMode(enabled: Boolean) {
+        sequentialMode.update { enabled }
+    }
     override val downloadItem: StateFlow<HttpDownloadItem> = combineStateFlows(
         this.credentials,
         this.folder,
@@ -80,7 +86,9 @@ class HttpNewDownloadInputs(
         ).withCredentials(credentials)
     }
 
-    override val downloadJobConfig: StateFlow<DownloadJobExtraConfig?> = MutableStateFlow(null)
+    override val downloadJobConfig: StateFlow<DownloadJobExtraConfig?> = sequentialMode.mapStateFlow {
+        HttpDownloadJobExtraConfig(sequentialMode = it)
+    }
 
     override fun applyHostSettingsToExtraConfig(extraConfig: PerHostSettingsItem) {
         extraConfig.applyToHttpDownload(
