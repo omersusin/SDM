@@ -139,6 +139,10 @@ Swiss-army-knife, but nothing illogical.
   server-name sanitizer bypass (precedence bug) + HLS dead name flow.
 - 2026-09-26 round-2: resConfigs(en), dropped unused commons-compress
   keep,   crypto RNG for API keys (expect/actual).
+- 2026-09-26 auto-uncompress (Download Navi parity, forum-wanted):
+  finished .zip downloads auto-extract into a sibling folder when the
+  new setting is on (default off); Zip-Slip guarded androidMain
+  java.util.zip backend; wired via completion-action provider.
 - 2026-09-26 cleanup-2 (12-agent audit): SSRF entry filter
   (http/https only, LAN kept), cross-origin cookie/header stripping,
   updater .md5 sidecar verify before install, 20+ dead code/strings/

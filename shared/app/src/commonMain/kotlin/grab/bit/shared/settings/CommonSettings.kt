@@ -207,6 +207,21 @@ object CommonSettings {
         )
     }
 
+    fun autoUncompressArchives(appSettingsStorage: BaseAppSettingsStorage): BooleanConfigurable {
+        return BooleanConfigurable(
+            title = Res.string.settings_auto_uncompress_archives.asStringSource(),
+            description = Res.string.settings_auto_uncompress_archives_description.asStringSource(),
+            backedBy = appSettingsStorage.autoUncompressArchives,
+            describe = {
+                if (it) {
+                    Res.string.enabled.asStringSource()
+                } else {
+                    Res.string.disabled.asStringSource()
+                }
+            },
+        )
+    }
+
     fun deletePartialFileOnDownloadCancellation(appSettingsStorage: BaseAppSettingsStorage): BooleanConfigurable {
         return BooleanConfigurable(
             title = Res.string.settings_delete_partial_file_on_download_cancellation.asStringSource(),

@@ -93,9 +93,9 @@ import grab.bit.shared.util.downloaderror.faileddownloads.IFailedDownloadErrorSt
 import grab.bit.shared.util.keepawake.KeepAwakeManager
 import grab.bit.shared.util.keepawake.platformKeepAwake
 import grab.bit.shared.util.notification.INotificationSettingsStorage
-import grab.bit.shared.util.ondownloadcompletion.NoOpOnDownloadCompletionActionProvider
 import grab.bit.shared.util.ondownloadcompletion.OnDownloadCompletionActionProvider
 import grab.bit.shared.util.ondownloadcompletion.OnDownloadCompletionActionRunner
+import grab.bit.shared.util.ondownloadcompletion.UncompressOnCompletionProvider
 import grab.bit.shared.util.onqueuecompletion.NoopOnQueueCompletionActionProvider
 import grab.bit.shared.util.onqueuecompletion.OnQueueEventActionRunner
 import grab.bit.shared.util.onqueuecompletion.OnQueueCompletionActionProvider
@@ -344,7 +344,7 @@ val downloadSystemModule = module {
         bind<IExtraQueueSettingsStorage<*>>()
     }
     single<OnDownloadCompletionActionProvider> {
-        NoOpOnDownloadCompletionActionProvider()
+        UncompressOnCompletionProvider(get<BaseAppSettingsStorage>().autoUncompressArchives)
     }
     single<OnQueueCompletionActionProvider> {
         NoopOnQueueCompletionActionProvider()
